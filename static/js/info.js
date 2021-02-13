@@ -1,7 +1,5 @@
 const showAnilistInfo = async (anilistID) => {
-  const data = await (
-    await fetch(`https://api.trace.moe/info/${anilistID}`)
-  ).json();
+  const data = await (await fetch(`https://api.trace.moe/info/${anilistID}`)).json();
   displayInfo(data);
   document.querySelector("#info").style.display = "inline-block";
   document.querySelector("#info").style.visibility = "visible";
@@ -63,10 +61,7 @@ const displayInfo = (src) => {
   }
 
   let strStartDate =
-    src.startDate &&
-    src.startDate.year &&
-    src.startDate.month &&
-    src.startDate.day
+    src.startDate && src.startDate.year && src.startDate.month && src.startDate.day
       ? `${src.startDate.year}-${src.startDate.month}-${src.startDate.day}`
       : null;
   let strEndDate =
@@ -106,8 +101,7 @@ const displayInfo = (src) => {
   td.innerText = "Score";
   tr1.appendChild(td);
   let td2 = document.createElement("td");
-  td2.innerText =
-    src.averageScore > 0 ? parseFloat(src.averageScore).toFixed(1) : "-";
+  td2.innerText = src.averageScore > 0 ? parseFloat(src.averageScore).toFixed(1) : "-";
   tr1.appendChild(td2);
   table.appendChild(tr1);
 
@@ -127,8 +121,7 @@ const displayInfo = (src) => {
   let td6 = document.createElement("td");
   td6.innerText = src.popularity
     ? `${(
-        (src.stats.statusDistribution.filter((e) => e.status === "DROPPED")[0]
-          .amount /
+        (src.stats.statusDistribution.filter((e) => e.status === "DROPPED")[0].amount /
           src.popularity) *
         100
       ).toFixed(1)}%`
@@ -279,11 +272,7 @@ const displayInfo = (src) => {
   div6.innerHTML = src.description;
   document.querySelector("#info").appendChild(div6);
 
-  if (
-    src.characters &&
-    src.characters.edges &&
-    src.characters.edges.length > 0
-  ) {
+  if (src.characters && src.characters.edges && src.characters.edges.length > 0) {
     let br5 = document.createElement("br");
     br5.style = "clear:both";
     document.querySelector("#info").appendChild(br5);
@@ -334,11 +323,7 @@ const displayInfo = (src) => {
         charName.appendChild(document.createElement("br"));
         let name = entry.voiceActors[0].name.native;
 
-        if (
-          !name &&
-          entry.voiceActors[0].name.first &&
-          entry.voiceActors[0].name.last
-        ) {
+        if (!name && entry.voiceActors[0].name.first && entry.voiceActors[0].name.last) {
           name = `${entry.voiceActors[0].name.last} ${entry.voiceActors[0].name.first}`;
         }
         charName.appendChild(document.createTextNode("(CV: "));
@@ -360,8 +345,7 @@ const displayInfo = (src) => {
   div9.style = "clear:both; border-bottom:1px solid #666; margin-bottom:3px";
   document.querySelector("#info").appendChild(div9);
   let div10 = document.createElement("div");
-  div10.innerHTML =
-    'Information provided by <a href="https://anilist.co">anilist.co</a>';
+  div10.innerHTML = 'Information provided by <a href="https://anilist.co">anilist.co</a>';
   div10.style = "float:right;font-size:12px";
   document.querySelector("#info").appendChild(div10);
   let div11 = document.createElement("div");

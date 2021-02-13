@@ -9,9 +9,7 @@ const updateURLParam = () => {
     history.replaceState(
       null,
       null,
-      `/?url=${encodeURIComponent(
-        document.querySelector("#imageURL").value.replace(/ /g, "%20")
-      )}`
+      `/?url=${encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"))}`
     );
   } else {
     history.replaceState(null, null, "/");
@@ -74,9 +72,7 @@ const search = async () => {
   document.querySelector("#fileNameDisplay").innerText = "";
   document.querySelector("#timeCodeDisplay").innerText = "";
 
-  document
-    .querySelector("#searchBtn span")
-    .classList.remove("glyphicon-search");
+  document.querySelector("#searchBtn span").classList.remove("glyphicon-search");
   document.querySelector("#searchBtn span").classList.add("glyphicon-refresh");
   document.querySelector("#searchBtn span").classList.add("spinning");
   resetInfo();
@@ -91,9 +87,7 @@ const search = async () => {
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
-    document
-      .querySelector("#cutBordersBtn .glyphicon")
-      .classList.contains("glyphicon-check")
+    document.querySelector("#cutBordersBtn .glyphicon").classList.contains("glyphicon-check")
       ? "cutBorders=1"
       : "cutBorders=",
     document.querySelector("#anilistFilter").value
@@ -105,9 +99,7 @@ const search = async () => {
     body: formData,
   });
 
-  document
-    .querySelector("#searchBtn span")
-    .classList.remove("glyphicon-refresh");
+  document.querySelector("#searchBtn span").classList.remove("glyphicon-refresh");
   document.querySelector("#searchBtn span").classList.remove("spinning");
   document.querySelector("#searchBtn span").classList.add("glyphicon-search");
 
@@ -132,15 +124,12 @@ const search = async () => {
   }
   const { frameCount, result } = await res.json();
 
-  document.querySelector(
-    "#results"
-  ).innerHTML += `<div id="status">${frameCount
+  document.querySelector("#results").innerHTML += `<div id="status">${frameCount
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames searched.</div>`;
 
   if (result.length === 0) {
-    document.querySelector("#results").innerHTML =
-      '<div id="status">No result</div>';
+    document.querySelector("#results").innerHTML = '<div id="status">No result</div>';
     return;
   }
 
@@ -164,17 +153,11 @@ const search = async () => {
       `<div>`,
       `<div class="text">`,
       `<span class="title">${title_display}</span><br>`,
-      entry.episode
-        ? `<span class="ep">EP#${zeroPad(entry.episode, 2)}</span>`
-        : "",
+      entry.episode ? `<span class="ep">EP#${zeroPad(entry.episode, 2)}</span>` : "",
       formatTime(entry.from) === formatTime(entry.to)
         ? `<span class="time">${formatTime(entry.from)}</span>`
-        : `<span class="time">${formatTime(entry.from)}-${formatTime(
-            entry.to
-          )}</span>`,
-      `<span class="similarity">~${(entry.similarity * 100).toFixed(
-        2
-      )}%</span><br>`,
+        : `<span class="time">${formatTime(entry.from)}-${formatTime(entry.to)}</span>`,
+      `<span class="similarity">~${(entry.similarity * 100).toFixed(2)}%</span><br>`,
       `<span class="file">${entry.file}</span>`,
       `</div>`,
       entry.similarity > 0.9 && index < 5
@@ -203,9 +186,7 @@ const search = async () => {
       result.filter((e) => e.is_adult).length
     } NSFW results`;
     showNSFWBtn.addEventListener("click", () => {
-      document
-        .querySelectorAll(".result.hidden")
-        .forEach((e) => e.classList.remove("hidden"));
+      document.querySelectorAll(".result.hidden").forEach((e) => e.classList.remove("hidden"));
       nswfMsg.classList.add("hidden");
     });
     nswfMsg.appendChild(showNSFWBtn);
@@ -232,16 +213,12 @@ document.querySelector("#imageURL").addEventListener("input", function () {
           '<span class="glyphicon glyphicon-repeat spinning"></span>';
         originalImage.src =
           "https://trace.moe/image-proxy?url=" +
-          encodeURIComponent(
-            document.querySelector("#imageURL").value.replace(/ /g, "%20")
-          );
+          encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"));
         history.replaceState(
           null,
           null,
           "/?url=" +
-            encodeURIComponent(
-              document.querySelector("#imageURL").value.replace(/ /g, "%20")
-            )
+            encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"))
         );
       }, 500);
     } else {
@@ -253,11 +230,7 @@ document.querySelector("#imageURL").addEventListener("input", function () {
 document.querySelector("#soundBtn").addEventListener("click", () => {
   document.querySelector("#soundBtn").classList.toggle("glyphicon-volume-up");
   document.querySelector("#soundBtn").classList.toggle("glyphicon-volume-off");
-  if (
-    document
-      .querySelector("#soundBtn")
-      .classList.contains("glyphicon-volume-up")
-  ) {
+  if (document.querySelector("#soundBtn").classList.contains("glyphicon-volume-up")) {
     player.volume = 1;
     player.muted = false;
   } else {
@@ -267,12 +240,8 @@ document.querySelector("#soundBtn").addEventListener("click", () => {
 });
 
 document.querySelector("#cutBordersBtn").addEventListener("click", () => {
-  document
-    .querySelector("#cutBordersBtn .glyphicon")
-    .classList.toggle("glyphicon-unchecked");
-  document
-    .querySelector("#cutBordersBtn .glyphicon")
-    .classList.toggle("glyphicon-check");
+  document.querySelector("#cutBordersBtn .glyphicon").classList.toggle("glyphicon-unchecked");
+  document.querySelector("#cutBordersBtn .glyphicon").classList.toggle("glyphicon-check");
 });
 
 // document.querySelector("#jcBtn").addEventListener("click", () => {
@@ -287,9 +256,7 @@ document.querySelector("#cutBordersBtn").addEventListener("click", () => {
 let drawVideoPreview = function () {
   preview_heartbeat = window.requestAnimationFrame(drawVideoPreview);
   if (preview.getContext("2d")) {
-    preview
-      .getContext("2d")
-      .drawImage(player, 0, 0, preview.width, preview.height);
+    preview.getContext("2d").drawImage(player, 0, 0, preview.width, preview.height);
   }
 };
 
@@ -318,9 +285,7 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
   document.querySelector("#loading").classList.remove("hidden");
   document.querySelector("#loader").classList.add("ripple");
   let response = await fetch(`${videoURL}&size=l`);
-  document.querySelector("#player").src = URL.createObjectURL(
-    await response.blob()
-  );
+  document.querySelector("#player").src = URL.createObjectURL(await response.blob());
   let duration = response.headers.get("x-video-duration");
 
   document.querySelector("#fileNameDisplay").innerText = fileName;
@@ -353,8 +318,7 @@ let loadedmetadata = function () {
   preview.width = 640;
   preview.height = 640 / aspectRatio;
   document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top =
-    (preview.height - 800) / 2 + "px";
+  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
   preview.addEventListener("click", playPause);
   player.oncanplaythrough = () => {
     document.querySelector("#loading").classList.add("hidden");
@@ -365,9 +329,7 @@ let loadedmetadata = function () {
   player.play();
 };
 
-document
-  .querySelector("#player")
-  .addEventListener("loadedmetadata", loadedmetadata, false);
+document.querySelector("#player").addEventListener("loadedmetadata", loadedmetadata, false);
 
 let searchImage = document.createElement("canvas");
 
@@ -385,8 +347,7 @@ let resetAll = function () {
   document.querySelector("#fileNameDisplay").innerText = "";
   document.querySelector("#timeCodeDisplay").innerText = "";
   document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top =
-    (preview.height - 800) / 2 + "px";
+  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
   preview.getContext("2d").fillStyle = "#FFFFFF";
   preview.getContext("2d").fillRect(0, 0, preview.width, preview.height);
   resetInfo();
@@ -409,26 +370,13 @@ let prepareSearchImage = function () {
 
   searchImage
     .getContext("2d")
-    .drawImage(
-      img,
-      0,
-      0,
-      img.width,
-      img.height,
-      0,
-      0,
-      searchImage.width,
-      searchImage.height
-    );
+    .drawImage(img, 0, 0, img.width, img.height, 0, 0, searchImage.width, searchImage.height);
 
   preview.height = searchImage.height;
   document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top =
-    (preview.height - 800) / 2 + "px";
+  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
 
-  preview
-    .getContext("2d")
-    .drawImage(searchImage, 0, 0, searchImage.width, searchImage.height);
+  preview.getContext("2d").drawImage(searchImage, 0, 0, searchImage.width, searchImage.height);
 
   searchImage.toBlob(
     function (blob) {
@@ -465,8 +413,7 @@ let handleFileSelect = function (evt) {
   }
 
   if (file) {
-    document.querySelector("#results").innerHTML =
-      '<div id="status">Reading File...</div>';
+    document.querySelector("#results").innerHTML = '<div id="status">Reading File...</div>';
     if (file.type.match("image.*")) {
       URL.revokeObjectURL(originalImage.src);
       originalImage.src = URL.createObjectURL(file);
@@ -489,9 +436,7 @@ let dropZone = document.querySelector("#preview");
 dropZone.addEventListener("dragover", handleDragOver, false);
 dropZone.addEventListener("drop", handleFileSelect, false);
 
-document
-  .querySelector("#file")
-  .addEventListener("change", handleFileSelect, false);
+document.querySelector("#file").addEventListener("change", handleFileSelect, false);
 
 let CLIPBOARD = new CLIPBOARD_CLASS("preview");
 

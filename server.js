@@ -7,8 +7,11 @@ import multer from "multer";
 import me from "./api/me.js";
 import search from "./api/search.js";
 import status from "./api/status.js";
+import child_process from "child_process";
 
 const { SERVER_PORT, SERVER_ADDR } = process.env;
+
+const rev = child_process.execSync("git rev-parse --short HEAD").toString().trim();
 
 const app = express();
 
@@ -57,9 +60,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.set("view engine", "ejs");
 
 const pushAssets = [
-  "</css/style.css>; rel=preload; as=style",
-  "</css/bootstrap.min.css>; rel=preload; as=style",
-  "</js/analytics.js>; rel=preload; as=script",
+  `</css/style.css?${rev}>; rel=preload; as=style`,
+  `</css/bootstrap.min.css?${rev}>; rel=preload; as=style`,
+  `</js/analytics.js?${rev}>; rel=preload; as=script`,
 ];
 
 app.get("/", (req, res) => {
@@ -80,9 +83,9 @@ app.get("/", (req, res) => {
   }
 
   res.header("Link", [
-    "</css/index.css>; rel=preload; as=style",
-    "</js/index.js>; rel=preload; as=script",
-    "</js/info.js>; rel=preload; as=script",
+    `</css/index.css?${rev}>; rel=preload; as=style`,
+    `</js/index.js?${rev}>; rel=preload; as=script`,
+    `</js/info.js?${rev}>; rel=preload; as=script`,
     "</fonts/glyphicons-halflings-regular.woff>; rel=preload; as=font; crossorigin",
     ...pushAssets,
   ]);
@@ -90,27 +93,28 @@ app.get("/", (req, res) => {
     ogImage,
     originalImage,
     imageURL,
+    rev,
   });
 });
 
 app.get("/about", (req, res) => {
-  res.header("Link", ["</js/status.js>; rel=preload; as=script", ...pushAssets]);
-  res.render("about");
+  res.header("Link", [`</js/status.js?${rev}>; rel=preload; as=script`, ...pushAssets]);
+  res.render("about", { rev });
 });
 
 app.get("/changelog", (req, res) => {
   res.header("Link", pushAssets);
-  res.render("changelog");
+  res.render("changelog", { rev });
 });
 
 app.get("/faq", (req, res) => {
   res.header("Link", pushAssets);
-  res.render("faq");
+  res.render("faq", { rev });
 });
 
 app.get("/terms", (req, res) => {
   res.header("Link", pushAssets);
-  res.render("terms");
+  res.render("terms", { rev });
 });
 
 app.get("/api/me", me);

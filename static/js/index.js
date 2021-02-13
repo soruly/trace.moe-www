@@ -137,16 +137,16 @@ const search = async () => {
     const result = document.createElement("li");
 
     result.classList.add("result");
-    if (entry.is_adult) {
+    if (entry.anilist.isAdult) {
       result.classList.add("hidden");
     }
 
-    let title_display = entry.title_romaji;
+    let title_display = entry.anilist.title.romaji;
     if (navigator.language.includes("ja")) {
-      title_display = entry.title_native || entry.title_romaji;
+      title_display = entry.anilist.title.native || entry.anilist.title.romaji;
     }
     if (navigator.language.includes("zh")) {
-      title_display = entry.title_chinese || entry.title_romaji;
+      title_display = entry.anilist.title.chinese || entry.anilist.title.romaji;
     }
 
     result.innerHTML = [
@@ -158,7 +158,7 @@ const search = async () => {
         ? `<span class="time">${formatTime(entry.from)}</span>`
         : `<span class="time">${formatTime(entry.from)}-${formatTime(entry.to)}</span>`,
       `<span class="similarity">~${(entry.similarity * 100).toFixed(2)}%</span><br>`,
-      `<span class="file">${entry.file}</span>`,
+      `<span class="file">${entry.filename}</span>`,
       `</div>`,
       entry.similarity > 0.9 && index < 5
         ? `<div class="thumb" style="min-height:166px"><img src="${entry.image}"></div>`
@@ -170,20 +170,20 @@ const search = async () => {
     result.style.opacity = opacity > 1 ? 1 : opacity;
 
     result.addEventListener("click", (e) => {
-      playfile(result, entry.video, entry.file, entry.anilist_id, entry.from);
+      playfile(result, entry.video, entry.filename, entry.anilist.id, entry.from);
     });
 
     document.querySelector("#results").appendChild(result);
   });
 
-  if (result.find((e) => e.is_adult)) {
+  if (result.find((e) => e.anilist.isAdult)) {
     const nswfMsg = document.createElement("div");
     nswfMsg.style.textAlign = "center";
     const showNSFWBtn = document.createElement("button");
     showNSFWBtn.type = "button";
     showNSFWBtn.classList.add("btn", "btn-default", "btn-sm", "btn-primary");
     showNSFWBtn.innerText = `Click here to show ${
-      result.filter((e) => e.is_adult).length
+      result.filter((e) => e.anilist.isAdult).length
     } NSFW results`;
     showNSFWBtn.addEventListener("click", () => {
       document.querySelectorAll(".result.hidden").forEach((e) => e.classList.remove("hidden"));

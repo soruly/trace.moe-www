@@ -2,11 +2,6 @@ import "dotenv/config.js";
 import path from "path";
 import express from "express";
 import rateLimit from "express-rate-limit";
-import bodyParser from "body-parser";
-import multer from "multer";
-import me from "./api/me.js";
-import search from "./api/search.js";
-import status from "./api/status.js";
 import child_process from "child_process";
 
 const { SERVER_PORT, SERVER_ADDR } = process.env;
@@ -52,10 +47,6 @@ app.use(
     windowMs: 60 * 1000, // per 1 minute
   })
 );
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-const upload = multer({ storage: multer.memoryStorage() });
 
 app.set("view engine", "ejs");
 
@@ -116,12 +107,6 @@ app.get("/terms", (req, res) => {
   res.header("Link", pushAssets);
   res.render("terms", { rev });
 });
-
-app.get("/api/me", me);
-
-app.all("/api/search", upload.single("image"), search);
-
-app.get("/api/status", status);
 
 app.use(express.static(path.resolve("static")));
 

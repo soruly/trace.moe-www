@@ -13,9 +13,12 @@
           : new Date(core.index.lastModified);
     }
   }
-  if (document.querySelector("#status")) {
-    document.querySelector("#status").innerText = `${lastModified} with ${(
-      numDocs / 1000000
-    ).toFixed(2)} Million analyzed frames. (${(totalSize / 1000000000).toFixed(2)} GB)`;
+  if (document.querySelector("#lastUpdate")) {
+    document.querySelector("#lastUpdate").innerText = lastModified;
+  }
+  if (document.querySelector("#dbSize")) {
+    document.querySelector("#dbSize").innerText = `${(numDocs / 1000000).toFixed(
+      2
+    )} Million analyzed frames (${(totalSize / 1000000000).toFixed(2)} GB)`;
   }
 })();

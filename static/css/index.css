@@ -1,20 +1,6 @@
-body {
-  overflow-y: scroll;
-}
-
 canvas {
   border: 1px solid #ccc;
   background-color: #fff;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 5px;
-  margin-bottom: 5px;
 }
 
 .navbar-nav > li {
@@ -31,7 +17,8 @@ h6 {
 
 .btn-file {
   position: relative;
-  overflow: hidden;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
 }
 
 .btn-file input[type="file"] {
@@ -46,7 +33,7 @@ h6 {
   opacity: 0;
   outline: none;
   background: white;
-  cursor: inherit;
+  cursor: pointer;
   display: block;
 }
 
@@ -57,6 +44,44 @@ h6 {
 .form-control[disabled] {
   background-color: #eeeeee;
   border-color: #cccccc;
+}
+
+input[type="text"],
+input[type="url"] {
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+}
+
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
 }
 
 td {
@@ -209,9 +234,8 @@ td:nth-child(3) {
   margin-bottom: 1em;
   background-color: #ffffff;
   color: #333;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
-  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei",
-    sans-serif;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
 }
 
 #form {
@@ -230,9 +254,8 @@ td:nth-child(3) {
   width: 642px;
   background-color: #ffffff;
   color: #333;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
-  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei",
-    sans-serif;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
 }
 
 @media (min-width: 1020px) {
@@ -262,8 +285,7 @@ td:nth-child(3) {
   font-size: 0.9em;
   line-height: 1.5em;
   padding: 1em;
-  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei",
-    sans-serif;
+  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
 }
 
 #info #naturalText,
@@ -294,8 +316,7 @@ td:nth-child(3) {
 }
 
 #info h2 {
-  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei",
-    sans-serif;
+  font-family: Helvetica, Arial, Meiryo, "Microsoft JhengHei", "Microsoft YaHei", sans-serif;
   font-size: 12px;
 }
 

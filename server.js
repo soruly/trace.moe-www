@@ -52,7 +52,6 @@ app.set("view engine", "ejs");
 
 const pushAssets = [
   `</css/style.css?${rev}>; rel=preload; as=style`,
-  `</css/bootstrap.min.css?${rev}>; rel=preload; as=style`,
   `</js/analytics.js?${rev}>; rel=preload; as=script`,
 ];
 
@@ -93,9 +92,9 @@ app.get("/about", (req, res) => {
   res.render("about", { rev });
 });
 
-app.get("/changelog", (req, res) => {
+app.get("/news", (req, res) => {
   res.header("Link", pushAssets);
-  res.render("changelog", { rev });
+  res.render("news", { rev });
 });
 
 app.get("/faq", (req, res) => {

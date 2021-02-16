@@ -51,41 +51,38 @@
       </div>
     </div>
   </template>
-
+  <div class="drop-target">Drop image here</div>
   <div class="search-bar <%= imageURL ? 'ready' : '' %>">
-    <div class="top">
-      <div class="message-text">Drag &amp; Drop / Ctrl+V</div>
-      <form method="post">
-        <input
-          type="url"
-          pattern="https?://.+"
-          name="imageURL"
-          class="form-control image-url"
-          placeholder="Image URL"
-          value="<%= imageURL %>"
-        />
-        <div class="file">
-          <input type="file" name="files[]" class="form-control" />
-        </div>
-        <input type="submit" id="submit" style="display: none" />
+    <div class="search-bar-content">
+      <div class="message-text"></div>
+      <div class="form-controls">
+        <form>
+          <input
+            type="url"
+            pattern="https?://.+"
+            name="imageURL"
+            class="image-url"
+            placeholder="Image URL"
+            value="<%= imageURL %>"
+          />
+          <input type="submit" style="display: none" />
+          <div class="file">
+            <input type="file" name="files[]" />
+          </div>
+        </form>
+
         <% if (originalImage) { %>
         <input id="autoSearch" type="checkbox" style="display: none" checked />
         <% } else { %>
         <input id="autoSearch" type="checkbox" style="display: none" />
         <% } %>
-      </form>
 
-      <div class="advanced">
-        <label for="anilistFilter">Filter</label>
-        <input type="text" id="anilistFilter" class="form-control" placeholder="anilist ID" />
-        <button id="cutBordersBtn" class="form-control">
-          <span class="icon icon-check"></span> Cut Borders
+        <input type="text" class="anilist-filter" placeholder="anilist ID" />
+        <button class="cut-borders-btn"><span class="icon icon-check"></span> Cut Borders</button>
+        <button id="searchBtn" disabled>
+          <span class="icon icon-search"></span>
         </button>
       </div>
-
-      <button id="searchBtn" class="form-control" disabled>
-        <span class="icon icon-search"></span>
-      </button>
     </div>
   </div>
 
@@ -115,7 +112,8 @@
           playsinline
         ></video>
         <canvas class="preview" width="640" height="360"></canvas>
-        <div class="loading" class="hidden">
+        <div class="drop-effect">Drop image here</div>
+        <div class="loading">
           <div class="loader" class="ripple"></div>
         </div>
 

@@ -59,7 +59,7 @@ window.addEventListener("load", (event) => {
 
 let imgData;
 const search = async () => {
-  document.querySelector(".loading").classList.remove("hidden");
+  document.querySelector(".loading").style.display = "block";
   document.querySelector(".loader").classList.add("ripple");
   document.querySelector(".player-control").style.visibility = "hidden";
   document.querySelector(".sound-btn").classList.remove("icon-volume-up");
@@ -75,9 +75,6 @@ const search = async () => {
   document.querySelector(".file-name-display").innerText = "";
   document.querySelector(".time-code-display").innerText = "";
 
-  document.querySelector("#searchBtn span").classList.remove("icon-search");
-  document.querySelector("#searchBtn span").classList.add("icon-refresh");
-  document.querySelector("#searchBtn span").classList.add("spinning");
   resetInfo();
   animeInfo = null;
   document.querySelector(".player").pause();
@@ -89,11 +86,11 @@ const search = async () => {
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
-    document.querySelector("#cutBordersBtn .icon").classList.contains("icon-check")
+    document.querySelector(".cut-borders-btn .icon").classList.contains("icon-check")
       ? "cutBorders=1"
       : "cutBorders=",
-    document.querySelector("#anilistFilter").value
-      ? `anilistID=${document.querySelector("#anilistFilter").value}`
+    document.querySelector(".anilist-filter").value
+      ? `anilistID=${document.querySelector(".anilist-filter").value}`
       : "anilistID=",
   ].join("&");
   const res = await fetch(`https://api.trace.moe/search?${queryString}`, {
@@ -101,14 +98,10 @@ const search = async () => {
     body: formData,
   });
 
-  document.querySelector("#searchBtn span").classList.remove("icon-refresh");
-  document.querySelector("#searchBtn span").classList.remove("spinning");
-  document.querySelector("#searchBtn span").classList.add("icon-search");
-
   document.querySelector("#searchBtn").disabled = false;
   document.querySelector(".image-url").disabled = false;
 
-  document.querySelector(".loading").classList.add("hidden");
+  document.querySelector(".loading").style.display = "none";
   document.querySelector(".loader").classList.remove("ripple");
   document.querySelector("#searchBtn").disabled = false;
   document.querySelector(".image-url").disabled = false;
@@ -198,6 +191,9 @@ const startLoadImage = (src) => {
   document.querySelector(".message-text").innerText = "Loading search image...";
   document.querySelector(".wrap").style.opacity = 1;
   document.querySelector(".search-bar").classList.add("ready");
+  if (document.querySelector(".drop-target")) {
+    document.querySelector(".drop-target").remove();
+  }
   originalImage.src = src;
 };
 
@@ -218,7 +214,7 @@ document.querySelector(".image-url").addEventListener("input", function () {
         );
       }, 10);
     } else {
-      document.querySelector("#submit").click();
+      document.querySelector("input[type=submit]").click();
     }
   }
 });
@@ -235,9 +231,9 @@ document.querySelector(".sound-btn").addEventListener("click", () => {
   }
 });
 
-document.querySelector("#cutBordersBtn").addEventListener("click", () => {
-  document.querySelector("#cutBordersBtn .icon").classList.toggle("icon-cross");
-  document.querySelector("#cutBordersBtn .icon").classList.toggle("icon-check");
+document.querySelector(".cut-borders-btn").addEventListener("click", () => {
+  document.querySelector(".cut-borders-btn .icon").classList.toggle("icon-cross");
+  document.querySelector(".cut-borders-btn .icon").classList.toggle("icon-check");
 });
 
 let drawVideoPreview = function () {
@@ -269,7 +265,7 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
     showAnilistInfo(anilistID);
   }
 
-  document.querySelector(".loading").classList.remove("hidden");
+  document.querySelector(".loading").style.display = "block";
   document.querySelector(".loader").classList.add("ripple");
   let response = await fetch(`${videoURL}&size=l`);
   document.querySelector(".player").src = URL.createObjectURL(await response.blob());
@@ -303,11 +299,12 @@ let loadedmetadata = function () {
 
   preview.width = 640;
   preview.height = 640 / aspectRatio;
+  document.querySelector(".drop-effect").style.height = preview.height - 10 + "px";
   document.querySelector(".loading").style.height = preview.height + "px";
   document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
   preview.addEventListener("click", playPause);
   player.oncanplaythrough = () => {
-    document.querySelector(".loading").classList.add("hidden");
+    document.querySelector(".loading").style.display = "none";
     document.querySelector(".loader").classList.remove("ripple");
     window.cancelAnimationFrame(preview_heartbeat);
     preview_heartbeat = window.requestAnimationFrame(drawVideoPreview);
@@ -331,6 +328,7 @@ let resetAll = function () {
 
   document.querySelector(".file-name-display").innerText = "";
   document.querySelector(".time-code-display").innerText = "";
+  document.querySelector(".drop-effect").style.height = preview.height - 10 + "px";
   document.querySelector(".loading").style.height = preview.height + "px";
   document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
   preview.getContext("2d").fillStyle = "#FFFFFF";
@@ -363,6 +361,7 @@ let prepareSearchImage = function () {
     .drawImage(img, 0, 0, img.width, img.height, 0, 0, searchImage.width, searchImage.height);
 
   preview.height = searchImage.height;
+  document.querySelector(".drop-effect").style.height = preview.height - 10 + "px";
   document.querySelector(".loading").style.height = preview.height + "px";
   document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
 
@@ -388,6 +387,13 @@ let prepareSearchImage = function () {
 let handleFileSelect = function (evt) {
   evt.stopPropagation();
   evt.preventDefault();
+  if (document.querySelector(".drop-target")) {
+    document.querySelector(".drop-target").classList.remove("dropping");
+    document.querySelector(".drop-target").innerText = "";
+  }
+  if (document.querySelector(".drop-effect")) {
+    document.querySelector(".drop-effect").classList.remove("dropping");
+  }
 
   let file;
 
@@ -409,20 +415,62 @@ let handleFileSelect = function (evt) {
   }
 };
 
-let handleDragOver = function (evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  evt.dataTransfer.dropEffect = "copy";
-};
-
-let dropZone = document.querySelector(".preview");
-
-dropZone.addEventListener("dragover", handleDragOver, false);
+const dropZone = document.querySelector(".drop-target");
 dropZone.addEventListener("drop", handleFileSelect, false);
+dropZone.addEventListener(
+  "dragover",
+  (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = "copy";
+  },
+  false
+);
+dropZone.addEventListener(
+  "dragenter",
+  (e) => {
+    document.querySelector(".drop-target").classList.add("dropping");
+    document.querySelector(".drop-target").innerText = "Drop image here";
+  },
+  false
+);
+dropZone.addEventListener(
+  "dragleave",
+  (e) => {
+    document.querySelector(".drop-target").classList.remove("dropping");
+  },
+  false
+);
+
+const dropZone2 = document.querySelector(".drop-effect");
+dropZone2.addEventListener("drop", handleFileSelect, false);
+dropZone2.addEventListener(
+  "dragover",
+  (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = "copy";
+  },
+  false
+);
+dropZone2.addEventListener(
+  "dragenter",
+  (e) => {
+    document.querySelector(".drop-effect").classList.add("dropping");
+  },
+  false
+);
+dropZone2.addEventListener(
+  "dragleave",
+  (e) => {
+    document.querySelector(".drop-effect").classList.remove("dropping");
+  },
+  false
+);
 
 document.querySelector("input[type=file]").addEventListener("change", handleFileSelect, false);
 
-let CLIPBOARD = new CLIPBOARD_CLASS(dropZone);
+let CLIPBOARD = new CLIPBOARD_CLASS(preview);
 
 function CLIPBOARD_CLASS(canvas_elm) {
   let _self = this;
@@ -468,7 +516,7 @@ function CLIPBOARD_CLASS(canvas_elm) {
   this.paste_auto = function (e) {
     if (
       e.target !== document.querySelector(".image-url") &&
-      e.target !== document.querySelector("#anilistFilter")
+      e.target !== document.querySelector(".anilist-filter")
     ) {
       paste_mode = "";
       pasteCatcher.innerHTML = "";

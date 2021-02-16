@@ -51,6 +51,7 @@ app.use(
 app.set("view engine", "ejs");
 
 const pushAssets = [
+  `</css/normalize.css?${rev}>; rel=preload; as=style`,
   `</css/style.css?${rev}>; rel=preload; as=style`,
   `</js/analytics.js?${rev}>; rel=preload; as=script`,
 ];

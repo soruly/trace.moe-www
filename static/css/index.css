@@ -1,8 +1,8 @@
 .icon-check::after {
-  content: "🗹";
+  content: "✅";
 }
 .icon-cross::after {
-  content: "☐";
+  content: "⬜";
 }
 .icon-search::after {
   content: "🔍";
@@ -13,60 +13,114 @@
 .icon-volume-up::after {
   content: "🔊";
 }
+.drop-target {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 160px;
+  background: rgba(255, 255, 255, 0);
+  z-index: 20;
+  text-align: center;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 50ms ease-out;
+}
+.drop-target.dropping {
+  background: rgba(255, 255, 255, 0.7);
+  border: 0.5rem dashed #b0c1ff;
+  color: #b0c1ff;
+  transition: all 50ms ease-out;
+}
+.drop-effect {
+  position: absolute;
+  top: 0;
+  width: 630px;
+  background: rgba(255, 255, 255, 0);
+  text-align: center;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 50ms ease-out;
+  backdrop-filter: blur(0);
+}
+.drop-effect.dropping {
+  background: rgba(255, 255, 255, 0.7);
+  border: 5px dashed #597dff;
+  color: #597dff;
+  transition: all 50ms ease-out;
+  backdrop-filter: blur(5px);
+}
 
 .search-bar {
   position: absolute;
   top: calc(50% - 80px);
   transform: translate(0, -50%);
   width: 100%;
-  transition: all 100ms;
-  z-index: 1;
+  transition: all 100ms ease-out;
+  z-index: 10;
 }
 .search-bar.ready {
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  transition: all 100ms;
+  transition: all 100ms ease-out;
   transform: translate(0, 0);
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.8);
 }
-.top {
-  max-width: 1000px;
+.search-bar-content {
+  max-width: 960px;
   margin: auto;
+  padding: 2rem 0 2rem 2rem;
   font-size: 0.85rem;
-  width: 300px;
+  width: 330px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: space-around;
   justify-content: space-between;
-  transition: all 100ms;
+  transition: all 100ms ease-out;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.8);
 }
-.search-bar.ready .top {
+.search-bar-content .drop-target {
   width: 100%;
-  transition: all 100ms;
+  height: 100px;
+  display: none;
+}
+.search-bar.ready .search-bar-content {
+  width: 100%;
+  padding: 0.5rem;
+  transition: all 100ms ease-out;
   background: transparent;
   box-shadow: unset;
 }
-.advanced {
-  display: none;
-}
 .search-bar .image-url {
+  padding: 0 2rem 0 1rem;
   line-height: 2rem;
-  width: 15rem;
+  width: 240px;
   display: inline-block;
-  border: 1px solid #666666;
+  border: 1px solid #92a0d4;
   vertical-align: bottom;
   outline: 0;
   font-size: 0.7rem;
-  transition: all 300ms;
+  transition: all 100ms ease-out;
 }
 .search-bar.ready .image-url {
-  width: 25rem;
+  width: 290px;
+  line-height: 1.5rem;
+}
+.search-bar .image-url[disabled] {
+  background-color: #eeeeee;
+  border-color: #cccccc;
 }
 .search-bar .file {
   position: relative;
@@ -77,6 +131,26 @@
   cursor: pointer;
   display: inline-block;
   left: -2.5rem;
+  vertical-align: bottom;
+}
+.search-bar.ready .file {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  left: -2rem;
+  vertical-align: sub;
+}
+.search-bar.ready .form-controls {
+  width: 640px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-around;
+  justify-content: space-between;
+}
+.search-bar.ready .form-controls form {
+  display: inline-block;
 }
 .search-bar .file::after {
   content: "📁";
@@ -92,49 +166,49 @@
   opacity: 0;
   cursor: inherit;
 }
-.search-bar .form-control {
-  background-color: #ffffff;
-  border-color: #cccccc;
-}
-.search-bar .form-control[disabled] {
-  background-color: #eeeeee;
-  border-color: #cccccc;
-}
 .search-bar input[type="text"]:focus,
 .search-bar input[type="url"]:focus {
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
   border: 1px solid #b0c1ff;
 }
-.search-bar #anilistFilter {
-  width: 6rem;
-}
-.search-bar button {
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid #cccccc;
-  padding: 0.2rem 0.2rem;
-  font-size: 0.8rem;
-  line-height: 1rem;
+.search-bar .anilist-filter {
+  width: 5rem;
   outline: 0;
+  border: 1px solid #92a0d4;
+  transition: all 100ms ease-out;
+  line-height: 1.5rem;
+  font-size: 0.7rem;
+  padding: 0 0.2rem 0 0.2rem;
+  display: none;
+  vertical-align: bottom;
 }
-.search-bar button[disabled] {
+.search-bar .cut-borders-btn {
+  color: #666666;
+  background-color: #fff;
+  outline: 0;
+  border: 0;
+  display: none;
+  vertical-align: bottom;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.7rem;
+  line-height: 1.6rem;
+}
+.search-bar .cut-borders-btn[disabled] {
   cursor: default;
 }
-.search-bar #cutBordersBtn {
-  color: #333333;
-  background-color: #fff;
-  border-color: #ccc;
-}
-.search-bar #searchBtn {
-  display: none;
-}
+.search-bar.ready .anilist-filter,
+.search-bar.ready .cut-borders-btn,
 .search-bar.ready #searchBtn {
   display: inline-block;
+}
+.search-bar #searchBtn {
   color: #ffffff;
   background-color: #b0c1ff;
-  border-color: #b0c1ff;
+  border: 1px solid #b0c1ff;
+  display: none;
+  line-height: 1.6rem;
+  padding: 0 1rem 0 1rem;
 }
 .search-bar #searchBtn[disabled] {
   color: #cccccc;
@@ -143,6 +217,7 @@
 }
 .search-bar .message-text {
   font-size: 0.7rem;
+  width: 280px;
 }
 
 .wrap {
@@ -152,9 +227,9 @@
   align-items: flex-start;
   align-content: space-around;
   justify-content: space-between;
-  max-width: 1000px;
-  margin: 3rem auto;
-  transition: all 300ms;
+  max-width: 960px;
+  margin: 4rem auto;
+  transition: all 300ms ease-out 200ms;
 }
 
 .search-image {
@@ -232,6 +307,7 @@
   overflow: hidden;
   position: absolute;
   text-align: center;
+  display: none;
 }
 
 .player-pane .player-control {
@@ -243,7 +319,7 @@
 .player-pane .progress-bar-control {
   position: absolute;
   color: #b0c1ff;
-  transition: all 300ms;
+  transition: all 300ms ease-out;
 }
 .player-pane .sound-btn {
   position: absolute;
@@ -279,7 +355,7 @@
   line-height: 1.5em;
   color: #666666;
   opacity: 0;
-  transition: all 300ms;
+  transition: all 300ms ease-out;
 }
 .info-pane .title {
   font-size: 18px;
@@ -292,7 +368,7 @@
 }
 .info-pane .poster img {
   opacity: 0;
-  transition: all 300ms;
+  transition: all 300ms ease-out;
 }
 .info-pane .detail {
   display: flex;

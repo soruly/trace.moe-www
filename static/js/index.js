@@ -143,7 +143,9 @@ const search = async () => {
     if (formatTime(entry.from) === formatTime(entry.to)) {
       result.querySelector(".time").innerText = formatTime(entry.from);
     } else {
-      result.querySelector(".time").innerText = `${formatTime(entry.from)}-${formatTime(entry.to)}`;
+      result.querySelector(".time").innerText = `${formatTime(entry.from)} - ${formatTime(
+        entry.to
+      )}`;
     }
     result.querySelector(".similarity").innerText = `~${(entry.similarity * 100).toFixed(2)}%`;
     // if (entry.similarity > 0.9 && index < 5) {
@@ -154,13 +156,17 @@ const search = async () => {
     // }
 
     const opacity = Math.pow(entry.similarity, 4) + 0.2;
-    result.style.opacity = opacity > 1 ? 1 : opacity;
+    // result.style.opacity = opacity > 1 ? 1 : opacity;
 
     result.addEventListener("click", (e) => {
       playfile(result, entry.video, entry.filename, entry.anilist.id, entry.from);
     });
 
     document.querySelector(".result-list").appendChild(result);
+    setTimeout((e, o) => {
+      result.style.opacity = opacity;
+    }, 0);
+    // result.style.opacity = opacity > 1 ? 1 : opacity;
   });
 
   if (result.slice(0, 6).find((e) => e.anilist.isAdult)) {

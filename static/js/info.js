@@ -1,8 +1,9 @@
 const showAnilistInfo = async (anilistID) => {
   document.querySelector(".info-pane").style.opacity = 0;
+  document.querySelector(".info-pane .poster a img").style.opacity = 0;
   const data = await (await fetch(`https://api.trace.moe/info/${anilistID}`)).json();
+
   displayInfo(data);
-  document.querySelector(".info-pane").style.display = "inline-block";
   document.querySelector(".info-pane").style.opacity = 1;
 };
 
@@ -13,9 +14,9 @@ const displayInfo = (src) => {
   if (src.coverImage.large) {
     document.querySelector(".info-pane .poster a").href = `//anilist.co/anime/${src.id}`;
     document.querySelector(".info-pane .poster a img").src = src.coverImage.large;
-    document.querySelector(".info-pane .poster a").style.visibility = "visible";
-  } else {
-    document.querySelector(".info-pane .poster a").style.visibility = "hidden";
+    document.querySelector(".info-pane .poster a img").addEventListener("load", (e) => {
+      e.target.style.opacity = 1;
+    });
   }
 
   let naturalText = "";

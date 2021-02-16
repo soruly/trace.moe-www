@@ -52,49 +52,44 @@
     </div>
   </template>
 
-  <div class="wrap">
-    <div class="form">
-      <% if (originalImage) { %>
-      <input id="autoSearch" type="checkbox" style="display: none" checked />
-      <% } else { %>
-      <input id="autoSearch" type="checkbox" style="display: none" />
-      <% } %>
-      <input type="file" id="file" name="files[]" />
-      <br />
+  <div class="search-bar <%= imageURL ? 'ready' : '' %>">
+    <div class="top">
+      <div class="message-text">Drag &amp; Drop / Ctrl+V</div>
       <form method="post">
         <input
           type="url"
           pattern="https?://.+"
           name="imageURL"
-          class="form-control"
-          id="imageURL"
+          class="form-control image-url"
           placeholder="Image URL"
           value="<%= imageURL %>"
         />
+        <div class="file">
+          <input type="file" name="files[]" class="form-control" />
+        </div>
         <input type="submit" id="submit" style="display: none" />
+        <% if (originalImage) { %>
+        <input id="autoSearch" type="checkbox" style="display: none" checked />
+        <% } else { %>
+        <input id="autoSearch" type="checkbox" style="display: none" />
+        <% } %>
       </form>
 
-      <div>
-        <label for="anilistFilter">Anime Filter</label>
-        <input
-          type="text"
-          id="anilistFilter"
-          class="form-control input-sm"
-          placeholder="anilist ID"
-        />
-        <button id="cutBordersBtn" type="button" class="btn btn-default btn-sm">
+      <div class="advanced">
+        <label for="anilistFilter">Filter</label>
+        <input type="text" id="anilistFilter" class="form-control" placeholder="anilist ID" />
+        <button id="cutBordersBtn" class="form-control">
           <span class="icon icon-check"></span> Cut Borders
         </button>
+      </div>
 
-        <button id="searchBtn" type="button" class="btn btn-default btn-sm btn-primary" disabled>
-          <span class="icon icon-search"></span> Search
-        </button>
-      </div>
-      <div id="message-text">
-        Upload file / Drag &amp; Drop Anime ScreenShot / Ctrl+V / Enter Image URL
-      </div>
+      <button id="searchBtn" class="form-control" disabled>
+        <span class="icon icon-search"></span>
+      </button>
     </div>
+  </div>
 
+  <div class="wrap">
     <div class="result-list">
       <div class="search-image">
         <div class="search-image-text">Your search image</div>
@@ -162,10 +157,7 @@
             </tr>
           </table>
           <div class="poster">
-            <a href="//anilist.co/anime/21034"
-              ><img
-                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21034-PgPlR55DktTJ.jpg"
-            /></a>
+            <a href=""><img src="" /></a>
           </div>
         </div>
         <div class="divider"></div>

@@ -5,11 +5,11 @@ if (document.querySelector(".alert")) {
 }
 
 const updateURLParam = () => {
-  if (document.querySelector("#imageURL").value) {
+  if (document.querySelector(".image-url").value) {
     history.replaceState(
       null,
       null,
-      `/?url=${encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"))}`
+      `/?url=${encodeURIComponent(document.querySelector(".image-url").value.replace(/ /g, "%20"))}`
     );
   } else {
     history.replaceState(null, null, "/");
@@ -45,7 +45,7 @@ originalImage.onload = () => {
   resetAll();
   // clear the input if user upload/paste image
   if (/^blob:/.test(originalImage.src)) {
-    document.querySelector("#imageURL").value = "";
+    document.querySelector(".image-url").value = "";
   }
   // updateURLParam();
   prepareSearchImage();
@@ -53,7 +53,7 @@ originalImage.onload = () => {
 
 window.addEventListener("load", (event) => {
   if (originalImage.dataset.url) {
-    originalImage.src = originalImage.dataset.url;
+    startLoadImage(originalImage.dataset.url);
   }
 });
 
@@ -82,9 +82,9 @@ const search = async () => {
   animeInfo = null;
   document.querySelector(".player").pause();
   preview.removeEventListener("click", playPause);
-  document.querySelector("#message-text").innerText = "Submitting image for searching...";
+  document.querySelector(".message-text").innerText = "Submitting image for searching...";
   document.querySelector("#searchBtn").disabled = true;
-  document.querySelector("#imageURL").disabled = true;
+  document.querySelector(".image-url").disabled = true;
 
   const formData = new FormData();
   formData.append("image", imgData);
@@ -106,31 +106,31 @@ const search = async () => {
   document.querySelector("#searchBtn span").classList.add("icon-search");
 
   document.querySelector("#searchBtn").disabled = false;
-  document.querySelector("#imageURL").disabled = false;
+  document.querySelector(".image-url").disabled = false;
 
   document.querySelector(".loading").classList.add("hidden");
   document.querySelector(".loader").classList.remove("ripple");
   document.querySelector("#searchBtn").disabled = false;
-  document.querySelector("#imageURL").disabled = false;
-  document.querySelector("#message-text").innerText = "";
+  document.querySelector(".image-url").disabled = false;
+  document.querySelector(".message-text").innerText = "";
 
   if (res.status === 429) {
-    document.querySelector("#message-text").innerText =
+    document.querySelector(".message-text").innerText =
       "You have searched too many times, please try again later.";
     return;
   }
   if (res.status !== 200) {
-    document.querySelector("#message-text").innerText = "Connection to Search Server Failed";
+    document.querySelector(".message-text").innerText = "Connection to Search Server Failed";
     return;
   }
   const { frameCount, result } = await res.json();
 
-  document.querySelector("#message-text").innerHTML += `${frameCount
+  document.querySelector(".message-text").innerHTML += `${frameCount
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames searched`;
 
   if (result.length === 0) {
-    document.querySelector("#message-text").innerText = "No result";
+    document.querySelector(".message-text").innerText = "No result";
     return;
   }
 
@@ -194,25 +194,29 @@ const search = async () => {
 
 document.querySelector("#searchBtn").addEventListener("click", search);
 
+const startLoadImage = (src) => {
+  document.querySelector(".message-text").innerText = "Loading search image...";
+  document.querySelector(".wrap").style.opacity = 1;
+  document.querySelector(".search-bar").classList.add("ready");
+  originalImage.src = src;
+};
+
 let fetchImageDelay;
 
-document.querySelector("#imageURL").addEventListener("input", function () {
+document.querySelector(".image-url").addEventListener("input", function () {
   clearTimeout(fetchImageDelay);
-  if (document.querySelector("#imageURL").value.length) {
+  if (document.querySelector(".image-url").value.length) {
     if (document.querySelector("form").checkValidity()) {
       fetchImageDelay = setTimeout(function () {
-        document.querySelector("#message-text").innerText =
-          '<span class="icon icon-repeat spinning"></span>';
-        originalImage.src =
-          "https://trace.moe/image-proxy?url=" +
-          encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"));
+        startLoadImage(`https://trace.moe/image-proxy?url=
+        ${encodeURIComponent(document.querySelector(".image-url").value.replace(/ /g, "%20"))}`);
         history.replaceState(
           null,
           null,
           "/?url=" +
-            encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"))
+            encodeURIComponent(document.querySelector(".image-url").value.replace(/ /g, "%20"))
         );
-      }, 500);
+      }, 10);
     } else {
       document.querySelector("#submit").click();
     }
@@ -341,7 +345,7 @@ let resetAll = function () {
 };
 
 originalImage.onerror = function () {
-  document.querySelector("#message-text").innerText = "";
+  document.querySelector(".message-text").innerText = "";
 };
 
 let prepareSearchImage = function () {
@@ -369,9 +373,9 @@ let prepareSearchImage = function () {
       imgData = blob;
 
       document.querySelector("#searchBtn").disabled = false;
-      document.querySelector("#message-text").innerText = "";
+      document.querySelector(".message-text").innerText = "";
       if (document.querySelector("#autoSearch").checked) {
-        document.querySelector("#message-text").innerText = "";
+        document.querySelector(".message-text").innerText = "";
         document.querySelector("#autoSearch").checked = false;
         search();
       }
@@ -394,12 +398,12 @@ let handleFileSelect = function (evt) {
   }
 
   if (file) {
-    document.querySelector("#message-text").innerText = "Reading File...";
+    document.querySelector(".message-text").innerText = "Reading File...";
     if (file.type.match("image.*")) {
       URL.revokeObjectURL(originalImage.src);
-      originalImage.src = URL.createObjectURL(file);
+      startLoadImage(URL.createObjectURL(file));
     } else {
-      document.querySelector("#message-text").innerText = "Error: File is not an image";
+      document.querySelector(".message-text").innerText = "Error: File is not an image";
       return false;
     }
   }
@@ -416,7 +420,7 @@ let dropZone = document.querySelector(".preview");
 dropZone.addEventListener("dragover", handleDragOver, false);
 dropZone.addEventListener("drop", handleFileSelect, false);
 
-document.querySelector("#file").addEventListener("change", handleFileSelect, false);
+document.querySelector("input[type=file]").addEventListener("change", handleFileSelect, false);
 
 let CLIPBOARD = new CLIPBOARD_CLASS(dropZone);
 
@@ -463,7 +467,7 @@ function CLIPBOARD_CLASS(canvas_elm) {
   // default paste action
   this.paste_auto = function (e) {
     if (
-      e.target !== document.querySelector("#imageURL") &&
+      e.target !== document.querySelector(".image-url") &&
       e.target !== document.querySelector("#anilistFilter")
     ) {
       paste_mode = "";
@@ -498,7 +502,7 @@ function CLIPBOARD_CLASS(canvas_elm) {
     pastedImage.onload = function () {
       ctx.drawImage(pastedImage, 0, 0);
     };
-    originalImage.src = source;
+    startLoadImage(source);
   };
 }
 

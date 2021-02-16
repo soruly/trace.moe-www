@@ -37,8 +37,8 @@ const zeroPad = (n, width) => {
     : new Array(width - n.toString().length + 1).join("0") + n;
 };
 
-const player = document.querySelector("#player");
-const preview = document.querySelector("#preview");
+const player = document.querySelector(".player");
+const preview = document.querySelector(".preview");
 const originalImage = document.querySelector("#originalImage");
 
 originalImage.onload = () => {
@@ -59,35 +59,37 @@ window.addEventListener("load", (event) => {
 
 let imgData;
 const search = async () => {
-  document.querySelector("#loading").classList.remove("hidden");
-  document.querySelector("#loader").classList.add("ripple");
-  document.querySelector("#progressBarControl").style.visibility = "hidden";
-  document.querySelector("#soundBtn").style.visibility = "hidden";
-  document.querySelector("#soundBtn").classList.remove("glyphicon-volume-up");
-  document.querySelector("#soundBtn").classList.remove("glyphicon-volume-off");
-  document.querySelector("#soundBtn").classList.add("glyphicon-volume-off");
+  document.querySelector(".loading").classList.remove("hidden");
+  document.querySelector(".loader").classList.add("ripple");
+  document.querySelector(".player-control").style.visibility = "hidden";
+  document.querySelector(".sound-btn").classList.remove("icon-volume-up");
+  document.querySelector(".sound-btn").classList.remove("icon-volume-off");
+  document.querySelector(".sound-btn").classList.add("icon-volume-off");
   player.volume = 0;
   player.muted = true;
 
-  document.querySelector("#fileNameDisplay").innerText = "";
-  document.querySelector("#timeCodeDisplay").innerText = "";
+  document.querySelectorAll(".result-list > div:not(.search-image)").forEach((each) => {
+    each.remove();
+  });
 
-  document.querySelector("#searchBtn span").classList.remove("glyphicon-search");
-  document.querySelector("#searchBtn span").classList.add("glyphicon-refresh");
+  document.querySelector(".file-name-display").innerText = "";
+  document.querySelector(".time-code-display").innerText = "";
+
+  document.querySelector("#searchBtn span").classList.remove("icon-search");
+  document.querySelector("#searchBtn span").classList.add("icon-refresh");
   document.querySelector("#searchBtn span").classList.add("spinning");
   resetInfo();
   animeInfo = null;
-  document.querySelector("#player").pause();
+  document.querySelector(".player").pause();
   preview.removeEventListener("click", playPause);
-  document.querySelector("#results").innerHTML =
-    '<div id="status">Submitting image for searching...</div>';
+  document.querySelector("#message-text").innerText = "Submitting image for searching...";
   document.querySelector("#searchBtn").disabled = true;
   document.querySelector("#imageURL").disabled = true;
 
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
-    document.querySelector("#cutBordersBtn .glyphicon").classList.contains("glyphicon-check")
+    document.querySelector("#cutBordersBtn .icon").classList.contains("icon-check")
       ? "cutBorders=1"
       : "cutBorders=",
     document.querySelector("#anilistFilter").value
@@ -99,72 +101,64 @@ const search = async () => {
     body: formData,
   });
 
-  document.querySelector("#searchBtn span").classList.remove("glyphicon-refresh");
+  document.querySelector("#searchBtn span").classList.remove("icon-refresh");
   document.querySelector("#searchBtn span").classList.remove("spinning");
-  document.querySelector("#searchBtn span").classList.add("glyphicon-search");
+  document.querySelector("#searchBtn span").classList.add("icon-search");
 
   document.querySelector("#searchBtn").disabled = false;
   document.querySelector("#imageURL").disabled = false;
 
-  document.querySelector("#loading").classList.add("hidden");
-  document.querySelector("#loader").classList.remove("ripple");
+  document.querySelector(".loading").classList.add("hidden");
+  document.querySelector(".loader").classList.remove("ripple");
   document.querySelector("#searchBtn").disabled = false;
   document.querySelector("#imageURL").disabled = false;
-  document.querySelector("#results").innerHTML = "";
+  document.querySelector("#message-text").innerText = "";
 
   if (res.status === 429) {
-    document.querySelector("#results").innerHTML =
-      '<div id="status">You have searched too many times, please try again later.</div>';
+    document.querySelector("#message-text").innerText =
+      "You have searched too many times, please try again later.";
     return;
   }
   if (res.status !== 200) {
-    document.querySelector("#results").innerHTML =
-      '<div id="status">Connection to Search Server Failed</div>';
+    document.querySelector("#message-text").innerText = "Connection to Search Server Failed";
     return;
   }
   const { frameCount, result } = await res.json();
 
-  document.querySelector("#results").innerHTML += `<div id="status">${frameCount
+  document.querySelector("#message-text").innerHTML += `${frameCount
     .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames searched.</div>`;
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames searched`;
 
   if (result.length === 0) {
-    document.querySelector("#results").innerHTML = '<div id="status">No result</div>';
+    document.querySelector("#message-text").innerText = "No result";
     return;
   }
 
-  result.forEach((entry, index) => {
-    const result = document.createElement("li");
+  result.slice(0, 6).forEach((entry, index) => {
+    const result = document.querySelector("#template").content.firstElementChild.cloneNode(true);
 
     result.classList.add("result");
     if (entry.anilist.isAdult) {
       result.classList.add("hidden");
     }
 
-    let title_display = entry.anilist.title.romaji;
-    if (navigator.language.includes("ja")) {
-      title_display = entry.anilist.title.native || entry.anilist.title.romaji;
+    result.querySelector(".title").innerText =
+      entry.anilist.title.native || entry.anilist.title.romaji;
+    if (entry.episode) {
+      result.querySelector(".ep").innerText = `EP#${zeroPad(entry.episode, 2)}`;
     }
-    if (navigator.language.includes("zh")) {
-      title_display = entry.anilist.title.chinese || entry.anilist.title.romaji;
+    if (formatTime(entry.from) === formatTime(entry.to)) {
+      result.querySelector(".time").innerText = formatTime(entry.from);
+    } else {
+      result.querySelector(".time").innerText = `${formatTime(entry.from)}-${formatTime(entry.to)}`;
     }
-
-    result.innerHTML = [
-      `<div>`,
-      `<div class="text">`,
-      `<span class="title">${title_display}</span><br>`,
-      entry.episode ? `<span class="ep">EP#${zeroPad(entry.episode, 2)}</span>` : "",
-      formatTime(entry.from) === formatTime(entry.to)
-        ? `<span class="time">${formatTime(entry.from)}</span>`
-        : `<span class="time">${formatTime(entry.from)}-${formatTime(entry.to)}</span>`,
-      `<span class="similarity">~${(entry.similarity * 100).toFixed(2)}%</span><br>`,
-      `<span class="file">${entry.filename}</span>`,
-      `</div>`,
-      entry.similarity > 0.9 && index < 5
-        ? `<div class="thumb" style="min-height:166px"><img src="${entry.image}"></div>`
-        : "",
-      `</div>`,
-    ].join(" ");
+    result.querySelector(".similarity").innerText = `~${(entry.similarity * 100).toFixed(2)}%`;
+    // if (entry.similarity > 0.9 && index < 5) {
+    result.querySelector("video").src = `${entry.video}&size=s`;
+    result.querySelector("video").poster = `${entry.image}&size=s`;
+    // } else {
+    // result.querySelector("video").style.display = "none";
+    // }
 
     const opacity = Math.pow(entry.similarity, 4) + 0.2;
     result.style.opacity = opacity > 1 ? 1 : opacity;
@@ -173,24 +167,24 @@ const search = async () => {
       playfile(result, entry.video, entry.filename, entry.anilist.id, entry.from);
     });
 
-    document.querySelector("#results").appendChild(result);
+    document.querySelector(".result-list").appendChild(result);
   });
 
-  if (result.find((e) => e.anilist.isAdult)) {
+  if (result.slice(0, 6).find((e) => e.anilist.isAdult)) {
     const nswfMsg = document.createElement("div");
     nswfMsg.style.textAlign = "center";
     const showNSFWBtn = document.createElement("button");
     showNSFWBtn.type = "button";
     showNSFWBtn.classList.add("btn", "btn-default", "btn-sm", "btn-primary");
     showNSFWBtn.innerText = `Click here to show ${
-      result.filter((e) => e.anilist.isAdult).length
+      result.slice(0, 6).filter((e) => e.anilist.isAdult).length
     } NSFW results`;
     showNSFWBtn.addEventListener("click", () => {
       document.querySelectorAll(".result.hidden").forEach((e) => e.classList.remove("hidden"));
-      nswfMsg.classList.add("hidden");
+      showNSFWBtn.remove();
     });
     nswfMsg.appendChild(showNSFWBtn);
-    document.querySelector("#results").appendChild(nswfMsg);
+    document.querySelector(".result-list").appendChild(nswfMsg);
   }
 
   if (!document.querySelectorAll(".result")[0].classList.contains("hidden")) {
@@ -204,13 +198,11 @@ let fetchImageDelay;
 
 document.querySelector("#imageURL").addEventListener("input", function () {
   clearTimeout(fetchImageDelay);
-  document.querySelector("#messageText").classList.remove("error");
-  document.querySelector("#messageText").classList.remove("success");
   if (document.querySelector("#imageURL").value.length) {
     if (document.querySelector("form").checkValidity()) {
       fetchImageDelay = setTimeout(function () {
-        document.querySelector("#messageText").innerHTML =
-          '<span class="glyphicon glyphicon-repeat spinning"></span>';
+        document.querySelector("#message-text").innerText =
+          '<span class="icon icon-repeat spinning"></span>';
         originalImage.src =
           "https://trace.moe/image-proxy?url=" +
           encodeURIComponent(document.querySelector("#imageURL").value.replace(/ /g, "%20"));
@@ -227,10 +219,10 @@ document.querySelector("#imageURL").addEventListener("input", function () {
   }
 });
 
-document.querySelector("#soundBtn").addEventListener("click", () => {
-  document.querySelector("#soundBtn").classList.toggle("glyphicon-volume-up");
-  document.querySelector("#soundBtn").classList.toggle("glyphicon-volume-off");
-  if (document.querySelector("#soundBtn").classList.contains("glyphicon-volume-up")) {
+document.querySelector(".sound-btn").addEventListener("click", () => {
+  document.querySelector(".sound-btn").classList.toggle("icon-volume-up");
+  document.querySelector(".sound-btn").classList.toggle("icon-volume-off");
+  if (document.querySelector(".sound-btn").classList.contains("icon-volume-up")) {
     player.volume = 1;
     player.muted = false;
   } else {
@@ -240,18 +232,9 @@ document.querySelector("#soundBtn").addEventListener("click", () => {
 });
 
 document.querySelector("#cutBordersBtn").addEventListener("click", () => {
-  document.querySelector("#cutBordersBtn .glyphicon").classList.toggle("glyphicon-unchecked");
-  document.querySelector("#cutBordersBtn .glyphicon").classList.toggle("glyphicon-check");
+  document.querySelector("#cutBordersBtn .icon").classList.toggle("icon-cross");
+  document.querySelector("#cutBordersBtn .icon").classList.toggle("icon-check");
 });
-
-// document.querySelector("#jcBtn").addEventListener("click", () => {
-//   document
-//     .querySelector("#jcBtn .glyphicon")
-//     .classList.toggle("glyphicon-unchecked");
-//   document
-//     .querySelector("#jcBtn .glyphicon")
-//     .classList.toggle("glyphicon-check");
-// });
 
 let drawVideoPreview = function () {
   preview_heartbeat = window.requestAnimationFrame(drawVideoPreview);
@@ -273,7 +256,7 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
   });
 
   target.classList.add("active");
-  document.querySelector("#player").pause();
+  document.querySelector(".player").pause();
   window.cancelAnimationFrame(preview_heartbeat);
 
   if (animeInfo !== anilistID) {
@@ -282,20 +265,19 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
     showAnilistInfo(anilistID);
   }
 
-  document.querySelector("#loading").classList.remove("hidden");
-  document.querySelector("#loader").classList.add("ripple");
+  document.querySelector(".loading").classList.remove("hidden");
+  document.querySelector(".loader").classList.add("ripple");
   let response = await fetch(`${videoURL}&size=l`);
-  document.querySelector("#player").src = URL.createObjectURL(await response.blob());
+  document.querySelector(".player").src = URL.createObjectURL(await response.blob());
   let duration = response.headers.get("x-video-duration");
 
-  document.querySelector("#fileNameDisplay").innerText = fileName;
-  document.querySelector("#timeCodeDisplay").innerText =
+  document.querySelector(".file-name-display").innerText = fileName;
+  document.querySelector(".time-code-display").innerText =
     formatTime(timeCode) + "/" + formatTime(duration);
   let left = (parseFloat(timeCode) / parseFloat(duration)) * 640 - 6;
 
-  document.querySelector("#progressBarControl").style.visibility = "visible";
-  document.querySelector("#progressBarControl").style.left = left + "px";
-  document.querySelector("#soundBtn").style.visibility = "visible";
+  document.querySelector(".player-control").style.visibility = "visible";
+  document.querySelector(".progress-bar-control").style.left = left + "px";
 };
 
 let playPause = function () {
@@ -317,53 +299,57 @@ let loadedmetadata = function () {
 
   preview.width = 640;
   preview.height = 640 / aspectRatio;
-  document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
+  document.querySelector(".loading").style.height = preview.height + "px";
+  document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
   preview.addEventListener("click", playPause);
   player.oncanplaythrough = () => {
-    document.querySelector("#loading").classList.add("hidden");
-    document.querySelector("#loader").classList.remove("ripple");
+    document.querySelector(".loading").classList.add("hidden");
+    document.querySelector(".loader").classList.remove("ripple");
     window.cancelAnimationFrame(preview_heartbeat);
     preview_heartbeat = window.requestAnimationFrame(drawVideoPreview);
   };
   player.play();
 };
 
-document.querySelector("#player").addEventListener("loadedmetadata", loadedmetadata, false);
+document.querySelector(".player").addEventListener("loadedmetadata", loadedmetadata, false);
 
 let searchImage = document.createElement("canvas");
 
 let resetAll = function () {
   preview.width = 640;
   preview.height = 360;
-  document.querySelector("#progressBarControl").style.visibility = "hidden";
-  document.querySelector("#soundBtn").style.visibility = "hidden";
-  document.querySelector("#soundBtn").classList.remove("glyphicon-volume-up");
-  document.querySelector("#soundBtn").classList.remove("glyphicon-volume-off");
-  document.querySelector("#soundBtn").classList.add("glyphicon-volume-off");
+  document.querySelector(".player-control").style.visibility = "hidden";
+  document.querySelector(".sound-btn").classList.remove("icon-volume-up");
+  document.querySelector(".sound-btn").classList.remove("icon-volume-off");
+  document.querySelector(".sound-btn").classList.add("icon-volume-off");
   player.volume = 0;
   player.muted = true;
 
-  document.querySelector("#fileNameDisplay").innerText = "";
-  document.querySelector("#timeCodeDisplay").innerText = "";
-  document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
+  document.querySelector(".file-name-display").innerText = "";
+  document.querySelector(".time-code-display").innerText = "";
+  document.querySelector(".loading").style.height = preview.height + "px";
+  document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
   preview.getContext("2d").fillStyle = "#FFFFFF";
   preview.getContext("2d").fillRect(0, 0, preview.width, preview.height);
+  document.querySelectorAll(".result-list > div:not(.search-image)").forEach((each) => {
+    each.remove();
+  });
   resetInfo();
-  document.querySelector("#player").pause();
+  document.querySelector(".player").pause();
   preview.removeEventListener("click", playPause);
   window.cancelAnimationFrame(preview_heartbeat);
 };
 
 originalImage.onerror = function () {
-  document.querySelector("#messageText").classList.add("error");
-  document.querySelector("#messageText").innerText = "";
+  document.querySelector("#message-text").innerText = "";
 };
 
 let prepareSearchImage = function () {
   let img = originalImage;
   let imageAspectRatio = img.width / img.height;
+
+  document.querySelector("#originalImage").style.transform = `scale(${160 / img.width})`;
+  document.querySelector(".query-image").style.height = `${160 / imageAspectRatio}px`;
 
   searchImage.width = 640;
   searchImage.height = 640 / imageAspectRatio;
@@ -373,8 +359,8 @@ let prepareSearchImage = function () {
     .drawImage(img, 0, 0, img.width, img.height, 0, 0, searchImage.width, searchImage.height);
 
   preview.height = searchImage.height;
-  document.querySelector("#loading").style.height = preview.height + "px";
-  document.querySelector("#loader").style.top = (preview.height - 800) / 2 + "px";
+  document.querySelector(".loading").style.height = preview.height + "px";
+  document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
 
   preview.getContext("2d").drawImage(searchImage, 0, 0, searchImage.width, searchImage.height);
 
@@ -383,14 +369,9 @@ let prepareSearchImage = function () {
       imgData = blob;
 
       document.querySelector("#searchBtn").disabled = false;
-      document.querySelector("#messageText").classList.add("success");
-      document.querySelector("#messageText").innerHTML = "";
-      document.querySelector("#results").innerHTML =
-        '<div id="status">Press Search button to begin searching.</div>';
+      document.querySelector("#message-text").innerText = "";
       if (document.querySelector("#autoSearch").checked) {
-        document.querySelector("#messageText").classList.remove("error");
-        document.querySelector("#messageText").classList.remove("success");
-        document.querySelector("#messageText").innerHTML = "";
+        document.querySelector("#message-text").innerText = "";
         document.querySelector("#autoSearch").checked = false;
         search();
       }
@@ -413,13 +394,12 @@ let handleFileSelect = function (evt) {
   }
 
   if (file) {
-    document.querySelector("#results").innerHTML = '<div id="status">Reading File...</div>';
+    document.querySelector("#message-text").innerText = "Reading File...";
     if (file.type.match("image.*")) {
       URL.revokeObjectURL(originalImage.src);
       originalImage.src = URL.createObjectURL(file);
     } else {
-      document.querySelector("#results").innerHTML =
-        '<div id="status">Error: File is not an image</div>';
+      document.querySelector("#message-text").innerText = "Error: File is not an image";
       return false;
     }
   }
@@ -431,19 +411,19 @@ let handleDragOver = function (evt) {
   evt.dataTransfer.dropEffect = "copy";
 };
 
-let dropZone = document.querySelector("#preview");
+let dropZone = document.querySelector(".preview");
 
 dropZone.addEventListener("dragover", handleDragOver, false);
 dropZone.addEventListener("drop", handleFileSelect, false);
 
 document.querySelector("#file").addEventListener("change", handleFileSelect, false);
 
-let CLIPBOARD = new CLIPBOARD_CLASS("preview");
+let CLIPBOARD = new CLIPBOARD_CLASS(dropZone);
 
-function CLIPBOARD_CLASS(canvas_id) {
+function CLIPBOARD_CLASS(canvas_elm) {
   let _self = this;
-  let canvas = document.getElementById(canvas_id);
-  let ctx = document.getElementById(canvas_id).getContext("2d");
+  let canvas = canvas_elm;
+  let ctx = canvas_elm.getContext("2d");
   let ctrl_pressed = false;
   let pasteCatcher;
   let paste_mode;
@@ -523,10 +503,7 @@ function CLIPBOARD_CLASS(canvas_id) {
 }
 
 let resetInfo = function () {
-  document.querySelector("#info").innerHTML = "";
-  document.querySelector("#info").style.display = "none";
-  document.querySelector("#info").style.visibility = "hidden";
-  document.querySelector("#info").style.opacity = 0;
+  document.querySelector(".info-pane").style.opacity = 0;
 };
 
 window.onerror = function (message, source, lineno, colno, error) {

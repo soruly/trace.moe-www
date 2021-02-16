@@ -38,38 +38,28 @@
   <link rel="dns-prefetch" href="https://api.trace.moe/" />
   <link rel="dns-prefetch" href="https://image.trace.moe/" />
 
-  <% if (originalImage) { %>
-  <input id="autoSearch" type="checkbox" style="display: none" checked />
-  <img
-    id="originalImage"
-    src=""
-    data-url="<%= originalImage %>"
-    crossorigin="anonymous"
-    style="display: none"
-  />
-  <% } else { %>
-  <input id="autoSearch" type="checkbox" style="display: none" />
-  <img id="originalImage" src="" data-url="" crossorigin="anonymous" style="display: none" />
-  <% } %>
-  <div id="main">
-    <div class="noselect">
-      <div id="loading" class="hidden">
-        <div id="loader" class="ripple"></div>
+  <template id="template">
+    <div class="result">
+      <div class="title"></div>
+      <div class="detail">
+        <div class="ep"></div>
+        <div class="time"></div>
+        <div class="similarity"></div>
       </div>
-      <canvas id="preview" width="640" height="360"></canvas>
-      <video id="player" style="display: none" volume="0" muted autoplay loop playsinline></video>
+      <div style="max-width: 160px">
+        <video src="" poster="" muted="" autoplay="" loop="" playsinline=""></video>
+      </div>
     </div>
-    <div style="height: 15px">
-      <span id="progressBarControl" class="glyphicon glyphicon-triangle-top"></span>
-      <span id="fileNameDisplay"></span>
-      <span id="timeCodeDisplay"></span>
-      <span id="soundBtn" class="glyphicon glyphicon glyphicon-volume-off"></span>
-    </div>
-    <div id="form">
-      <span class="btn btn-default btn-file btn-sm">
-        Browse a file <input type="file" id="file" name="files[]" />
-      </span>
-      <span id="instruction"> / Drag &amp; Drop Anime ScreenShot / Ctrl+V / Enter Image URL</span>
+  </template>
+
+  <div class="wrap">
+    <div class="form">
+      <% if (originalImage) { %>
+      <input id="autoSearch" type="checkbox" style="display: none" checked />
+      <% } else { %>
+      <input id="autoSearch" type="checkbox" style="display: none" />
+      <% } %>
+      <input type="file" id="file" name="files[]" />
       <br />
       <form method="post">
         <input
@@ -80,39 +70,111 @@
           id="imageURL"
           placeholder="Image URL"
           value="<%= imageURL %>"
-          style="margin: 5px 0 5px 0"
         />
         <input type="submit" id="submit" style="display: none" />
       </form>
-      <div style="text-align: right">
-        <span id="messageText" style="float: left; line-height: 30px">
-          <% if (originalImage) { %>
-          <span class="glyphicon glyphicon-repeat spinning"></span>
-          <% } %>
-        </span>
-        <label for="anilistFilter" style="font-weight: inherit">Anime Filter</label>
+
+      <div>
+        <label for="anilistFilter">Anime Filter</label>
         <input
           type="text"
           id="anilistFilter"
           class="form-control input-sm"
-          style="display: inline-block; width: 100px"
           placeholder="anilist ID"
         />
         <button id="cutBordersBtn" type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-check">☑️</span> Cut Borders
+          <span class="icon icon-check"></span> Cut Borders
         </button>
 
         <button id="searchBtn" type="button" class="btn btn-default btn-sm btn-primary" disabled>
-          <span class="glyphicon glyphicon-search">🔍</span> Search
+          <span class="icon icon-search"></span> Search
         </button>
+      </div>
+      <div id="message-text">
+        Upload file / Drag &amp; Drop Anime ScreenShot / Ctrl+V / Enter Image URL
+      </div>
+    </div>
+
+    <div class="result-list">
+      <div class="search-image">
+        <div class="search-image-text">Your search image</div>
+        <div class="query-image">
+          <% if (originalImage) { %>
+          <img id="originalImage" src="" data-url="<%= originalImage %>" crossorigin="anonymous" />
+          <% } else { %>
+          <img id="originalImage" src="" data-url="" crossorigin="anonymous" />
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-info-pane">
+      <div class="player-pane">
+        <video
+          class="player"
+          style="display: none"
+          volume="0"
+          muted
+          autoplay
+          loop
+          playsinline
+        ></video>
+        <canvas class="preview" width="640" height="360"></canvas>
+        <div class="loading" class="hidden">
+          <div class="loader" class="ripple"></div>
+        </div>
+
+        <div class="player-info">
+          <div class="file-name-display">&nbsp;</div>
+          <div class="time-code-display">&nbsp;</div>
+        </div>
+        <div class="player-control">
+          <div class="progress-bar-control">▲</div>
+          <div class="sound-btn" class="icon icon-volume-off"></div>
+        </div>
+      </div>
+
+      <div class="info-pane">
+        <div class="title"></div>
+        <div class="subtitle"></div>
+        <div class="divider"></div>
+
+        <div class="detail">
+          <table class="table">
+            <tr>
+              <td colspan="2" class="natural-text"></td>
+            </tr>
+            <tr>
+              <td>Alias</td>
+              <td class="alias"></td>
+            </tr>
+            <tr>
+              <td>Genre</td>
+              <td class="genre"></td>
+            </tr>
+            <tr>
+              <td>Studio</td>
+              <td class="studio"></td>
+            </tr>
+            <tr>
+              <td>External Links</td>
+              <td class="external-links"></td>
+            </tr>
+          </table>
+          <div class="poster">
+            <a href="//anilist.co/anime/21034"
+              ><img
+                src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21034-PgPlR55DktTJ.jpg"
+            /></a>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="foot-notes">
+          Information provided by <a href="https://anilist.co">anilist.co</a>
+        </div>
       </div>
     </div>
   </div>
-  <div id="results-list">
-    <ul id="results" class="nav nav-pills nav-stacked"></ul>
-  </div>
-  <div id="info"></div>
-
   <script src="/js/index.js?<%=rev%>"></script>
   <script src="/js/info.js?<%=rev%>"></script>
 

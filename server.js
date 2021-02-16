@@ -76,7 +76,6 @@ app.get("/", (req, res) => {
     `</css/index.css?${rev}>; rel=preload; as=style`,
     `</js/index.js?${rev}>; rel=preload; as=script`,
     `</js/info.js?${rev}>; rel=preload; as=script`,
-    "</fonts/glyphicons-halflings-regular.woff>; rel=preload; as=font; crossorigin",
     ...pushAssets,
   ]);
   res.render("index", {

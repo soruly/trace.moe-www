@@ -47,6 +47,7 @@ originalImage.onload = () => {
     document.querySelector(".wrap").style.opacity = 1;
   }, 0);
   document.querySelector(".search-bar").classList.add("ready");
+  document.body.style.display = "unset";
   if (document.querySelector(".drop-target")) {
     document.querySelector(".drop-target").remove();
   }
@@ -212,6 +213,7 @@ document.querySelector(".search-btn").addEventListener("click", search);
 
 const startLoadImage = (src) => {
   document.querySelector(".search-bar").classList.add("ready");
+  document.body.style.display = "unset";
   originalImage.src = src;
 };
 

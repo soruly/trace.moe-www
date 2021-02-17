@@ -90,6 +90,7 @@ const search = async () => {
   preview.removeEventListener("click", playPause);
   document.querySelector(".search-btn").disabled = true;
   document.querySelector(".image-url").disabled = true;
+  document.querySelector(".anilist-filter").disabled = true;
 
   document.querySelector(".message-text").innerText = "Searching...";
 
@@ -112,11 +113,13 @@ const search = async () => {
 
   document.querySelector(".search-btn").disabled = false;
   document.querySelector(".image-url").disabled = false;
+  document.querySelector(".anilist-filter").disabled = false;
 
   document.querySelector(".loading").style.display = "none";
   document.querySelector(".loader").classList.remove("ripple");
   document.querySelector(".search-btn").disabled = false;
   document.querySelector(".image-url").disabled = false;
+  document.querySelector(".anilist-filter").disabled = false;
 
   if (res.status === 429) {
     document.querySelector(".message-text").innerText =

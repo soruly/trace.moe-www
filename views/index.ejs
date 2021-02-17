@@ -52,16 +52,16 @@
             placeholder="Image URL"
             value="<%= imageURL %>"
           />
-          <input type="submit" style="display: none" />
+          <input type="submit" />
           <div class="file">
             <input type="file" name="files[]" accept="image/*" />
           </div>
         </form>
 
         <% if (originalImage) { %>
-        <input id="autoSearch" type="checkbox" style="display: none" checked="" />
+        <input id="autoSearch" type="checkbox" checked="" />
         <% } else { %>
-        <input id="autoSearch" type="checkbox" style="display: none" />
+        <input id="autoSearch" type="checkbox" />
         <% } %>
 
         <input type="text" class="anilist-filter" placeholder="anilist ID" />
@@ -81,7 +81,7 @@
         <div class="time"></div>
         <div class="similarity"></div>
       </div>
-      <div style="max-width: 160px">
+      <div>
         <video src="" poster="" volume="0" muted="" autoplay="" loop="" playsinline=""></video>
       </div>
     </div>

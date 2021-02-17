@@ -606,6 +606,12 @@ table td:last-child {
 }
 
 @media (max-width: 950px) {
+  .search-bar.ready .logo {
+    display: none;
+  }
+  .search-bar-content {
+    justify-content: center;
+  }
   .wrap {
     justify-content: space-around;
   }

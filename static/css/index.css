@@ -100,7 +100,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: space-around;
-  justify-content: space-between;
+  justify-content: space-around;
   transition: all 100ms ease-out;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background: rgba(255, 255, 255, 0.8);
@@ -112,7 +112,7 @@
 }
 .search-bar.ready .search-bar-content {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0;
   transition: all 100ms ease-out;
   background: transparent;
   box-shadow: unset;
@@ -197,7 +197,7 @@
   vertical-align: bottom;
 }
 .search-bar .cut-borders-btn {
-  color: #666666;
+  color: #333333;
   background-color: transparent;
   outline: 0;
   border: 0;
@@ -290,7 +290,7 @@
   background-size: 20px 20px;
 }
 .search-image .message-text {
-  color: #666666;
+  color: #333333;
   font-size: 0.7rem;
   width: 100%;
   padding: 0.5rem;
@@ -311,6 +311,7 @@
 }
 .result-list {
   width: 300px;
+  margin-bottom: 2rem;
 }
 .result {
   cursor: pointer;
@@ -387,7 +388,7 @@
   display: block;
 }
 .result-list button {
-  color: #666666;
+  color: #333333;
   background-color: #fff;
   outline: 0;
   border: 1px solid #cccccc;
@@ -432,7 +433,6 @@
 
 .player-pane {
   position: relative;
-  color: #666666;
 }
 
 .player-pane canvas {
@@ -456,6 +456,7 @@
   align-content: space-around;
   justify-content: space-between;
   transition: all 300ms ease-out;
+  color: #666666;
 }
 .player-pane .file-name-display {
   font-size: 0.7rem;
@@ -496,7 +497,7 @@
   width: 100%;
   font-size: 0.8rem;
   line-height: 1.5em;
-  color: #666666;
+  color: #333333;
   opacity: 0;
   transition: all 300ms ease-out;
   text-shadow: 1px 1px 5px #cccccc;
@@ -553,7 +554,18 @@ table td:last-child {
   font-size: 0.6rem;
 }
 
-@media (min-width: 1020px) {
+@media (max-width: 950px) {
+  .wrap {
+    justify-content: space-around;
+  }
+  .result-list {
+    width: 640px;
+    max-height: 30vh;
+    overflow: scroll;
+    padding: 0 20px 0 20px;
+    border-bottom: 1px dashed #6469ff;
+    margin-bottom: 1rem;
+  }
 }
 
 .ripple {

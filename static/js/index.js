@@ -155,7 +155,8 @@ const search = async () => {
     // result.querySelector("video").style.display = "none";
     // }
 
-    const opacity = Math.pow(entry.similarity, 4) + 0.2;
+    const opacity =
+      Math.pow(entry.similarity, 4) + 0.3 > 1 ? 1 : Math.pow(entry.similarity, 4) + 0.3;
     // result.style.opacity = opacity > 1 ? 1 : opacity;
 
     result.addEventListener("click", (e) => {
@@ -165,7 +166,7 @@ const search = async () => {
     document.querySelector(".result-list").appendChild(result);
     setTimeout((e, o) => {
       result.style.opacity = opacity;
-    }, 0);
+    }, index * 100);
     // result.style.opacity = opacity > 1 ? 1 : opacity;
   });
 
@@ -279,8 +280,9 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
   let duration = response.headers.get("x-video-duration");
 
   document.querySelector(".file-name-display").innerText = fileName;
-  document.querySelector(".time-code-display").innerText =
-    formatTime(timeCode) + "/" + formatTime(duration);
+  document.querySelector(".time-code-display").innerText = `${formatTime(timeCode)} / ${formatTime(
+    duration
+  )}`;
   let left = (parseFloat(timeCode) / parseFloat(duration)) * 640 - 6;
 
   document.querySelector(".player-info").style.opacity = 1;

@@ -80,11 +80,13 @@ const displayInfo = (src) => {
   Array.from(
     new Set(
       [
-        src.title.chinese || [],
-        src.title.english || [],
+        src.title.chinese || "",
+        src.title.english || "",
         ...(src.synonyms || []),
         ...(src.synonyms_chinese || []),
-      ].filter((e) => e !== src.title.native || e !== src.title.romaji)
+      ]
+        .filter((e) => e)
+        .filter((e) => e !== src.title.native || e !== src.title.romaji)
     )
   )
     .sort()

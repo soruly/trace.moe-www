@@ -38,23 +38,10 @@
   <link rel="dns-prefetch" href="https://api.trace.moe/" />
   <link rel="dns-prefetch" href="https://image.trace.moe/" />
 
-  <template id="template">
-    <div class="result">
-      <div class="title"></div>
-      <div class="detail">
-        <div class="ep"></div>
-        <div class="time"></div>
-        <div class="similarity"></div>
-      </div>
-      <div style="max-width: 160px">
-        <video src="" poster="" muted="" autoplay="" loop="" playsinline=""></video>
-      </div>
-    </div>
-  </template>
   <div class="drop-target"></div>
   <div class="search-bar <%= imageURL ? 'ready' : '' %>">
     <div class="search-bar-content">
-      <div class="message-text"></div>
+      <div class="logo"></div>
       <div class="form-controls">
         <form>
           <input
@@ -86,10 +73,24 @@
     </div>
   </div>
 
+  <template id="template">
+    <div class="result">
+      <div class="title"></div>
+      <div class="detail">
+        <div class="ep"></div>
+        <div class="time"></div>
+        <div class="similarity"></div>
+      </div>
+      <div style="max-width: 160px">
+        <video src="" poster="" muted="" autoplay="" loop="" playsinline=""></video>
+      </div>
+    </div>
+  </template>
+
   <div class="wrap">
     <div class="result-list">
       <div class="search-image">
-        <div class="search-image-text">Your search image</div>
+        <div class="detail">Your search image</div>
         <div class="query-image">
           <% if (originalImage) { %>
           <img id="originalImage" src="" data-url="<%= originalImage %>" crossorigin="anonymous" />
@@ -97,6 +98,7 @@
           <img id="originalImage" src="" data-url="" crossorigin="anonymous" />
           <% } %>
         </div>
+        <div class="message-text"></div>
       </div>
     </div>
 

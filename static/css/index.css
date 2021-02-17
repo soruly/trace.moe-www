@@ -79,7 +79,7 @@
   width: 100%;
   transition: all 100ms ease-out;
   transform: translate(0, 0);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background: repeating-linear-gradient(
         135deg,
         rgba(255, 255, 255, 0.8) 0,
@@ -102,7 +102,7 @@
   align-content: space-around;
   justify-content: space-between;
   transition: all 100ms ease-out;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background: rgba(255, 255, 255, 0.8);
 }
 .search-bar-content .drop-target {
@@ -247,8 +247,7 @@
   transform: none;
   transition: all 100ms ease-out;
 }
-.search-bar .message-text {
-  font-size: 0.7rem;
+.search-bar .logo {
   width: 280px;
 }
 
@@ -268,12 +267,39 @@
 .search-image {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   align-content: space-around;
   justify-content: space-between;
+  background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.9) 0,
+        rgba(255, 255, 255, 0.9) 90%,
+        rgba(255, 255, 255, 0) 90%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      0 50%,
+    linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.9) 0,
+        rgba(255, 255, 255, 0.9) 90%,
+        rgba(255, 255, 255, 0) 90%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      50% 0,
+    rgba(255, 255, 255, 0);
+  background-size: 20px 20px;
 }
-.search-image .search-image-text {
+.search-image .message-text {
+  color: #666666;
+  font-size: 0.7rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-top: 1px dashed #b0c1ff;
+}
+.search-image .detail {
   font-size: 0.8rem;
+  text-align: center;
+  flex-grow: 1;
 }
 .search-image .query-image {
   width: 160px;
@@ -293,7 +319,7 @@
   align-items: flex-start;
   align-content: space-around;
   justify-content: space-between;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   text-shadow: 1px 1px 5px #cccccc;
   margin: 0.5rem 0 0.5rem 0;
   transition: all 100ms ease-out;
@@ -324,6 +350,10 @@
 .result:active {
   box-shadow: 0 0 10px #6d8cff;
   transform: translate(1px, 1px);
+  transition: all 100ms ease-out;
+}
+.result.active {
+  box-shadow: 0 0 10px #6d8cff;
   transition: all 100ms ease-out;
 }
 .result.hidden {
@@ -379,7 +409,7 @@
 
 .player-info-pane {
   margin-bottom: 2rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background: linear-gradient(
         0deg,
         rgba(255, 255, 255, 0.9) 0,
@@ -429,7 +459,7 @@
 }
 .player-pane .file-name-display {
   font-size: 0.7rem;
-  width: 500px;
+  flex-grow: 1;
   height: 1rem;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -438,6 +468,7 @@
 .player-pane .time-code-display {
   font-size: 0.7rem;
   height: 0.7rem;
+  padding-right: 1rem;
 }
 .player-pane .player-control {
   opacity: 0;
@@ -454,6 +485,7 @@
 }
 .player-pane .sound-btn {
   position: absolute;
+  top: -1.1rem;
   right: 0;
   font-size: 0.8rem;
   width: 1rem;

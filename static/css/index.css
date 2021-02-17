@@ -215,15 +215,22 @@
   outline: 0;
 }
 .search-bar #searchBtn:hover {
-  box-shadow: 1px 1px 5px #6d8cff;
+  box-shadow: 1px 1px 3px #6d8cff;
+  transition: all 100ms ease-out;
+}
+.search-bar #searchBtn:active {
+  box-shadow: 0 0 1px #6d8cff;
+  transform: translate(1px, 1px);
   transition: all 100ms ease-out;
 }
 .search-bar #searchBtn[disabled],
-.search-bar #searchBtn[disabled]:hover {
+.search-bar #searchBtn[disabled]:hover,
+.search-bar #searchBtn[disabled]:active {
   cursor: wait;
   box-shadow: none;
   color: #cccccc;
   background: #cccccc;
+  transform: none;
   transition: all 100ms ease-out;
 }
 .search-bar .message-text {
@@ -274,29 +281,17 @@
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   margin: 0.5rem 0 0.5rem 0;
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
   opacity: 0;
 }
-.result:nth-child(1) {
-  transition: all 300ms ease-out 100ms;
+.result:hover {
+  box-shadow: 0 0 10px #6d8cff;
+  transition: all 100ms ease-out;
 }
-.result:nth-child(2) {
-  transition: all 300ms ease-out 200ms;
-}
-.result:nth-child(3) {
-  transition: all 300ms ease-out 300ms;
-}
-.result:nth-child(4) {
-  transition: all 300ms ease-out 400ms;
-}
-.result:nth-child(5) {
-  transition: all 300ms ease-out 500ms;
-}
-.result:nth-child(6) {
-  transition: all 300ms ease-out 600ms;
-}
-.result:nth-child(7) {
-  transition: all 300ms ease-out 700ms;
+.result:active {
+  box-shadow: 0 0 10px #6d8cff;
+  transform: translate(1px, 1px);
+  transition: all 100ms ease-out;
 }
 .result.hidden {
   display: none;
@@ -306,15 +301,14 @@
   line-height: 1.5rem;
 }
 .result .title {
-  width: 100%;
-  padding: 0.5rem;
-}
-.result .title {
   color: #2196f3;
   font-size: 0.9rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: 1px dashed #b0c1ff;
 }
 .result .ep {
-  color: #f44336;
+  color: #ff5549;
   font-size: 0.75rem;
 }
 .result .time {
@@ -328,6 +322,26 @@
 .result video {
   max-width: 160px;
   display: block;
+}
+.result-list button {
+  color: #666666;
+  background-color: #fff;
+  outline: 0;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+  font-size: 0.7rem;
+  padding: 0.5rem;
+  box-shadow: 1px 1px 3px #cccccc;
+  transition: all 100ms ease-out;
+}
+.result-list button:hover {
+  box-shadow: 1px 1px 5px #6d8cff;
+  transition: all 100ms ease-out;
+}
+.result-list button:active {
+  box-shadow: 0 0 2px #6d8cff;
+  transform: translate(1px, 1px);
+  transition: all 100ms ease-out;
 }
 
 .player-info-pane {

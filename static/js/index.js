@@ -127,7 +127,7 @@ const search = async () => {
     return;
   }
 
-  result.slice(0, 6).forEach((entry, index) => {
+  result.slice(0, 5).forEach((entry, index) => {
     const result = document.querySelector("#template").content.firstElementChild.cloneNode(true);
 
     result.classList.add("result");
@@ -138,7 +138,7 @@ const search = async () => {
     result.querySelector(".title").innerText =
       entry.anilist.title.native || entry.anilist.title.romaji;
     if (entry.episode) {
-      result.querySelector(".ep").innerText = `EP#${zeroPad(entry.episode, 2)}`;
+      result.querySelector(".ep").innerText = `Episode ${zeroPad(entry.episode, 2)}`;
     }
     if (formatTime(entry.from) === formatTime(entry.to)) {
       result.querySelector(".time").innerText = formatTime(entry.from);
@@ -147,7 +147,9 @@ const search = async () => {
         entry.to
       )}`;
     }
-    result.querySelector(".similarity").innerText = `~${(entry.similarity * 100).toFixed(2)}%`;
+    result.querySelector(".similarity").innerText = `~${(entry.similarity * 100).toFixed(
+      2
+    )}% Similarity`;
     // if (entry.similarity > 0.9 && index < 5) {
     result.querySelector("video").src = `${entry.video}&size=s`;
     result.querySelector("video").poster = `${entry.image}&size=s`;
@@ -169,14 +171,14 @@ const search = async () => {
     // result.style.opacity = opacity > 1 ? 1 : opacity;
   });
 
-  if (result.slice(0, 6).find((e) => e.anilist.isAdult)) {
+  if (result.slice(0, 5).find((e) => e.anilist.isAdult)) {
     const nswfMsg = document.createElement("div");
     nswfMsg.style.textAlign = "center";
     const showNSFWBtn = document.createElement("button");
     showNSFWBtn.type = "button";
     showNSFWBtn.classList.add("btn", "btn-default", "btn-sm", "btn-primary");
     showNSFWBtn.innerText = `Click here to show ${
-      result.slice(0, 6).filter((e) => e.anilist.isAdult).length
+      result.slice(0, 5).filter((e) => e.anilist.isAdult).length
     } NSFW results`;
     showNSFWBtn.addEventListener("click", () => {
       document.querySelectorAll(".result.hidden").forEach((e) => e.classList.remove("hidden"));

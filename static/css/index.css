@@ -560,8 +560,8 @@ table td:last-child {
   }
   .result-list {
     width: 640px;
-    max-height: 30vh;
-    overflow: scroll;
+    height: 30vh;
+    overflow-y: scroll;
     padding: 0 20px 0 20px;
     border-bottom: 1px dashed #6469ff;
     margin-bottom: 1rem;

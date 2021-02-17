@@ -222,8 +222,11 @@ document.querySelector(".image-url").addEventListener("input", function () {
   if (document.querySelector(".image-url").value.length) {
     if (document.querySelector("form").checkValidity()) {
       fetchImageDelay = setTimeout(function () {
-        startLoadImage(`https://trace.moe/image-proxy?url=
-        ${encodeURIComponent(document.querySelector(".image-url").value.replace(/ /g, "%20"))}`);
+        startLoadImage(
+          `https://trace.moe/image-proxy?url=${encodeURIComponent(
+            document.querySelector(".image-url").value.replace(/ /g, "%20")
+          )}`
+        );
         history.replaceState(
           null,
           null,

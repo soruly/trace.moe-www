@@ -195,7 +195,10 @@ const search = async () => {
 document.querySelector("#searchBtn").addEventListener("click", search);
 
 const startLoadImage = (src) => {
-  document.querySelector(".wrap").style.opacity = 1;
+  document.querySelector(".wrap").style.display = "flex";
+  setTimeout(() => {
+    document.querySelector(".wrap").style.opacity = 1;
+  }, 0);
   document.querySelector(".search-bar").classList.add("ready");
   if (document.querySelector(".drop-target")) {
     document.querySelector(".drop-target").remove();
@@ -313,6 +316,7 @@ let loadedmetadata = function () {
   document.querySelector(".loading").style.height = preview.height + "px";
   document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
   preview.addEventListener("click", playPause);
+  document.querySelector(".drop-effect").addEventListener("click", playPause);
   player.oncanplaythrough = () => {
     document.querySelector(".loading").style.display = "none";
     document.querySelector(".loader").classList.remove("ripple");

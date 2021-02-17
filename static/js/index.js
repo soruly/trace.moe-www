@@ -42,6 +42,14 @@ const preview = document.querySelector(".preview");
 const originalImage = document.querySelector("#originalImage");
 
 originalImage.onload = () => {
+  document.querySelector(".wrap").style.display = "flex";
+  setTimeout(() => {
+    document.querySelector(".wrap").style.opacity = 1;
+  }, 0);
+  document.querySelector(".search-bar").classList.add("ready");
+  if (document.querySelector(".drop-target")) {
+    document.querySelector(".drop-target").remove();
+  }
   resetAll();
   // clear the input if user upload/paste image
   if (/^blob:/.test(originalImage.src)) {
@@ -54,6 +62,8 @@ originalImage.onload = () => {
 window.addEventListener("load", (event) => {
   if (originalImage.dataset.url) {
     startLoadImage(originalImage.dataset.url);
+  } else {
+    document.querySelector(".search-bar").style.opacity = 1;
   }
 });
 
@@ -198,14 +208,7 @@ const search = async () => {
 document.querySelector("#searchBtn").addEventListener("click", search);
 
 const startLoadImage = (src) => {
-  document.querySelector(".wrap").style.display = "flex";
-  setTimeout(() => {
-    document.querySelector(".wrap").style.opacity = 1;
-  }, 0);
   document.querySelector(".search-bar").classList.add("ready");
-  if (document.querySelector(".drop-target")) {
-    document.querySelector(".drop-target").remove();
-  }
   originalImage.src = src;
 };
 
@@ -390,12 +393,7 @@ let prepareSearchImage = function () {
   searchImage.toBlob(
     function (blob) {
       imgData = blob;
-
-      document.querySelector("#searchBtn").disabled = false;
-      if (document.querySelector("#autoSearch").checked) {
-        document.querySelector("#autoSearch").checked = false;
-        search();
-      }
+      search();
     },
     "image/jpeg",
     80

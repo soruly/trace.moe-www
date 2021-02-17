@@ -58,6 +58,29 @@
   z-index: 20;
   transition: opacity 300ms ease-out;
 }
+.search-bar .logo {
+  width: 300px;
+  display: none;
+  color: #98a9ff;
+  text-shadow: 1px 1px 5px #cccccc;
+  transition: all 300ms ease-out;
+}
+.search-bar .logo:hover {
+  color: #c4ceff;
+  transition: all 300ms ease-out;
+}
+.search-bar.ready .logo {
+  display: block;
+}
+.search-bar a:hover {
+  text-decoration: none;
+}
+.search-bar .logo .title {
+  font-size: 1.5rem;
+}
+.search-bar .logo .subtitle {
+  font-size: 0.8rem;
+}
 .search-bar.ready {
   opacity: 1;
   top: 0;
@@ -86,7 +109,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: space-around;
-  justify-content: space-around;
+  justify-content: space-between;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background: rgba(255, 255, 255, 0.8);
 }
@@ -254,9 +277,6 @@
   color: #cccccc;
   background: #cccccc;
   transition: color 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out;
-}
-.search-bar .logo {
-  width: 300px;
 }
 
 .wrap {

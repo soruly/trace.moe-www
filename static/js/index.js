@@ -81,6 +81,10 @@ const search = async () => {
   document.querySelector("#searchBtn").disabled = true;
   document.querySelector(".image-url").disabled = true;
 
+  document.querySelector(".message-text").innerText = "Searching...";
+
+  const startSearchTime = performance.now();
+
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
@@ -103,25 +107,27 @@ const search = async () => {
   document.querySelector(".loader").classList.remove("ripple");
   document.querySelector("#searchBtn").disabled = false;
   document.querySelector(".image-url").disabled = false;
-  document.querySelector(".message-text").innerText = "";
 
   if (res.status === 429) {
     document.querySelector(".message-text").innerText =
-      "You have searched too many times, please try again later.";
+      "You searched too many times, please try again later.";
     return;
   }
   if (res.status !== 200) {
-    document.querySelector(".message-text").innerText = "Connection to Search Server Failed";
+    document.querySelector(".message-text").innerText = "Failed to connect server.";
     return;
   }
   const { frameCount, result } = await res.json();
 
-  document.querySelector(".message-text").innerHTML += `${frameCount
+  document.querySelector(".message-text").innerHTML = `Searched ${frameCount
     .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames searched`;
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} frames in ${(
+    (performance.now() - startSearchTime) /
+    1000
+  ).toFixed(2)}s`;
 
   if (result.length === 0) {
-    document.querySelector(".message-text").innerText = "No result";
+    document.querySelector(".message-text").innerText = "Cannot find any result";
     return;
   }
 
@@ -166,7 +172,7 @@ const search = async () => {
     document.querySelector(".result-list").appendChild(result);
     setTimeout((e, o) => {
       result.style.opacity = opacity;
-    }, index * 100);
+    }, index * 150);
     // result.style.opacity = opacity > 1 ? 1 : opacity;
   });
 
@@ -273,6 +279,8 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
     animeInfo = anilistID;
     resetInfo();
     showAnilistInfo(anilistID);
+    document.querySelector(".player-info").style.display = "flex";
+    document.querySelector(".player-control").style.display = "block";
     document.querySelector(".info-pane").style.maxHeight = "800px";
   }
 
@@ -341,6 +349,8 @@ let resetAll = function () {
 
   document.querySelector(".file-name-display").innerText = "";
   document.querySelector(".time-code-display").innerText = "";
+  document.querySelector(".player-info").style.display = "none";
+  document.querySelector(".player-control").style.display = "none";
   document.querySelector(".drop-effect").style.height = preview.height - 10 + "px";
   document.querySelector(".loading").style.height = preview.height + "px";
   document.querySelector(".loader").style.top = (preview.height - 800) / 2 + "px";
@@ -356,7 +366,7 @@ let resetAll = function () {
 };
 
 originalImage.onerror = function () {
-  document.querySelector(".message-text").innerText = "";
+  document.querySelector(".message-text").innerText = "Failed to load search image";
 };
 
 let prepareSearchImage = function () {
@@ -385,9 +395,7 @@ let prepareSearchImage = function () {
       imgData = blob;
 
       document.querySelector("#searchBtn").disabled = false;
-      document.querySelector(".message-text").innerText = "";
       if (document.querySelector("#autoSearch").checked) {
-        document.querySelector(".message-text").innerText = "";
         document.querySelector("#autoSearch").checked = false;
         search();
       }

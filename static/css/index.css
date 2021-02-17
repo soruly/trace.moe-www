@@ -288,8 +288,10 @@
 .search-image .message-text {
   color: #333333;
   font-size: 0.7rem;
+  line-height: 1rem;
+  height: 1rem;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.2rem 0.5rem 0.2rem 0.5rem;
   border-top: 1px dashed #b0c1ff;
 }
 .search-image .detail {
@@ -431,8 +433,9 @@
   position: relative;
 }
 
-.player-pane canvas {
+.player-pane .preview {
   background: #ffffff;
+  display: block;
 }
 .player-pane .loading {
   width: 640px;
@@ -446,7 +449,7 @@
 
 .player-pane .player-info {
   opacity: 0;
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: space-around;
@@ -468,6 +471,7 @@
   padding-right: 1rem;
 }
 .player-pane .player-control {
+  display: none;
   opacity: 0;
   position: relative;
   height: 1rem;

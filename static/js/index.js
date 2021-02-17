@@ -78,7 +78,6 @@ const search = async () => {
   animeInfo = null;
   document.querySelector(".player").pause();
   preview.removeEventListener("click", playPause);
-  document.querySelector(".message-text").innerText = "Submitting image for searching...";
   document.querySelector("#searchBtn").disabled = true;
   document.querySelector(".image-url").disabled = true;
 
@@ -195,7 +194,6 @@ const search = async () => {
 document.querySelector("#searchBtn").addEventListener("click", search);
 
 const startLoadImage = (src) => {
-  document.querySelector(".message-text").innerText = "Loading search image...";
   document.querySelector(".wrap").style.opacity = 1;
   document.querySelector(".search-bar").classList.add("ready");
   if (document.querySelector(".drop-target")) {
@@ -396,13 +394,6 @@ let prepareSearchImage = function () {
 let handleFileSelect = function (evt) {
   evt.stopPropagation();
   evt.preventDefault();
-  if (document.querySelector(".drop-target")) {
-    document.querySelector(".drop-target").classList.remove("dropping");
-    document.querySelector(".drop-target").innerText = "";
-  }
-  if (document.querySelector(".drop-effect")) {
-    document.querySelector(".drop-effect").classList.remove("dropping");
-  }
 
   let file;
 
@@ -413,12 +404,23 @@ let handleFileSelect = function (evt) {
   }
 
   if (file) {
-    document.querySelector(".message-text").innerText = "Reading File...";
     if (file.type.match("image.*")) {
+      if (document.querySelector(".drop-target")) {
+        document.querySelector(".drop-target").classList.remove("dropping");
+        document.querySelector(".drop-target").innerText = "";
+      }
+      if (document.querySelector(".drop-effect")) {
+        document.querySelector(".drop-effect").classList.remove("dropping");
+      }
       URL.revokeObjectURL(originalImage.src);
       startLoadImage(URL.createObjectURL(file));
     } else {
-      document.querySelector(".message-text").innerText = "Error: File is not an image";
+      if (document.querySelector(".drop-target")) {
+        document.querySelector(".drop-target").innerText = "Error: File is not an image";
+      }
+      if (document.querySelector(".drop-effect")) {
+        document.querySelector(".drop-effect").innerText = "Error: File is not an image";
+      }
       return false;
     }
   }
@@ -473,6 +475,7 @@ dropZone2.addEventListener(
   "dragenter",
   (e) => {
     document.querySelector(".drop-effect").classList.add("dropping");
+    document.querySelector(".drop-effect").innerText = "Drop image here";
   },
   false
 );

@@ -29,7 +29,7 @@
   color: transparent;
   transition: all 50ms ease-out;
   backdrop-filter: blur(0);
-  z-index: 0;
+  z-index: 1;
 }
 .drop-target.dropping {
   background: rgba(255, 255, 255, 0.7);
@@ -44,6 +44,7 @@
   top: 0;
   width: 630px;
   background: rgba(255, 255, 255, 0);
+  border: 5px solid transparent;
   text-align: center;
   font-size: 1.5rem;
   display: flex;
@@ -61,9 +62,6 @@
   transition: all 50ms ease-out;
   backdrop-filter: blur(5px);
   z-index: 100;
-}
-.drop-effect.dropping::after {
-  content: "Drop image here";
 }
 
 .search-bar {

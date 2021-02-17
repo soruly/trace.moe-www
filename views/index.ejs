@@ -51,7 +51,7 @@
       </div>
     </div>
   </template>
-  <div class="drop-target">Drop image here</div>
+  <div class="drop-target"></div>
   <div class="search-bar <%= imageURL ? 'ready' : '' %>">
     <div class="search-bar-content">
       <div class="message-text"></div>
@@ -67,7 +67,7 @@
           />
           <input type="submit" style="display: none" />
           <div class="file">
-            <input type="file" name="files[]" />
+            <input type="file" name="files[]" accept="image/*" />
           </div>
         </form>
 

@@ -461,6 +461,13 @@ dropZone2.addEventListener(
   },
   false
 );
+preview.addEventListener(
+  "dragenter",
+  (e) => {
+    document.querySelector(".drop-effect").classList.add("dropping");
+  },
+  false
+);
 dropZone2.addEventListener(
   "dragenter",
   (e) => {

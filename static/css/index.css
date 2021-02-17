@@ -21,7 +21,6 @@
   right: 0;
   margin-bottom: 160px;
   background: rgba(255, 255, 255, 0);
-  z-index: 10;
   text-align: center;
   font-size: 1.5rem;
   display: flex;
@@ -29,12 +28,16 @@
   justify-content: center;
   color: transparent;
   transition: all 50ms ease-out;
+  backdrop-filter: blur(0);
+  z-index: 0;
 }
 .drop-target.dropping {
   background: rgba(255, 255, 255, 0.7);
   border: 0.5rem dashed #b0c1ff;
   color: #b0c1ff;
   transition: all 50ms ease-out;
+  backdrop-filter: blur(3px);
+  z-index: 100;
 }
 .drop-effect {
   position: absolute;
@@ -49,6 +52,7 @@
   color: transparent;
   transition: all 50ms ease-out;
   backdrop-filter: blur(0);
+  z-index: 0;
 }
 .drop-effect.dropping {
   background: rgba(255, 255, 255, 0.7);
@@ -56,6 +60,7 @@
   color: #597dff;
   transition: all 50ms ease-out;
   backdrop-filter: blur(5px);
+  z-index: 100;
 }
 
 .search-bar {
@@ -248,6 +253,7 @@
   max-width: 960px;
   margin: 4rem auto;
   transition: all 300ms ease-out 200ms;
+  z-index: 10;
 }
 
 .search-image {
@@ -346,7 +352,24 @@
 
 .player-info-pane {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.9) 0,
+        rgba(255, 255, 255, 0.9) 95%,
+        rgba(255, 255, 255, 0) 95%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      0 50%,
+    linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.9) 0,
+        rgba(255, 255, 255, 0.9) 95%,
+        rgba(255, 255, 255, 0) 95%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      50% 0,
+    rgba(255, 255, 255, 0);
+  background-size: 50px 50px;
 }
 
 .player-pane {
@@ -415,12 +438,14 @@
   transition: all 300ms ease-out;
 }
 .info-pane .title {
-  font-size: 1rem;
-  width: 640px;
+  font-size: 1.2rem;
+  width: calc(640px - 3rem);
+  padding: 0.5rem 1.5rem 0 1.5rem;
 }
 .info-pane .subtitle {
   font-size: 0.8rem;
-  width: 640px;
+  width: calc(640px - 3rem);
+  padding: 0 1.5rem 0.5rem 1.5rem;
 }
 .info-pane .divider {
   border-bottom: 1px dashed #b0c1ff;
@@ -430,22 +455,25 @@
   transition: all 300ms ease-out;
 }
 .info-pane .detail {
+  width: 640px;
   display: flex;
   align-items: flex-start;
   align-content: space-around;
   justify-content: space-between;
 }
 .info-pane .table {
+  flex-grow: 1;
   display: block;
-  max-width: 400px;
+  border-spacing: 10px 0;
+  border-collapse: separate;
 }
-.info-pane #table td:first-child {
-  min-width: 60px;
+table td:last-child {
+  width: 100%;
 }
 .info-pane td {
   border-bottom: 1px dotted #cccccc;
   vertical-align: middle;
-  padding: 2px;
+  padding: 0.5rem;
 }
 .info-pane tr:last-child td {
   border-bottom: none;

@@ -154,12 +154,9 @@ const search = async () => {
     result.querySelector(".similarity").innerText = `~${(entry.similarity * 100).toFixed(
       2
     )}% Similarity`;
-    // if (entry.similarity > 0.9 && index < 5) {
     result.querySelector("video").src = `${entry.video}&size=s`;
     result.querySelector("video").poster = `${entry.image}&size=s`;
-    // } else {
-    // result.querySelector("video").style.display = "none";
-    // }
+    result.querySelector("video").muted = true;
 
     const opacity =
       Math.pow(entry.similarity, 4) + 0.3 > 1 ? 1 : Math.pow(entry.similarity, 4) + 0.3;

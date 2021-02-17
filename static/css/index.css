@@ -211,12 +211,12 @@
 }
 .search-bar.ready .anilist-filter,
 .search-bar.ready .cut-borders-btn,
-.search-bar.ready #searchBtn {
+.search-bar.ready .search-btn {
   display: inline-block;
 }
-.search-bar #searchBtn {
+.search-bar .search-btn {
   color: #ffffff;
-  background: #ccd7ff;
+  background: #ffffff;
   border: none;
   box-shadow: 1px 1px 3px #cccccc;
   display: none;
@@ -227,19 +227,19 @@
   transition: all 300ms ease-out;
   outline: 0;
 }
-.search-bar #searchBtn:hover {
-  background: #e4eaff;
+.search-bar .search-btn:hover {
+  background: #f3f5ff;
   box-shadow: 1px 1px 3px #6d8cff;
   transition: all 300ms ease-out;
 }
-.search-bar #searchBtn:active {
+.search-bar .search-btn:active {
   box-shadow: 0 0 1px #6d8cff;
   transform: translate(1px, 1px);
   transition: all 300ms ease-out;
 }
-.search-bar #searchBtn[disabled],
-.search-bar #searchBtn[disabled]:hover,
-.search-bar #searchBtn[disabled]:active {
+.search-bar .search-btn[disabled],
+.search-bar .search-btn[disabled]:hover,
+.search-bar .search-btn[disabled]:active {
   cursor: wait;
   box-shadow: none;
   color: #cccccc;

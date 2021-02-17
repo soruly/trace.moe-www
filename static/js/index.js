@@ -88,7 +88,7 @@ const search = async () => {
   animeInfo = null;
   document.querySelector(".player").pause();
   preview.removeEventListener("click", playPause);
-  document.querySelector("#searchBtn").disabled = true;
+  document.querySelector(".search-btn").disabled = true;
   document.querySelector(".image-url").disabled = true;
 
   document.querySelector(".message-text").innerText = "Searching...";
@@ -110,12 +110,12 @@ const search = async () => {
     body: formData,
   });
 
-  document.querySelector("#searchBtn").disabled = false;
+  document.querySelector(".search-btn").disabled = false;
   document.querySelector(".image-url").disabled = false;
 
   document.querySelector(".loading").style.display = "none";
   document.querySelector(".loader").classList.remove("ripple");
-  document.querySelector("#searchBtn").disabled = false;
+  document.querySelector(".search-btn").disabled = false;
   document.querySelector(".image-url").disabled = false;
 
   if (res.status === 429) {
@@ -205,7 +205,7 @@ const search = async () => {
   }
 };
 
-document.querySelector("#searchBtn").addEventListener("click", search);
+document.querySelector(".search-btn").addEventListener("click", search);
 
 const startLoadImage = (src) => {
   document.querySelector(".search-bar").classList.add("ready");

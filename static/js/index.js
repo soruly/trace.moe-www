@@ -61,7 +61,6 @@ let imgData;
 const search = async () => {
   document.querySelector(".loading").style.display = "block";
   document.querySelector(".loader").classList.add("ripple");
-  document.querySelector(".player-control").style.visibility = "hidden";
   document.querySelector(".sound-btn").classList.remove("icon-volume-up");
   document.querySelector(".sound-btn").classList.remove("icon-volume-off");
   document.querySelector(".sound-btn").classList.add("icon-volume-off");
@@ -267,10 +266,12 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
   document.querySelector(".player").pause();
   window.cancelAnimationFrame(preview_heartbeat);
 
+  document.querySelector(".player-info").style.opacity = 0;
   if (animeInfo !== anilistID) {
     animeInfo = anilistID;
     resetInfo();
     showAnilistInfo(anilistID);
+    document.querySelector(".info-pane").style.maxHeight = "800px";
   }
 
   document.querySelector(".loading").style.display = "block";
@@ -284,7 +285,8 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
     formatTime(timeCode) + "/" + formatTime(duration);
   let left = (parseFloat(timeCode) / parseFloat(duration)) * 640 - 6;
 
-  document.querySelector(".player-control").style.visibility = "visible";
+  document.querySelector(".player-info").style.opacity = 1;
+  document.querySelector(".player-control").style.opacity = 1;
   document.querySelector(".progress-bar-control").style.left = left + "px";
 };
 
@@ -327,7 +329,6 @@ let searchImage = document.createElement("canvas");
 let resetAll = function () {
   preview.width = 640;
   preview.height = 360;
-  document.querySelector(".player-control").style.visibility = "hidden";
   document.querySelector(".sound-btn").classList.remove("icon-volume-up");
   document.querySelector(".sound-btn").classList.remove("icon-volume-off");
   document.querySelector(".sound-btn").classList.add("icon-volume-off");
@@ -570,7 +571,9 @@ function CLIPBOARD_CLASS(canvas_elm) {
 }
 
 let resetInfo = function () {
+  document.querySelector(".player-control").style.opacity = 0;
   document.querySelector(".info-pane").style.opacity = 0;
+  document.querySelector(".info-pane").style.maxHeight = 0;
 };
 
 window.onerror = function (message, source, lineno, colno, error) {

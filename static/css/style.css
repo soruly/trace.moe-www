@@ -79,15 +79,24 @@ a:hover {
   bottom: 0;
   width: 100%;
   height: 160px;
-  background: repeating-linear-gradient(
-        135deg,
+  background: linear-gradient(
+        0deg,
         rgba(255, 255, 255, 0.8) 0,
-        rgba(255, 255, 255, 0.8) 2px,
-        rgba(255, 255, 255, 0.3) 2px,
-        rgba(255, 255, 255, 0.3) 4px
+        rgba(255, 255, 255, 0.8) 70%,
+        rgba(255, 255, 255, 0.2) 70%,
+        rgba(255, 255, 255, 0.2) 100%
       )
-      50% 50%,
+      0 50%,
+    linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.8) 0,
+        rgba(255, 255, 255, 0.8) 70%,
+        rgba(255, 255, 255, 0.2) 70%,
+        rgba(255, 255, 255, 0.2) 100%
+      )
+      50% 0,
     rgba(255, 255, 255, 0);
+  background-size: 15px 15px;
 }
 .footer .container {
   display: flex;

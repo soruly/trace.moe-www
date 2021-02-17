@@ -38,9 +38,9 @@ const displayInfo = (src) => {
     }
   }
   if (src.format) {
-    naturalText += `${src.format} `;
+    naturalText += `${src.format.length > 3 ? src.format.toLowerCase() : src.format} `;
   }
-  naturalText += " Anime. ";
+  naturalText += " anime. ";
 
   let strStartDate =
     src.startDate && src.startDate.year && src.startDate.month && src.startDate.day
@@ -51,6 +51,7 @@ const displayInfo = (src) => {
       ? `${src.endDate.year}-${src.endDate.month}-${src.endDate.day}`
       : null;
 
+  naturalText += "<br>";
   if (strStartDate && strEndDate) {
     if (src.format === "MOVIE") {
       if (strStartDate === strEndDate) {
@@ -70,7 +71,7 @@ const displayInfo = (src) => {
   }
 
   naturalText += ". ";
-  document.querySelector(".info-pane .natural-text").innerText = naturalText;
+  document.querySelector(".info-pane .natural-text").innerHTML = naturalText;
 
   let table = document.createElement("table");
   table.id = "table";

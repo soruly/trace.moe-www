@@ -5,7 +5,7 @@
   bottom: 0;
   right: 0;
   margin-bottom: 160px;
-  background: rgba(255, 255, 255, 0);
+  background: hsla(0, 0%, 100%, 0);
   text-align: center;
   font-size: 1.5rem;
   display: flex;
@@ -17,7 +17,7 @@
   z-index: 1;
 }
 .drop-target.dropping {
-  background: rgba(255, 255, 255, 0.7);
+  background: hsla(0, 0%, 100%, 0.7);
   border: 0.5rem dashed var(--theme-strong-color);
   color: var(--theme-strong-color);
   transition: all 50ms ease-out;
@@ -28,7 +28,7 @@
   position: absolute;
   top: 0;
   width: 630px;
-  background: rgba(255, 255, 255, 0);
+  background: hsla(0, 0%, 100%, 0);
   border: 5px solid transparent;
   text-align: center;
   font-size: 1.5rem;
@@ -41,7 +41,7 @@
   z-index: 0;
 }
 .drop-effect.dropping {
-  background: rgba(255, 255, 255, 0.7);
+  background: hsla(0, 0%, 100%, 0.7);
   border: 5px dashed var(--theme-strong-color);
   color: var(--theme-strong-color);
   transition: all 50ms ease-out;
@@ -99,13 +99,13 @@ body {
   box-shadow: 0 0 20px var(--shadow-color);
   background: repeating-linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.8) 0,
-        rgba(255, 255, 255, 0.8) 2px,
-        rgba(255, 255, 255, 0.3) 2px,
-        rgba(255, 255, 255, 0.3) 4px
+        hsla(0, 0%, 100%, 0.8) 0,
+        hsla(0, 0%, 100%, 0.8) 2px,
+        hsla(0, 0%, 100%, 0.3) 2px,
+        hsla(0, 0%, 100%, 0.3) 4px
       )
       50% 50%,
-    rgba(255, 255, 255, 0);
+    hsla(0, 0%, 100%, 0);
 }
 .search-bar-content {
   max-width: 960px;
@@ -117,7 +117,7 @@ body {
   align-content: space-around;
   justify-content: space-between;
   box-shadow: 0 0 20px var(--shadow-color);
-  background: rgba(255, 255, 255, 0.8);
+  background: hsla(0, 0%, 100%, 0.8);
 }
 .search-bar-content .form-controls {
   margin: 2rem 0 2rem 2rem;
@@ -300,21 +300,21 @@ body {
   justify-content: space-between;
   background: linear-gradient(
         0deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 90%,
-        rgba(255, 255, 255, 0) 90%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 90%,
+        hsla(0, 0%, 100%, 0) 90%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 90%,
-        rgba(255, 255, 255, 0) 90%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 90%,
+        hsla(0, 0%, 100%, 0) 90%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       50% 0,
-    rgba(255, 255, 255, 0);
+    hsla(0, 0%, 100%, 0);
   background-size: 20px 20px;
 }
 .search-image .message-text {
@@ -358,21 +358,21 @@ body {
   opacity: 0;
   background: linear-gradient(
         0deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 90%,
-        rgba(255, 255, 255, 0) 90%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 90%,
+        hsla(0, 0%, 100%, 0) 90%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 90%,
-        rgba(255, 255, 255, 0) 90%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 90%,
+        hsla(0, 0%, 100%, 0) 90%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       50% 0,
-    rgba(255, 255, 255, 0);
+    hsla(0, 0%, 100%, 0);
   background-size: 20px 20px;
 }
 .result:hover {
@@ -445,21 +445,21 @@ body {
   box-shadow: 0 0 20px var(--shadow-color);
   background: linear-gradient(
         0deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 95%,
-        rgba(255, 255, 255, 0) 95%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 95%,
+        hsla(0, 0%, 100%, 0) 95%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.9) 0,
-        rgba(255, 255, 255, 0.9) 95%,
-        rgba(255, 255, 255, 0) 95%,
-        rgba(255, 255, 255, 0) 100%
+        hsla(0, 0%, 100%, 0.9) 0,
+        hsla(0, 0%, 100%, 0.9) 95%,
+        hsla(0, 0%, 100%, 0) 95%,
+        hsla(0, 0%, 100%, 0) 100%
       )
       50% 0,
-    rgba(255, 255, 255, 0);
+    hsla(0, 0%, 100%, 0);
   background-size: 50px 50px;
 }
 

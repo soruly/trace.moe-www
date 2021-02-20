@@ -1,14 +1,14 @@
 :root {
-  --theme-strong-color: #597dff;
-  --theme-main-color: #6d8cff;
-  --theme-weak-color: #b0c1ff;
+  --theme-strong-color: hsl(227, 100%, 60%);
+  --theme-main-color: hsl(227, 100%, 70%);
+  --theme-weak-color: hsl(227, 100%, 85%);
   --text-strong-color: #333333;
   --text-main-color: #666666;
   --text-weak-color: #999999;
   --shadow-color: #cccccc;
   --blank-color: #ffffff;
-  --red-color: #ff5549;
-  --green-color: #4caf50;
+  --red-color: hsl(0, 100%, 66%);
+  --green-color: hsl(120, 100%, 35%);
 }
 
 html {
@@ -37,7 +37,7 @@ body {
         rgba(255, 255, 255, 0) 100%
       )
       0 50%,
-    rgb(220, 220, 255);
+    rgb(210, 210, 255);
   background-size: 80px 80px;
   font-family: Helvetica, Arial, Meiryo, microsoft jhenghei, microsoft yahei, sans-serif;
 }

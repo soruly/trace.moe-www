@@ -411,7 +411,7 @@ body {
   font-size: 0.75rem;
 }
 .result .similarity {
-  color: var(--text-weak-color);
+  color: var(--text-main-color);
   font-size: 0.75rem;
 }
 .result video {

@@ -257,17 +257,17 @@ body {
   line-height: 2.5rem;
   margin: 0.2rem 0 0.2rem 0;
   padding: 0 1.2rem 0 1.2rem;
-  transition: color 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out;
+  transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
   outline: 0;
 }
 .search-bar .search-btn:hover {
   box-shadow: 1px 1px 3px var(--theme-main-color);
-  transition: color 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out;
+  transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
 }
 .search-bar .search-btn:active {
   box-shadow: 0 0 1px var(--theme-main-color);
   transform: translate(1px, 1px);
-  transition: color 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out;
+  transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
 }
 .search-bar .search-btn[disabled],
 .search-bar .search-btn[disabled]:hover,
@@ -276,7 +276,7 @@ body {
   box-shadow: none;
   color: var(--shadow-color);
   background: var(--shadow-color);
-  transition: color 300ms ease-out, box-shadow 300ms ease-out, background 300ms ease-out;
+  transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
 }
 
 .wrap {
@@ -377,16 +377,16 @@ body {
 }
 .result:hover {
   box-shadow: 0 0 10px var(--theme-main-color);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 .result:active {
   box-shadow: 0 0 10px var(--theme-main-color);
   transform: translate(1px, 1px);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 .result.active {
   box-shadow: 0 0 10px var(--theme-main-color);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 .result.hidden {
   display: none;
@@ -428,16 +428,16 @@ body {
   font-size: 0.7rem;
   padding: 0.5rem;
   box-shadow: 1px 1px 3px var(--shadow-color);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 .result-list button:hover {
   box-shadow: 1px 1px 5px var(--theme-main-color);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 .result-list button:active {
   box-shadow: 0 0 2px var(--theme-main-color);
   transform: translate(1px, 1px);
-  transition: all 300ms ease-out;
+  transition: all 100ms ease-out;
 }
 
 .player-info-pane {

@@ -67,7 +67,7 @@ body {
   top: -3rem;
   text-align: center;
   font-size: 0.9rem;
-  color: #666666;
+  color: #999999;
 }
 .search-bar.ready .greet {
   display: none;
@@ -75,13 +75,7 @@ body {
 .search-bar .logo {
   width: 300px;
   display: none;
-  color: #a898ff;
-  text-shadow: 1px 1px 5px #cccccc;
-  transition: all 300ms ease-out;
-}
-.search-bar .logo:hover {
-  color: #c4ceff;
-  transition: all 300ms ease-out;
+  color: #999999;
 }
 .search-bar.ready .logo {
   display: block;

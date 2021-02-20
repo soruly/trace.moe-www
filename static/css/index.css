@@ -1,3 +1,32 @@
+:root {
+  --bar-main-color: hsla(0, 0%, 100%, 0);
+  --bar-draw-color: hsla(0, 0%, 100%, 0.8);
+  --bar-line-color: hsla(0, 0%, 100%, 0.3);
+  --result-main-color: hsla(0, 0%, 100%, 0);
+  --result-draw-color: hsla(0, 0%, 100%, 0.9);
+  --result-line-color: hsla(0, 0%, 100%, 0);
+  --info-main-color: hsla(0, 0%, 100%, 0);
+  --info-draw-color: hsla(0, 0%, 100%, 0.9);
+  --info-line-color: hsla(0, 0%, 100%, 0);
+  --drop-bg-color: hsla(0, 0%, 100%, 0);
+  --drop-main-color: hsla(0, 0%, 100%, 0.7);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bar-main-color: hsla(0, 0%, 100%, 0);
+    --bar-draw-color: hsla(0, 0%, 15%, 0.8);
+    --bar-line-color: hsla(0, 0%, 15%, 0.3);
+    --result-main-color: hsla(0, 0%, 100%, 0);
+    --result-draw-color: hsla(0, 0%, 15%, 0.9);
+    --result-line-color: hsla(0, 0%, 100%, 0);
+    --info-main-color: hsla(0, 0%, 100%, 0);
+    --info-draw-color: hsla(0, 0%, 15%, 0.9);
+    --info-line-color: hsla(0, 0%, 100%, 0);
+    --drop-bg-color: hsla(0, 0%, 100%, 0);
+    --drop-main-color: hsla(0, 0%, 100%, 0.7);
+  }
+}
+
 .drop-target {
   position: absolute;
   top: 0;
@@ -5,7 +34,7 @@
   bottom: 0;
   right: 0;
   margin-bottom: 160px;
-  background: hsla(0, 0%, 100%, 0);
+  background: var(--drop-bg-color);
   text-align: center;
   font-size: 1.5rem;
   display: flex;
@@ -17,7 +46,7 @@
   z-index: 1;
 }
 .drop-target.dropping {
-  background: hsla(0, 0%, 100%, 0.7);
+  background: var(--drop-main-color);
   border: 0.5rem dashed var(--theme-strong-color);
   color: var(--theme-strong-color);
   transition: all 50ms ease-out;
@@ -28,7 +57,7 @@
   position: absolute;
   top: 0;
   width: 630px;
-  background: hsla(0, 0%, 100%, 0);
+  background: var(--drop-bg-color);
   border: 5px solid transparent;
   text-align: center;
   font-size: 1.5rem;
@@ -41,7 +70,7 @@
   z-index: 0;
 }
 .drop-effect.dropping {
-  background: hsla(0, 0%, 100%, 0.7);
+  background: var(--drop-main-color);
   border: 5px dashed var(--theme-strong-color);
   color: var(--theme-strong-color);
   transition: all 50ms ease-out;
@@ -99,13 +128,13 @@ body {
   box-shadow: 0 0 20px var(--shadow-color);
   background: repeating-linear-gradient(
         135deg,
-        hsla(0, 0%, 100%, 0.8) 0,
-        hsla(0, 0%, 100%, 0.8) 2px,
-        hsla(0, 0%, 100%, 0.3) 2px,
-        hsla(0, 0%, 100%, 0.3) 4px
+        var(--bar-draw-color) 0,
+        var(--bar-draw-color) 2px,
+        var(--bar-line-color) 2px,
+        var(--bar-line-color) 4px
       )
       50% 50%,
-    hsla(0, 0%, 100%, 0);
+    var(--bar-main-color);
 }
 .search-bar-content {
   max-width: 960px;
@@ -117,7 +146,7 @@ body {
   align-content: space-around;
   justify-content: space-between;
   box-shadow: 0 0 20px var(--shadow-color);
-  background: hsla(0, 0%, 100%, 0.8);
+  background: var(--bar-draw-color);
 }
 .search-bar-content .form-controls {
   margin: 2rem 0 2rem 2rem;
@@ -144,6 +173,7 @@ body {
   font-size: 0.75rem;
   vertical-align: bottom;
   outline: 0;
+  background: var(--blank-color);
   border: 1px solid var(--theme-weak-color);
   border-radius: 3px;
   transition: box-shadow 100ms ease-out;
@@ -300,21 +330,21 @@ body {
   justify-content: space-between;
   background: linear-gradient(
         0deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 90%,
-        hsla(0, 0%, 100%, 0) 90%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 90%,
-        hsla(0, 0%, 100%, 0) 90%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
       )
       50% 0,
-    hsla(0, 0%, 100%, 0);
+    var(--result-main-color);
   background-size: 20px 20px;
 }
 .search-image .message-text {
@@ -358,21 +388,21 @@ body {
   opacity: 0;
   background: linear-gradient(
         0deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 90%,
-        hsla(0, 0%, 100%, 0) 90%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 90%,
-        hsla(0, 0%, 100%, 0) 90%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
       )
       50% 0,
-    hsla(0, 0%, 100%, 0);
+    var(--result-main-color);
   background-size: 20px 20px;
 }
 .result:hover {
@@ -445,21 +475,21 @@ body {
   box-shadow: 0 0 20px var(--shadow-color);
   background: linear-gradient(
         0deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 95%,
-        hsla(0, 0%, 100%, 0) 95%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--info-draw-color) 0,
+        var(--info-draw-color) 95%,
+        var(--info-line-color) 95%,
+        var(--info-line-color) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        hsla(0, 0%, 100%, 0.9) 0,
-        hsla(0, 0%, 100%, 0.9) 95%,
-        hsla(0, 0%, 100%, 0) 95%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--info-draw-color) 0,
+        var(--info-draw-color) 95%,
+        var(--info-line-color) 95%,
+        var(--info-line-color) 100%
       )
       50% 0,
-    hsla(0, 0%, 100%, 0);
+    var(--info-main-color);
   background-size: 50px 50px;
 }
 
@@ -641,7 +671,4 @@ table td:last-child {
 }
 .spinning {
   animation: spin 2s infinite linear;
-}
-
-@media (prefers-color-scheme: dark) {
 }

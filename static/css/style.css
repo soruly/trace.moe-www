@@ -9,6 +9,33 @@
   --blank-color: hsl(0, 0%, 100%);
   --red-color: hsl(0, 100%, 66%);
   --green-color: hsl(120, 100%, 35%);
+  --bg-main-color: hsla(240, 100%, 91%, 1);
+  --bg-draw-color: hsla(240, 33%, 97%, 0.9);
+  --bg-line-color: hsla(0, 0%, 100%, 0);
+  --footer-main-color: hsla(0, 0%, 100%, 0);
+  --footer-draw-color: hsla(0, 0%, 100%, 0.8);
+  --footer-line-color: hsla(0, 0%, 100%, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-strong-color: hsl(227, 100%, 80%);
+    --theme-main-color: hsl(227, 100%, 80%);
+    --theme-weak-color: hsl(227, 35%, 35%);
+    --text-strong-color: hsl(0, 0%, 80%);
+    --text-main-color: hsl(0, 0%, 75%);
+    --text-weak-color: hsl(0, 0%, 50%);
+    --shadow-color: hsl(0, 0%, 25%);
+    --blank-color: hsl(0, 0%, 10%);
+    --red-color: hsl(0, 100%, 66%);
+    --green-color: hsl(120, 100%, 35%);
+    --bg-main-color: hsla(240, 30%, 30%, 1);
+    --bg-draw-color: hsla(0, 0%, 10%, 0.9);
+    --bg-line-color: hsla(0, 0%, 100%, 0);
+    --footer-main-color: hsla(0, 0%, 0%, 0);
+    --footer-draw-color: hsla(0, 0%, 15%, 0.8);
+    --footer-line-color: hsla(0, 0%, 15%, 0.2);
+  }
 }
 
 html {
@@ -23,21 +50,21 @@ body {
   overflow-y: scroll;
   background: linear-gradient(
         90deg,
-        hsla(240, 33%, 97%, 0.9) 0%,
-        hsla(240, 33%, 97%, 0.9) 98%,
-        hsla(0, 0%, 100%, 0) 98%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--bg-draw-color) 0%,
+        var(--bg-draw-color) 98%,
+        var(--bg-line-color) 98%,
+        var(--bg-line-color) 100%
       )
       50% 0,
     linear-gradient(
         0deg,
-        hsla(240, 33%, 97%, 0.9) 0%,
-        hsla(240, 33%, 97%, 0.9) 98%,
-        hsla(0, 0%, 100%, 0) 98%,
-        hsla(0, 0%, 100%, 0) 100%
+        var(--bg-draw-color) 0%,
+        var(--bg-draw-color) 98%,
+        var(--bg-line-color) 98%,
+        var(--bg-line-color) 100%
       )
       0 50%,
-    hsla(240, 100%, 91%, 1);
+    var(--bg-main-color);
   background-size: 80px 80px;
   font-family: Helvetica, Arial, Meiryo, microsoft jhenghei, microsoft yahei, sans-serif;
 }
@@ -95,21 +122,21 @@ a:hover {
   height: 160px;
   background: linear-gradient(
         0deg,
-        hsla(0, 0%, 100%, 0.8) 0,
-        hsla(0, 0%, 100%, 0.8) 70%,
-        hsla(0, 0%, 100%, 0.2) 70%,
-        hsla(0, 0%, 100%, 0.2) 100%
+        var(--footer-draw-color) 0,
+        var(--footer-draw-color) 70%,
+        var(--footer-line-color) 70%,
+        var(--footer-line-color) 100%
       )
       0 50%,
     linear-gradient(
         90deg,
-        hsla(0, 0%, 100%, 0.8) 0,
-        hsla(0, 0%, 100%, 0.8) 70%,
-        hsla(0, 0%, 100%, 0.2) 70%,
-        hsla(0, 0%, 100%, 0.2) 100%
+        var(--footer-draw-color) 0,
+        var(--footer-draw-color) 70%,
+        var(--footer-line-color) 70%,
+        var(--footer-line-color) 100%
       )
       50% 0,
-    hsla(0, 0%, 100%, 0);
+    var(--footer-main-color);
   background-size: 15px 15px;
 }
 .footer .container {
@@ -141,7 +168,4 @@ a:hover {
   .footer .container {
     flex-wrap: wrap;
   }
-}
-
-@media (prefers-color-scheme: dark) {
 }

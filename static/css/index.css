@@ -47,8 +47,8 @@
 }
 .drop-target.dropping {
   background: var(--drop-main-color);
-  border: 0.5rem dashed var(--theme-strong-color);
-  color: var(--theme-strong-color);
+  border: 0.5rem dashed var(--theme-main-color);
+  color: var(--theme-main-color);
   transition: all 50ms ease-out;
   backdrop-filter: blur(3px);
   z-index: 100;
@@ -71,8 +71,8 @@
 }
 .drop-effect.dropping {
   background: var(--drop-main-color);
-  border: 5px dashed var(--theme-strong-color);
-  color: var(--theme-strong-color);
+  border: 5px dashed var(--theme-main-color);
+  color: var(--theme-main-color);
   transition: all 50ms ease-out;
   backdrop-filter: blur(5px);
   z-index: 100;
@@ -291,11 +291,11 @@ body {
   outline: 0;
 }
 .search-bar .search-btn:hover {
-  box-shadow: 1px 1px 3px var(--theme-main-color);
+  box-shadow: 1px 1px 3px var(--theme-weak-color);
   transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
 }
 .search-bar .search-btn:active {
-  box-shadow: 0 0 1px var(--theme-main-color);
+  box-shadow: 0 0 1px var(--theme-weak-color);
   transform: translate(1px, 1px);
   transition: color 100ms ease-out, box-shadow 100ms ease-out, background 100ms ease-out;
 }
@@ -540,20 +540,20 @@ body {
   opacity: 0;
   position: relative;
   height: 1rem;
-  border-top: 1px dashed var(--theme-weak-color);
+  border-top: 1px dashed var(--theme-main-color);
   transition: all 300ms ease-out;
 }
 .player-pane .progress-bar-control {
   font-size: 0.7rem;
   position: absolute;
-  color: var(--theme-weak-color);
+  color: var(--theme-main-color);
   transition: all 500ms cubic-bezier(0.19, 1.37, 0.57, 1);
 }
 .player-pane .sound-btn {
   position: absolute;
   top: -1.1rem;
   right: 0;
-  font-size: 0.8rem;
+  font-size: 1rem;
   width: 1rem;
   cursor: pointer;
 }
@@ -584,7 +584,7 @@ body {
   border-left: 3px double var(--theme-strong-color);
 }
 .info-pane .divider {
-  border-bottom: 1px dashed var(--theme-strong-color);
+  border-bottom: 1px dashed var(--theme-weak-color);
 }
 .info-pane .poster img {
   opacity: 0;
@@ -634,7 +634,7 @@ table td:last-child {
     height: 30vh;
     overflow-y: scroll;
     padding: 0 20px 0 20px;
-    border-bottom: 1px dashed var(--theme-main-color);
+    border-bottom: 1px dashed var(--theme-weak-color);
     margin-bottom: 1rem;
   }
 }

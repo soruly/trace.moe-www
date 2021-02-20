@@ -19,8 +19,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --theme-strong-color: hsl(227, 100%, 80%);
-    --theme-main-color: hsl(227, 100%, 80%);
+    --theme-strong-color: hsl(227, 100%, 85%);
+    --theme-main-color: hsl(227, 100%, 75%);
     --theme-weak-color: hsl(227, 35%, 35%);
     --text-strong-color: hsl(0, 0%, 80%);
     --text-main-color: hsl(0, 0%, 75%);

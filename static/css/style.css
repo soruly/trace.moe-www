@@ -1,3 +1,16 @@
+:root {
+  --theme-strong-color: #597dff;
+  --theme-main-color: #6d8cff;
+  --theme-weak-color: #b0c1ff;
+  --text-strong-color: #333333;
+  --text-main-color: #666666;
+  --text-weak-color: #999999;
+  --shadow-color: #cccccc;
+  --blank-color: #ffffff;
+  --red-color: #ff5549;
+  --green-color: #4caf50;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -31,7 +44,7 @@ body {
 
 a,
 a:hover {
-  color: #006cca;
+  color: var(--theme-main-color);
 }
 a {
   text-decoration: none;
@@ -50,8 +63,8 @@ a:hover {
   padding: 1rem;
   font-size: 0.9rem;
   line-height: 1.2rem;
-  text-shadow: 1px 1px 3px #cccccc;
-  color: #333333;
+  text-shadow: 1px 1px 3px var(--shadow-color);
+  color: var(--text-strong-color);
 }
 .page-header {
   font-size: 1.5rem;
@@ -64,7 +77,7 @@ a:hover {
 .section-header {
   font-size: 1.1rem;
   line-height: 1.5rem;
-  border-bottom: 2px dashed #b0c1ff;
+  border-bottom: 2px dashed var(--theme-weak-color);
   text-align: left;
 }
 .section-item {
@@ -75,6 +88,7 @@ a:hover {
 }
 
 .footer {
+  color: var(--text-main-color);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -111,7 +125,7 @@ a:hover {
 .footer .section-header {
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
-  border-bottom: 1px dashed #b0c1ff;
+  border-bottom: 1px dashed var(--theme-weak-color);
 }
 .footer .section-item {
   line-height: 1.2rem;

@@ -100,6 +100,7 @@ const search = async () => {
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
+    "info=basic",
     document.querySelector(".cut-borders-btn .icon").classList.contains("icon-check")
       ? "cutBorders=1"
       : "cutBorders=",

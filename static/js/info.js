@@ -1,9 +1,8 @@
-const showAnilistInfo = async (anilistID) => {
+const showAnilistInfo = async (anilist) => {
   document.querySelector(".info-pane").style.opacity = 0;
   document.querySelector(".info-pane .poster a img").style.opacity = 0;
-  const data = await (await fetch(`https://api.trace.moe/info/${anilistID}`)).json();
-
-  displayInfo(data);
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  displayInfo(anilist);
   document.querySelector(".info-pane").style.opacity = 1;
 };
 

@@ -100,7 +100,7 @@ const search = async () => {
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
-    "info=basic",
+    "info=advanced",
     document.querySelector(".cut-borders-btn .icon").classList.contains("icon-check")
       ? "cutBorders=1"
       : "cutBorders=",
@@ -178,7 +178,7 @@ const search = async () => {
     // result.style.opacity = opacity > 1 ? 1 : opacity;
 
     result.addEventListener("click", (e) => {
-      playfile(result, entry.video, entry.filename, entry.anilist.id, entry.from);
+      playfile(result, entry.video, entry.filename, entry.anilist, entry.from);
     });
 
     document.querySelector(".result-list").appendChild(result);
@@ -274,7 +274,7 @@ preview.addEventListener("contextmenu", function (e) {
 let preview_heartbeat;
 let time;
 let animeInfo = null;
-let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
+let playfile = async (target, videoURL, fileName, anilist, timeCode) => {
   [].forEach.call(document.querySelectorAll(".result"), function (result) {
     result.classList.remove("active");
   });
@@ -284,10 +284,10 @@ let playfile = async (target, videoURL, fileName, anilistID, timeCode) => {
   window.cancelAnimationFrame(preview_heartbeat);
 
   document.querySelector(".player-info").style.opacity = 0;
-  if (animeInfo !== anilistID) {
-    animeInfo = anilistID;
+  if (animeInfo !== anilist.id) {
+    animeInfo = anilist.id;
     resetInfo();
-    showAnilistInfo(anilistID);
+    showAnilistInfo(anilist);
     document.querySelector(".player-info").style.display = "flex";
     document.querySelector(".player-control").style.display = "block";
     document.querySelector(".info-pane").style.maxHeight = "800px";

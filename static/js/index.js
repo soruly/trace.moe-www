@@ -128,8 +128,8 @@ const search = async () => {
       "You searched too many times, please try again later.";
     return;
   }
-  if (res.status !== 200) {
-    document.querySelector(".message-text").innerText = "Failed to connect server.";
+  if (res.status >= 400) {
+    document.querySelector(".message-text").innerText = (await res.json()).error;
     return;
   }
   const { frameCount, result } = await res.json();

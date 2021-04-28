@@ -113,6 +113,9 @@ a:hover {
 .page ol {
   padding-inline-start: 1rem;
 }
+.graphControl {
+  text-align: center;
+}
 
 .footer {
   color: var(--text-main-color);

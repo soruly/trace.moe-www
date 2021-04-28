@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include('header', {title: 'About'}); %>
+  <script src="/js/chart.min.js?<%=rev%>" defer></script>
   <script src="/js/status.js?<%=rev%>" defer></script>
   <div class="container page">
     <div class="page-header">About</div>
@@ -54,6 +55,20 @@
       </p>
       <p>Last Database Update: <span id="lastUpdate"></span></p>
       <p>Database Index Size: <span id="dbSize"></span></p>
+
+      <canvas id="trafficGraph" width="680" height="400"></canvas>
+      <p class="graphControl">
+        <button class="traffic-btn">hourly</button>
+        <button class="traffic-btn">daily</button>
+        <button class="traffic-btn">monthly</button>
+      </p>
+
+      <canvas id="perfGraph" width="680" height="400"></canvas>
+      <p class="graphControl">
+        <button class="perf-btn">hourly</button>
+        <button class="perf-btn">daily</button>
+        <button class="perf-btn">monthly</button>
+      </p>
     </div>
 
     <div class="section">

@@ -107,6 +107,11 @@ app.get("/terms", (req, res) => {
   res.render("terms", { rev });
 });
 
+app.get("/account", (req, res) => {
+  res.header("Link", pushAssets);
+  res.render("account", { rev });
+});
+
 app.use(express.static(path.resolve("static")));
 
 app.listen(SERVER_PORT, SERVER_ADDR, () =>

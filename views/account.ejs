@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('header', {title: 'Account'}); %>
+  <link href="/css/account.css?<%=rev%>" rel="stylesheet" />
+  <script src="/js/account.js?<%=rev%>" defer></script>
+  <div class="container page">
+    <div class="page-header">Account</div>
+
+    <div class="box account-info">
+      <div class="title">Account Info</div>
+      <div class="body">
+        <table class="table">
+          <tr>
+            <td>Account ID</td>
+            <td id="account-id"></td>
+          </tr>
+          <tr>
+            <td>Account Type</td>
+            <td id="account-type"></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td id="account-email"></td>
+          </tr>
+          <tr>
+            <td>Search Quota<br />(Monthly)</td>
+            <td>
+              <div id="account-quota"></div>
+              <svg width="100%" height="8">
+                <rect x="0" y="0" width="100%" height="8" class="meter-bg"></rect>
+                <rect x="0" y="0" width="0%" height="8" class="meter-fg"></rect>
+              </svg>
+            </td>
+          </tr>
+          <tr>
+            <td>Rate Limit</td>
+            <td id="account-rate-limit"></td>
+          </tr>
+          <tr>
+            <td>Concurrency Limit</td>
+            <td id="account-concurrency-limit"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <%- include('footer'); %>
+</html>

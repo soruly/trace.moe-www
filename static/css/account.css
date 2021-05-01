@@ -1,0 +1,55 @@
+.hidden {
+  display: none;
+}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-around;
+  justify-content: space-between;
+  text-shadow: 1px 1px 5px var(--shadow-color);
+  margin: 0.5rem 0 0.5rem 0;
+  transition: all 300ms ease-out;
+  box-shadow: 0 0 20px var(--shadow-color);
+  background-color: var(--blank-color);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+.box .title {
+  color: var(--theme-strong-color);
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px dashed var(--theme-weak-color);
+}
+.box .body {
+  padding: 0.5rem 1rem;
+  line-height: 1.5rem;
+  width: 100%;
+}
+.table {
+  flex-grow: 1;
+  display: block;
+  border-spacing: 0.5rem 0;
+  border-collapse: separate;
+  white-space: nowrap;
+}
+.table td:last-child {
+  width: 100%;
+}
+.table td {
+  border-bottom: 1px dotted var(--shadow-color);
+  vertical-align: middle;
+  padding: 0.3rem 0;
+}
+
+.account-info {
+  opacity: 0;
+}
+.meter-bg {
+  fill: var(--shadow-color);
+}
+.meter-fg {
+  fill: var(--theme-main-color);
+}

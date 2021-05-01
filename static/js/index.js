@@ -100,7 +100,6 @@ const search = async () => {
   const formData = new FormData();
   formData.append("image", imgData);
   const queryString = [
-    "info=advanced",
     document.querySelector(".cut-borders-btn .icon").classList.contains("icon-check")
       ? "cutBorders=1"
       : "cutBorders=",
@@ -112,16 +111,6 @@ const search = async () => {
     method: "POST",
     body: formData,
   });
-
-  document.querySelector(".search-btn").disabled = false;
-  document.querySelector(".image-url").disabled = false;
-  document.querySelector(".anilist-filter").disabled = false;
-
-  document.querySelector(".loading").style.display = "none";
-  document.querySelector(".loader").classList.remove("ripple");
-  document.querySelector(".search-btn").disabled = false;
-  document.querySelector(".image-url").disabled = false;
-  document.querySelector(".anilist-filter").disabled = false;
 
   if (res.status === 429) {
     document.querySelector(".message-text").innerText =
@@ -145,8 +134,85 @@ const search = async () => {
     document.querySelector(".message-text").innerText = "Cannot find any result";
     return;
   }
+  const topResults = result.slice(0, 5);
 
-  result.slice(0, 5).forEach((entry, index) => {
+  const response = await fetch("/anilist/", {
+    method: "POST",
+    body: JSON.stringify({
+      query: `query ($ids: [Int]) {
+          Page(page: 1, perPage: 50) {
+            media(id_in: $ids, type: ANIME) {
+              id
+              title {
+                native
+                romaji
+                english
+              }
+              type
+              format
+              status
+              startDate {
+                year
+                month
+                day
+              }
+              endDate {
+                year
+                month
+                day
+              }
+              season
+              episodes
+              duration
+              source
+              coverImage {
+                large
+                medium
+              }
+              bannerImage
+              genres
+              synonyms
+              studios {
+                edges {
+                  isMain
+                  node {
+                    id
+                    name
+                    siteUrl
+                  }
+                }
+              }
+              isAdult
+              externalLinks {
+                id
+                url
+                site
+              }
+              siteUrl
+            }
+          }
+        }
+        `,
+      variables: { ids: topResults.map((e) => e.anilist) },
+    }),
+    headers: { "Content-Type": "application/json" },
+  }).catch((e) => {
+    document.querySelector(".message-text").innerText =
+      "Failed to get Anilist info, please try again later.";
+  });
+  if (response.status >= 400) {
+    document.querySelector(".message-text").innerText =
+      "Failed to get Anilist info, please try again later.";
+    return;
+  }
+  const anilistData = (await response.json()).data.Page.media;
+
+  const topResultsWithAnlist = topResults.map((entry) => {
+    entry.anilist = anilistData.find((e) => e.id === entry.anilist);
+    return entry;
+  });
+
+  topResultsWithAnlist.forEach((entry, index) => {
     const result = document.querySelector("#template").content.firstElementChild.cloneNode(true);
 
     result.classList.add("result");
@@ -188,14 +254,14 @@ const search = async () => {
     // result.style.opacity = opacity > 1 ? 1 : opacity;
   });
 
-  if (result.slice(0, 5).find((e) => e.anilist.isAdult)) {
+  if (topResultsWithAnlist.find((e) => e.anilist.isAdult)) {
     const nswfMsg = document.createElement("div");
     nswfMsg.style.textAlign = "center";
     const showNSFWBtn = document.createElement("button");
     showNSFWBtn.type = "button";
     showNSFWBtn.classList.add("btn", "btn-default", "btn-sm", "btn-primary");
     showNSFWBtn.innerText = `Click here to show ${
-      result.slice(0, 5).filter((e) => e.anilist.isAdult).length
+      topResultsWithAnlist.filter((e) => e.anilist.isAdult).length
     } NSFW results`;
     showNSFWBtn.addEventListener("click", () => {
       document.querySelectorAll(".result.hidden").forEach((e) => e.classList.remove("hidden"));
@@ -210,7 +276,14 @@ const search = async () => {
   }
 };
 
-document.querySelector(".search-btn").addEventListener("click", search);
+document.querySelector(".search-btn").addEventListener("click", async () => {
+  await search();
+  document.querySelector(".loading").style.display = "none";
+  document.querySelector(".loader").classList.remove("ripple");
+  document.querySelector(".search-btn").disabled = false;
+  document.querySelector(".image-url").disabled = false;
+  document.querySelector(".anilist-filter").disabled = false;
+});
 
 const startLoadImage = (src) => {
   document.querySelector(".search-bar").classList.add("ready");
@@ -400,9 +473,14 @@ let prepareSearchImage = function () {
   preview.getContext("2d").drawImage(searchImage, 0, 0, searchImage.width, searchImage.height);
 
   searchImage.toBlob(
-    function (blob) {
+    async function (blob) {
       imgData = blob;
-      search();
+      await search();
+      document.querySelector(".loading").style.display = "none";
+      document.querySelector(".loader").classList.remove("ripple");
+      document.querySelector(".search-btn").disabled = false;
+      document.querySelector(".image-url").disabled = false;
+      document.querySelector(".anilist-filter").disabled = false;
     },
     "image/jpeg",
     80

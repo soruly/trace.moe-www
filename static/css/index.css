@@ -619,7 +619,7 @@ table td:last-child {
   font-size: 0.6rem;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 960px) {
   .search-bar.ready .logo {
     display: none;
   }

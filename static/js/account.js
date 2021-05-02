@@ -7,7 +7,6 @@ const renderPage = async (e) => {
   document.querySelector(".account-concurrency-limit").innerText = "...";
   document.querySelector(".meter-fg").setAttribute("width", "0%");
   let apiKey = localStorage.getItem("apiKey");
-  await new Promise((resolve) => setTimeout(resolve, 500));
   let res = await fetch(`https://api.trace.moe/me${apiKey ? `?key=${apiKey}` : ""}`);
   if (res.status >= 400) {
     localStorage.removeItem("apiKey");
@@ -59,14 +58,21 @@ document.querySelector(".login form").onsubmit = async (e) => {
   const email = document.querySelector("#email").value;
   const password = document.querySelector("#password").value;
   document.querySelector("#login-label").innerText = "Logging in...";
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  if (Math.random() > 0.5) {
-    localStorage.setItem("apiKey", "xxxxxxxxxxxxxxxxxxxxxxxxx");
+  const res = await fetch("https://api.trace.moe/user/login", {
+    method: "POST",
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+  if (res.status >= 400) {
+    document.querySelector("#login-label").innerText = (await res.json()).error;
+    document.querySelector("#login-label").classList.add("error");
+  } else {
+    localStorage.setItem("apiKey", (await res.json()).key);
     await renderPage();
     document.querySelector("#login-label").innerText = "";
-  } else {
-    document.querySelector("#login-label").innerText = "Invalid Email / Wrong Password";
-    document.querySelector("#login-label").classList.add("error");
   }
 
   document.querySelectorAll(".login form input").forEach((e) => {
@@ -89,12 +95,18 @@ document.querySelector(".security form").onsubmit = async (e) => {
   document.querySelector("#password-label").classList.remove("error");
   document.querySelector("#password-label").innerText = "";
   const password = document.querySelector("#new-password").value;
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  if (Math.random() > 0.5) {
-    document.querySelector("#password-label").innerText = "Password has changed successfully.";
-  } else {
-    document.querySelector("#password-label").innerText = "Something went wrong";
+  const res = await fetch("https://api.trace.moe/user/reset-password", {
+    method: "POST",
+    body: JSON.stringify({
+      password,
+    }),
+    headers: { "Content-Type": "application/json", "x-trace-key": localStorage.getItem("apiKey") },
+  });
+  if (res.status >= 400) {
+    document.querySelector("#password-label").innerText = (await res.json()).error;
     document.querySelector("#password-label").classList.add("error");
+  } else {
+    document.querySelector("#password-label").innerText = "Password has changed successfully.";
   }
   document.querySelector("#new-password").value = "";
   document.querySelectorAll(".security form input").forEach((e) => {
@@ -110,12 +122,17 @@ document.querySelector(".developer form").onsubmit = async (e) => {
   document.querySelector("#api-key-label").classList.remove("error");
   document.querySelector("#api-key-label").innerText = "";
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  if (Math.random() > 0.5) {
-    document.querySelector("#api-key-label").innerText = "API Key has been reset.";
-  } else {
-    document.querySelector("#api-key-label").innerText = "Something went wrong";
+  const res = await fetch("https://api.trace.moe/user/reset-key", {
+    headers: { "x-trace-key": localStorage.getItem("apiKey") },
+  });
+  if (res.status >= 400) {
+    document.querySelector("#api-key-label").innerText = (await res.json()).error;
     document.querySelector("#api-key-label").classList.add("error");
+  } else {
+    const newApiKey = (await res.json()).key;
+    localStorage.setItem("apiKey", newApiKey);
+    document.querySelector("#api-key").value = newApiKey;
+    document.querySelector("#api-key-label").innerText = "API Key has been reset.";
   }
   document.querySelectorAll(".developer form input").forEach((e) => {
     e.disabled = false;

@@ -1,4 +1,7 @@
-.hidden {
+.error {
+  color: var(--red-color);
+}
+.box.hidden {
   display: none;
 }
 .box {
@@ -9,7 +12,6 @@
   justify-content: space-between;
   text-shadow: 1px 1px 5px var(--shadow-color);
   margin: 0.5rem 0 0.5rem 0;
-  transition: all 300ms ease-out;
   box-shadow: 0 0 20px var(--shadow-color);
   background-color: var(--blank-color);
   border-radius: 0.5rem;
@@ -33,6 +35,9 @@
   display: block;
   border-spacing: 0.5rem 0;
   border-collapse: separate;
+}
+.table td:first-child {
+  min-width: 120px;
   white-space: nowrap;
 }
 .table td:last-child {
@@ -43,13 +48,60 @@
   vertical-align: middle;
   padding: 0.3rem 0;
 }
-
-.account-info {
-  opacity: 0;
+.table tr:first-child td {
+  border-top: 1px dotted var(--shadow-color);
 }
+.body > form > div {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.3rem 0.5rem;
+  align-items: center;
+}
+table td > div {
+  display: flex;
+}
+.body > form > div > div {
+  padding: 0 0.5rem;
+}
+table td input[type="text"],
+table td input[type="email"],
+table td input[type="password"] {
+  flex-grow: 1;
+}
+
 .meter-bg {
   fill: var(--shadow-color);
 }
 .meter-fg {
   fill: var(--theme-main-color);
+}
+
+input,
+button {
+  padding: 0 0.5rem 0 0.5rem;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
+  vertical-align: bottom;
+  outline: 0;
+  color: var(--text-strong-color);
+  background: var(--blank-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 3px;
+  transition: box-shadow 100ms ease-out;
+}
+input[type="submit"],
+button {
+  color: var(--blank-color);
+  background: var(--theme-main-color);
+}
+
+input:focus,
+button:focus {
+  box-shadow: 0 0 10px var(--theme-weak-color);
+  border: 1px solid var(--theme-weak-color);
+}
+input[disabled],
+button[disabled] {
+  background-color: var(--shadow-color);
+  border-color: var(--shadow-color);
 }

@@ -171,4 +171,19 @@ a:hover {
   .footer .container {
     flex-wrap: wrap;
   }
+  .section {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 350px) {
+  body {
+    margin-bottom: 600px;
+  }
+  .footer {
+    height: 600px;
+  }
+  .section {
+    min-width: 250px;
+  }
 }

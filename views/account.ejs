@@ -6,26 +6,26 @@
   <div class="container page">
     <div class="page-header">Account</div>
 
-    <div class="box account-info">
+    <div class="box account-info loading">
       <div class="title">Account Info</div>
       <div class="body">
         <table class="table">
           <tr>
             <td>Account ID</td>
-            <td id="account-id"></td>
+            <td class="account-id"></td>
           </tr>
           <tr>
             <td>Account Type</td>
-            <td id="account-type"></td>
+            <td class="account-type"></td>
           </tr>
           <tr>
             <td>Email</td>
-            <td id="account-email"></td>
+            <td class="account-email"></td>
           </tr>
           <tr>
             <td>Search Quota<br />(Monthly)</td>
             <td>
-              <div id="account-quota"></div>
+              <div class="account-quota"></div>
               <svg width="100%" height="8">
                 <rect x="0" y="0" width="100%" height="8" class="meter-bg"></rect>
                 <rect x="0" y="0" width="0%" height="8" class="meter-fg"></rect>
@@ -34,13 +34,110 @@
           </tr>
           <tr>
             <td>Rate Limit</td>
-            <td id="account-rate-limit"></td>
+            <td class="account-rate-limit"></td>
           </tr>
           <tr>
             <td>Concurrency Limit</td>
-            <td id="account-concurrency-limit"></td>
+            <td class="account-concurrency-limit"></td>
           </tr>
         </table>
+      </div>
+    </div>
+    <div class="box login hidden">
+      <div class="title">Login</div>
+      <div class="body">
+        <form>
+          <table class="table">
+            <tr>
+              <td><label for="email">User ID: </label></td>
+              <td>
+                <div>
+                  <input id="email" type="email" size="1" placeholder="email address" required />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="password">Password: </label></td>
+              <td>
+                <div>
+                  <input
+                    id="password"
+                    type="password"
+                    size="1"
+                    placeholder="password"
+                    minlength="8"
+                    autocomplete="current-password"
+                    required
+                  />
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div>
+            <div id="login-label"></div>
+            <input type="submit" value="Login" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box logout hidden">
+      <div class="title">Logout</div>
+      <div class="body">
+        <button class="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="box security hidden">
+      <div class="title">Security</div>
+      <div class="body">
+        <form>
+          <table class="table">
+            <tr>
+              <td>
+                <label for="new-password">Change Password: </label>
+              </td>
+              <td>
+                <div>
+                  <input
+                    id="new-password"
+                    type="password"
+                    size="1"
+                    placeholder="New Password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                  />
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div>
+            <div id="password-label"></div>
+            <input type="submit" value="Submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="box developer hidden">
+      <div class="title">Developer's Zone</div>
+      <div class="body">
+        <form>
+          <table class="table">
+            <tr>
+              <td><label for="api-key">API Key: </label></td>
+              <td>
+                <div>
+                  <input id="api-key" type="text" size="1" readonly />
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div>
+            <div id="api-key-label"></div>
+            <input type="submit" value="Reset" />
+          </div>
+        </form>
       </div>
     </div>
   </div>

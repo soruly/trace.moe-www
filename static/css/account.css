@@ -1,6 +1,3 @@
-.error {
-  color: var(--red-color);
-}
 .overlay {
   position: fixed;
   top: 0;
@@ -93,6 +90,9 @@ table td > div {
 .body > form > div > div {
   padding: 0 0.5rem;
   color: var(--text-weak-color);
+}
+.body > form > div > div.error {
+  color: var(--red-color);
 }
 table td input[type="text"],
 table td input[type="email"],

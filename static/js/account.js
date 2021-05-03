@@ -1,10 +1,11 @@
 const renderPage = async (e) => {
-  document.querySelector(".account-id").innerText = "...";
-  document.querySelector(".account-type").innerText = "...";
-  document.querySelector(".account-email").innerText = "...";
-  document.querySelector(".account-quota").innerText = "...";
-  document.querySelector(".account-rate-limit").innerText = "...";
-  document.querySelector(".account-concurrency-limit").innerText = "...";
+  document.querySelector(".account-id").innerText = "";
+  document.querySelector(".account-type").innerText = "";
+  document.querySelector(".account-email").innerText = "";
+  document.querySelector(".account-quota").innerText = "";
+  document.querySelector(".account-rate-limit").innerText = "";
+  document.querySelector(".account-concurrency-limit").innerText = "";
+  document.querySelector("svg").style.display = "none";
   document.querySelector(".meter-fg").setAttribute("width", "0%");
   let apiKey = localStorage.getItem("apiKey");
   let res = await fetch(`https://api.trace.moe/me${apiKey ? `?key=${apiKey}` : ""}`);
@@ -25,6 +26,7 @@ const renderPage = async (e) => {
     document
       .querySelector(".meter-fg")
       .setAttribute("width", `${(user.quotaUsed / user.quota) * 100}%`);
+    document.querySelector("svg").style.display = "inline";
   }
 
   if (apiKey) {

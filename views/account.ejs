@@ -3,6 +3,18 @@
   <%- include('header', {title: 'Account'}); %>
   <link href="/css/account.css?<%=rev%>" rel="stylesheet" />
   <script src="/js/account.js?<%=rev%>" defer></script>
+  <div class="overlay hidden">
+    <div class="box dialogue">
+      <div class="title">Confirm</div>
+      <div class="body">
+        <div>Are you sure you want to xx xxx xxx?</div>
+        <div>
+          <button class="cancel-btn">Cancel</button>
+          <button class="confirm-btn">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container page">
     <div class="page-header">Account</div>
 
@@ -83,7 +95,12 @@
     <div class="box logout hidden">
       <div class="title">Logout</div>
       <div class="body">
-        <button class="logout-btn">Logout</button>
+        <form>
+          <div>
+            <div>Login session never expires unless you logout</div>
+            <button class="logout-btn">Logout</button>
+          </div>
+        </form>
       </div>
     </div>
 

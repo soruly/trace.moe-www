@@ -122,19 +122,36 @@ document.querySelector(".developer form").onsubmit = async (e) => {
   document.querySelector("#api-key-label").classList.remove("error");
   document.querySelector("#api-key-label").innerText = "";
 
-  const res = await fetch("https://api.trace.moe/user/reset-key", {
-    headers: { "x-trace-key": localStorage.getItem("apiKey") },
-  });
-  if (res.status >= 400) {
-    document.querySelector("#api-key-label").innerText = (await res.json()).error;
-    document.querySelector("#api-key-label").classList.add("error");
-  } else {
-    const newApiKey = (await res.json()).key;
-    localStorage.setItem("apiKey", newApiKey);
-    document.querySelector("#api-key").value = newApiKey;
-    document.querySelector("#api-key-label").innerText = "API Key has been reset.";
+  const confirm = await confirmDialogue("Are you sure you want to reset API Key?");
+  if (confirm) {
+    const res = await fetch("https://api.trace.moe/user/reset-key", {
+      headers: { "x-trace-key": localStorage.getItem("apiKey") },
+    });
+    if (res.status >= 400) {
+      document.querySelector("#api-key-label").innerText = (await res.json()).error;
+      document.querySelector("#api-key-label").classList.add("error");
+    } else {
+      const newApiKey = (await res.json()).key;
+      localStorage.setItem("apiKey", newApiKey);
+      document.querySelector("#api-key").value = newApiKey;
+      document.querySelector("#api-key-label").innerText = "API Key has been reset.";
+    }
   }
   document.querySelectorAll(".developer form input").forEach((e) => {
     e.disabled = false;
   });
 };
+
+const confirmDialogue = (text) =>
+  new Promise((resolve) => {
+    document.querySelector(".dialogue .body > div").innerText = text;
+    document.querySelector(".cancel-btn").onclick = (e) => {
+      document.querySelector(".overlay").classList.add("hidden");
+      resolve(false);
+    };
+    document.querySelector(".confirm-btn").onclick = (e) => {
+      document.querySelector(".overlay").classList.add("hidden");
+      resolve(true);
+    };
+    document.querySelector(".overlay").classList.remove("hidden");
+  });

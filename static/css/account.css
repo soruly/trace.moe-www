@@ -1,6 +1,36 @@
 .error {
   color: var(--red-color);
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(0.5rem);
+  z-index: 100;
+  opacity: 1;
+}
+.overlay.hidden {
+  display: none;
+}
+.box.dialogue {
+  margin: 1rem;
+}
+.box.dialogue .body {
+  color: var(--text-strong-color);
+}
+.box.dialogue .body > div:last-child {
+  display: flex;
+  justify-content: flex-end;
+}
+.box.dialogue .body > div:last-child button {
+  margin: 0.3rem 0.3rem;
+}
+
 .box.hidden {
   display: none;
 }
@@ -62,6 +92,7 @@ table td > div {
 }
 .body > form > div > div {
   padding: 0 0.5rem;
+  color: var(--text-weak-color);
 }
 table td input[type="text"],
 table td input[type="email"],
@@ -93,6 +124,11 @@ input[type="submit"],
 button {
   color: var(--blank-color);
   background: var(--theme-main-color);
+  cursor: pointer;
+}
+button.cancel-btn {
+  color: var(--theme-main-color);
+  background: var(--blank-color);
 }
 
 input:focus,

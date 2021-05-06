@@ -1,4 +1,4 @@
-import "dotenv/config.js";
+import "dotenv/config";
 import path from "path";
 import express from "express";
 import rateLimit from "express-rate-limit";

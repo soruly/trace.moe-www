@@ -3,7 +3,7 @@ const renderPage = async (e) => {
   document.querySelector(".account-type").innerText = "";
   document.querySelector(".account-email").innerText = "";
   document.querySelector(".account-quota").innerText = "";
-  document.querySelector(".account-rate-limit").innerText = "";
+  document.querySelector(".account-priority").innerText = "";
   document.querySelector(".account-concurrency-limit").innerText = "";
   document.querySelector("svg").style.display = "none";
   document.querySelector(".meter-fg").setAttribute("width", "0%");
@@ -21,7 +21,7 @@ const renderPage = async (e) => {
     document.querySelector(".account-type").innerText = user.email ? "User" : "Guest";
     document.querySelector(".account-email").innerText = user.email || "N/A";
     document.querySelector(".account-quota").innerText = `${user.quotaUsed} / ${user.quota}`;
-    document.querySelector(".account-rate-limit").innerText = `${user.rateLimit} per minute`;
+    document.querySelector(".account-priority").innerText = `${user.priority}`;
     document.querySelector(".account-concurrency-limit").innerText = `${user.concurrency}`;
     document
       .querySelector(".meter-fg")

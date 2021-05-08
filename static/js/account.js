@@ -1,7 +1,6 @@
 const renderPage = async (e) => {
   document.querySelector(".account-id").innerText = "";
   document.querySelector(".account-type").innerText = "";
-  document.querySelector(".account-email").innerText = "";
   document.querySelector(".account-quota").innerText = "";
   document.querySelector(".account-priority").innerText = "";
   document.querySelector(".account-concurrency-limit").innerText = "";
@@ -18,8 +17,8 @@ const renderPage = async (e) => {
 
   if (user) {
     document.querySelector(".account-id").innerText = user.id;
-    document.querySelector(".account-type").innerText = user.email ? "User" : "Guest";
-    document.querySelector(".account-email").innerText = user.email || "N/A";
+    document.querySelector(".account-type").innerText =
+      user.id.indexOf("@") >= 0 ? "User" : "Guest";
     document.querySelector(".account-quota").innerText = `${user.quotaUsed} / ${user.quota}`;
     document.querySelector(".account-priority").innerText = `${user.priority}`;
     document.querySelector(".account-concurrency-limit").innerText = `${user.concurrency}`;

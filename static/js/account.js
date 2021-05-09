@@ -2,7 +2,8 @@ const renderPage = async (e) => {
   document.querySelector(".account-id").innerText = "";
   document.querySelector(".account-type").innerText = "";
   document.querySelector(".account-quota").innerText = "";
-  document.querySelector(".account-priority").innerText = "";
+  document.querySelector(".account-priority div.active") &&
+    document.querySelector(".account-priority div.active").classList.remove("active");
   document.querySelector(".account-concurrency-limit").innerText = "";
   document.querySelector("svg").style.display = "none";
   document.querySelector(".meter-fg").setAttribute("width", "0%");
@@ -20,7 +21,9 @@ const renderPage = async (e) => {
     document.querySelector(".account-type").innerText =
       user.id.indexOf("@") >= 0 ? "User" : "Guest";
     document.querySelector(".account-quota").innerText = `${user.quotaUsed} / ${user.quota}`;
-    document.querySelector(".account-priority").innerText = `${user.priority}`;
+    document
+      .querySelector(`.account-priority div:nth-child(${[1, 2, 2, 3, 3, 3, 4][user.priority]})`)
+      .classList.add("active");
     document.querySelector(".account-concurrency-limit").innerText = `${user.concurrency}`;
     document
       .querySelector(".meter-fg")

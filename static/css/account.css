@@ -106,6 +106,27 @@ table td input[type="password"] {
 .meter-fg {
   fill: var(--theme-main-color);
 }
+.account-priority {
+  display: flex;
+}
+.account-priority div {
+  padding: 0 0.5rem;
+  border-top: 1px solid var(--theme-weak-color);
+  border-bottom: 1px solid var(--theme-weak-color);
+  border-left: 1px solid var(--theme-weak-color);
+  cursor: default;
+}
+.account-priority div.active {
+  color: var(--blank-color);
+  background-color: var(--theme-main-color);
+}
+.account-priority div:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.account-priority div:last-child {
+  border-right: 1px solid var(--theme-weak-color);
+  border-radius: 0 3px 3px 0;
+}
 
 input,
 button {

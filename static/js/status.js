@@ -125,9 +125,9 @@ const perfChart = new Chart(document.getElementById("perfGraph"), {
 });
 
 const getPerfData = async (period) => {
-  const stats = await fetch(
-    `https://api.trace.moe/stats?type=performance&period=${period}`
-  ).then((e) => e.json());
+  const stats = await fetch(`https://api.trace.moe/stats?type=performance&period=${period}`).then(
+    (e) => e.json()
+  );
 
   perfChart.data = {
     labels: stats.map((e) => e.period),

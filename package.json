@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/soruly/trace.moe-www#readme",
   "devDependencies": {
-    "prettier": "^2.0.5"
+    "prettier": "^2.3.0"
   },
   "dependencies": {
     "dotenv": "^9.0.2",

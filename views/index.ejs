@@ -39,7 +39,7 @@
   <link rel="dns-prefetch" href="https://image.trace.moe/" />
 
   <div class="drop-target"></div>
-  <div class="search-bar <%= imageURL ? 'ready' : '' %>">
+  <div class="search-bar">
     <div class="search-bar-content">
       <div class="greet">
         paste or drop image here; trace back the scene from an anime screenshot
@@ -58,19 +58,13 @@
             name="imageURL"
             class="image-url"
             placeholder="Image URL"
-            value="<%= imageURL %>"
+            value=""
           />
           <input type="submit" />
           <div class="file">
             <input type="file" name="files[]" accept="image/*" />
           </div>
         </form>
-
-        <% if (originalImage) { %>
-        <input id="autoSearch" type="checkbox" checked="" />
-        <% } else { %>
-        <input id="autoSearch" type="checkbox" />
-        <% } %>
 
         <input type="text" class="anilist-filter" placeholder="anilist ID" />
         <button class="cut-borders-btn"><span class="icon icon-check"></span> Cut Borders</button>
@@ -100,11 +94,7 @@
       <div class="search-image">
         <div class="detail">Your search image</div>
         <div class="query-image">
-          <% if (originalImage) { %>
-          <img id="originalImage" src="" data-url="<%= originalImage %>" crossorigin="anonymous" />
-          <% } else { %>
-          <img id="originalImage" src="" data-url="" crossorigin="anonymous" />
-          <% } %>
+          <img id="originalImage" src="" crossorigin="anonymous" />
         </div>
         <div class="message-text"></div>
       </div>

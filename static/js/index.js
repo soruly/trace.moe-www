@@ -60,9 +60,17 @@ originalImage.onload = () => {
   prepareSearchImage();
 };
 
+const searchParams = new URLSearchParams(location.search);
+if (searchParams.has("url")) {
+  document.querySelector(".search-bar").classList.add("ready");
+  document.querySelector("input[name=imageURL]").value = searchParams.get("url");
+}
+
 window.addEventListener("load", (event) => {
-  if (originalImage.dataset.url) {
-    startLoadImage(originalImage.dataset.url);
+  if (searchParams.has("url")) {
+    startLoadImage(
+      `https://trace.moe/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`
+    );
   } else {
     document.querySelector(".search-bar").style.opacity = 1;
   }

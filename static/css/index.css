@@ -151,7 +151,6 @@ body {
 .search-bar-content .form-controls {
   margin: 2rem 0 2rem 2rem;
 }
-#autoSearch,
 .search-bar .form-controls input[type="submit"] {
   display: none;
 }

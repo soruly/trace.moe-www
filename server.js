@@ -64,15 +64,6 @@ app.get("/", (req, res) => {
     } catch (e) {}
   }
 
-  let imageURL = "";
-  let originalImage = "";
-  if (req.query.url) {
-    try {
-      imageURL = new URL(req.query.url);
-      originalImage = `https://trace.moe/image-proxy?url=${encodeURIComponent(imageURL)}`;
-    } catch (e) {}
-  }
-
   res.header("Link", [
     `</css/index.css?${rev}>; rel=preload; as=style`,
     `</js/index.js?${rev}>; rel=preload; as=script`,
@@ -81,8 +72,6 @@ app.get("/", (req, res) => {
   ]);
   res.render("index", {
     ogImage,
-    originalImage,
-    imageURL,
     rev,
   });
 });

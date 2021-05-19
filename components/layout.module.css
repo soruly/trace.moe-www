@@ -1,0 +1,48 @@
+.container {
+  width: auto;
+  max-width: 680px;
+  margin: auto;
+}
+
+.page {
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  text-shadow: 1px 1px 3px var(--shadow-color);
+  color: var(--text-strong-color);
+}
+.pageHeader {
+  font-size: 1.5rem;
+  line-height: 3rem;
+  text-align: center;
+}
+.section {
+  text-align: justify;
+}
+.sectionHeader {
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  border-bottom: 2px dashed var(--theme-weak-color);
+  text-align: left;
+}
+.sectionItem {
+  line-height: 2rem;
+}
+.page ol {
+  padding-inline-start: 1rem;
+}
+.graphControl {
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .section {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 350px) {
+  .section {
+    min-width: 250px;
+  }
+}

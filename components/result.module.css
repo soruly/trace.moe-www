@@ -1,0 +1,71 @@
+.result {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-around;
+  justify-content: space-between;
+  box-shadow: 0 0 20px var(--shadow-color);
+  text-shadow: 1px 1px 5px var(--shadow-color);
+  margin: 0.5rem 0 0.5rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 300ms ease-out;
+  background: linear-gradient(
+        0deg,
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
+      )
+      0 50%,
+    linear-gradient(
+        90deg,
+        var(--result-draw-color) 0,
+        var(--result-draw-color) 90%,
+        var(--result-line-color) 90%,
+        var(--result-line-color) 100%
+      )
+      50% 0,
+    var(--result-main-color);
+  background-size: 20px 20px;
+}
+.result:hover {
+  box-shadow: 0 0 10px var(--theme-main-color);
+  transition: all 100ms ease-out;
+}
+.result:active {
+  box-shadow: 0 0 10px var(--theme-main-color);
+  transform: translate(1px, 1px);
+  transition: all 100ms ease-out;
+}
+.active {
+  box-shadow: 0 0 10px var(--theme-main-color);
+  transition: all 100ms ease-out;
+}
+.detail {
+  padding: 0.5rem;
+  line-height: 1.5rem;
+}
+.title {
+  color: var(--theme-strong-color);
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: 1px dashed var(--theme-weak-color);
+}
+.ep {
+  color: var(--red-color);
+  font-size: 0.75rem;
+}
+.time {
+  color: var(--green-color);
+  font-size: 0.75rem;
+}
+.similarity {
+  color: var(--text-main-color);
+  font-size: 0.75rem;
+}
+.result video {
+  max-width: 160px;
+}

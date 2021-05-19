@@ -11,26 +11,27 @@
   z-index: 100;
   opacity: 1;
 }
-.overlay.hidden {
+.overlayHidden {
   display: none;
 }
-.box.dialogue {
+.overlay > div {
   margin: 1rem;
 }
-.box.dialogue .body {
+.confirmBoxBody {
   color: var(--text-strong-color);
 }
-.box.dialogue .body > div:last-child {
+.confirmBoxBody > div:last-child {
   display: flex;
   justify-content: flex-end;
 }
-.box.dialogue .body > div:last-child button {
+.confirmBoxBody > div:last-child button {
   margin: 0.3rem 0.3rem;
 }
-
-.box.hidden {
-  display: none;
+.confirmBoxBody > div:last-child button:first-child {
+  color: var(--theme-main-color);
+  background: var(--blank-color);
 }
+
 .box {
   display: flex;
   flex-wrap: wrap;
@@ -43,93 +44,64 @@
   background-color: var(--blank-color);
   border-radius: 0.5rem;
   font-size: 0.8rem;
-  font-family: monospace;
 }
-.box .title {
+.boxTitle {
   color: var(--theme-strong-color);
   font-size: 0.9rem;
   width: 100%;
   padding: 0.5rem 1rem;
   border-bottom: 1px dashed var(--theme-weak-color);
 }
-.box .body {
+.boxBody {
   padding: 0.5rem 1rem;
   line-height: 1.5rem;
   width: 100%;
 }
-.table {
+.boxBody table {
   flex-grow: 1;
   display: block;
   border-spacing: 0.5rem 0;
   border-collapse: separate;
 }
-.table td:first-child {
+.boxBody table td:first-child {
   min-width: 120px;
   white-space: nowrap;
 }
-.table td:last-child {
+.boxBody table td:last-child {
   width: 100%;
+  font-family: monospace;
 }
-.table td {
+.boxBody table td {
   border-bottom: 1px dotted var(--shadow-color);
   vertical-align: middle;
   padding: 0.3rem 0;
 }
-.table tr:first-child td {
+.boxBody table tr:first-child td {
   border-top: 1px dotted var(--shadow-color);
 }
-.body > form > div {
+.boxBody > form > div {
   display: flex;
   justify-content: flex-end;
   padding: 0.3rem 0.5rem;
   align-items: center;
 }
-table td > div {
+.boxBody table td > div {
   display: flex;
 }
-.body > form > div > div {
+.boxBody > form > div > div {
   padding: 0 0.5rem;
   color: var(--text-weak-color);
 }
-.body > form > div > div.error {
+.boxBody > form > div > div.error {
   color: var(--red-color);
 }
-table td input[type="text"],
-table td input[type="email"],
-table td input[type="password"] {
+.boxBody table td input[type="text"],
+.boxBody table td input[type="email"],
+.boxBody table td input[type="password"] {
   flex-grow: 1;
 }
-
-.meter-bg {
-  fill: var(--shadow-color);
-}
-.meter-fg {
-  fill: var(--theme-main-color);
-}
-.account-priority {
-  display: flex;
-}
-.account-priority div {
-  padding: 0 0.5rem;
-  border-top: 1px solid var(--theme-weak-color);
-  border-bottom: 1px solid var(--theme-weak-color);
-  border-left: 1px solid var(--theme-weak-color);
-  cursor: default;
-}
-.account-priority div.active {
-  color: var(--blank-color);
-  background-color: var(--theme-main-color);
-}
-.account-priority div:first-child {
-  border-radius: 3px 0 0 3px;
-}
-.account-priority div:last-child {
-  border-right: 1px solid var(--theme-weak-color);
-  border-radius: 0 3px 3px 0;
-}
-
-input,
-button {
+.boxBody input,
+.boxBody button {
   padding: 0 0.5rem 0 0.5rem;
   line-height: 1.5rem;
   font-size: 0.8rem;
@@ -141,24 +113,50 @@ button {
   border-radius: 3px;
   transition: box-shadow 100ms ease-out;
 }
-input[type="submit"],
-button {
+.boxBody input[type="submit"],
+.boxBody button {
   color: var(--blank-color);
   background: var(--theme-main-color);
   cursor: pointer;
 }
-button.cancel-btn {
+.boxBody button.cancelBtn {
   color: var(--theme-main-color);
   background: var(--blank-color);
 }
-
-input:focus,
-button:focus {
+.boxBody input:focus,
+.boxBody button:focus {
   box-shadow: 0 0 10px var(--theme-weak-color);
   border: 1px solid var(--theme-weak-color);
 }
-input[disabled],
-button[disabled] {
+.boxBody input[disabled],
+.boxBody button[disabled] {
   background-color: var(--shadow-color);
   border-color: var(--shadow-color);
+}
+.meterBG {
+  fill: var(--shadow-color);
+}
+.meterFG {
+  fill: var(--theme-main-color);
+}
+.accountPriority {
+  display: flex;
+}
+.accountPriority div {
+  padding: 0 0.5rem;
+  border-top: 1px solid var(--theme-weak-color);
+  border-bottom: 1px solid var(--theme-weak-color);
+  border-left: 1px solid var(--theme-weak-color);
+  cursor: default;
+}
+.accountPriorityActive {
+  color: var(--blank-color);
+  background-color: var(--theme-main-color);
+}
+.accountPriority div:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.accountPriority div:last-child {
+  border-right: 1px solid var(--theme-weak-color);
+  border-radius: 0 3px 3px 0;
 }

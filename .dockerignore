@@ -1,0 +1,8 @@
+*
+!/package.json
+!/package-lock.json
+!/next.config.js
+!/components/
+!/pages/
+!/public/
+!/styles/

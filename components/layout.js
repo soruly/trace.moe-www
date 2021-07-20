@@ -59,6 +59,11 @@ export default function Layout({ children, title }) {
               </a>
             </div>
             <div className={sectionItem}>
+              <a href="https://microsoftedge.microsoft.com/addons/detail/search-anime-by-screensho/bkigcpancdclbiekidfbcghedaielbda">
+                Edge Add-on
+              </a>
+            </div>
+            <div className={sectionItem}>
               <a href="https://addons.opera.com/en/extensions/details/search-anime-by-screenshot/">
                 Opera Add-on
               </a>

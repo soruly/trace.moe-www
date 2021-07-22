@@ -11,8 +11,10 @@ import {
   graphControl,
 } from "../components/layout.module.css";
 
+const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+
 const getDatabaseStatus = async () => {
-  const status = await fetch("https://api.trace.moe/status").then((e) => e.json());
+  const status = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`).then((e) => e.json());
   let numDocs = 0;
   let totalSize = 0;
   let lastModified = new Date(0);
@@ -47,7 +49,7 @@ const About = () => {
   const [trafficData, setTrafficData] = useState("hourly");
   useEffect(async () => {
     const stats = await fetch(
-      `https://api.trace.moe/stats?type=traffic&period=${trafficPeriod}`
+      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`
     ).then((e) => e.json());
     setTrafficData({
       labels: stats.map((e) => e.period),
@@ -95,7 +97,7 @@ const About = () => {
   const [perfData, setPerfData] = useState("hourly");
   useEffect(async () => {
     const stats = await fetch(
-      `https://api.trace.moe/stats?type=performance&period=${perfPeriod}`
+      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`
     ).then((e) => e.json());
     setPerfData({
       labels: stats.map((e) => e.period),

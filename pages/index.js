@@ -19,6 +19,8 @@ import {
   playerInfoPane,
 } from "../components/index.module.css";
 
+const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+
 const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");
   const [isCutBorders, setIsCutBorders] = useState(true);
@@ -140,7 +142,7 @@ const Index = () => {
       isCutBorders ? "cutBorders" : "",
       anilistFilter ? `anilistID=${anilistFilter}` : "",
     ].join("&");
-    const res = await fetch(`https://api.trace.moe/search?${queryString}`, {
+    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
       method: "POST",
       body: formData,
     });
@@ -307,7 +309,7 @@ const Index = () => {
         />
         <meta property="og:site_name" content="trace.moe" />
 
-        <link rel="dns-prefetch" href="https://api.trace.moe/" />
+        <link rel="dns-prefetch" href={NEXT_PUBLIC_API_ENDPOINT} />
       </Head>
       {/* inject target for WebExtension */}
       <img

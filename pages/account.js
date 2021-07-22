@@ -22,6 +22,8 @@ import {
   error,
 } from "../components/account.module.css";
 
+const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+
 const isGuest = (id) => (id.indexOf("@") >= 0 ? false : true);
 
 const Account = () => {
@@ -40,7 +42,7 @@ const Account = () => {
   });
   const login = async (apiKey) => {
     setLoading(true);
-    let res = await fetch("https://api.trace.moe/me", {
+    let res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me`, {
       headers: { "x-trace-key": apiKey || "" },
     });
     setAPIKey(res.status >= 400 ? "" : apiKey);
@@ -64,7 +66,7 @@ const Account = () => {
     const email = e.target.querySelector("input[type=email]").value;
     const password = e.target.querySelector("input[type=password]").value;
     e.target.querySelector("#login-label").innerText = "Logging in...";
-    const res = await fetch("https://api.trace.moe/user/login", {
+    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -101,7 +103,7 @@ const Account = () => {
     e.target.querySelector("#password-label").classList.remove(error);
     e.target.querySelector("#password-label").innerText = "";
     const password = e.target.querySelector("input[type=password]").value;
-    const res = await fetch("https://api.trace.moe/user/reset-password", {
+    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/reset-password`, {
       method: "POST",
       body: JSON.stringify({
         password,
@@ -128,7 +130,7 @@ const Account = () => {
     setDialogue("");
     if (confirmed) {
       setAPIKeyLabel("Resetting API Key...");
-      const res = await fetch("https://api.trace.moe/user/reset-key", {
+      const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/reset-key`, {
         headers: { "x-trace-key": apiKey },
       });
       if (res.status >= 400) {

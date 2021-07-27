@@ -28,7 +28,7 @@
     "prettier": "^2.3.2"
   },
   "dependencies": {
-    "chart.js": "^3.4.1",
+    "chart.js": "^3.5.0",
     "next": "^11.0.1",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.4",

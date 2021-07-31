@@ -11,7 +11,7 @@ Front-end website for [trace.moe](https://github.com/soruly/trace.moe)
 ## Getting Started
 
 ```
-docker run -it --init --rm -p 3000:80 ghcr.io/soruly/trace.moe-www:latest
+docker run -it --rm -p 3000:80 ghcr.io/soruly/trace.moe-www:latest
 ```
 
 ## Development
@@ -22,7 +22,6 @@ cd trace.moe-www
 npm install
 npm run dev
 ```
-
 
 You can also use [pm2](https://pm2.keymetrics.io/) to run this in background in cluster mode.
 

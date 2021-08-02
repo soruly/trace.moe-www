@@ -1,0 +1,3 @@
+name = "image-proxy"
+type = "javascript"
+route = "trace.moe/anilist/*"

@@ -2,7 +2,7 @@
   "name": "trace.moe-www",
   "version": "2.0.0",
   "description": "Webpage for trace.moe",
-  "main": "server.js",
+  "main": "image-proxy.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

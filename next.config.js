@@ -1,4 +1,7 @@
-const { NEXT_PUBLIC_API_ENDPOINT, NEXT_PUBLIC_MEDIA_ENDPOINT } = process.env;
+const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+const { NEXT_PUBLIC_MEDIA_ENDPOINT } = process.env;
+const { NEXT_PUBLIC_ANILIST_ENDPOINT = "https://graphql.anilist.co" } = process.env;
+
 module.exports = {
   async headers() {
     return [
@@ -28,7 +31,7 @@ module.exports = {
               "frame-ancestors 'none'",
               "manifest-src 'self'",
               "block-all-mixed-content",
-              `connect-src blob: 'self' ${NEXT_PUBLIC_API_ENDPOINT} ${NEXT_PUBLIC_MEDIA_ENDPOINT} www.google-analytics.com stats.g.doubleclick.net`,
+              `connect-src blob: 'self' ${NEXT_PUBLIC_API_ENDPOINT} ${NEXT_PUBLIC_MEDIA_ENDPOINT} ${NEXT_PUBLIC_ANILIST_ENDPOINT} www.google-analytics.com stats.g.doubleclick.net`,
             ].join("; "),
           },
         ],

@@ -20,6 +20,7 @@ import {
 } from "../components/index.module.css";
 
 const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+const { NEXT_PUBLIC_ANILIST_ENDPOINT = "https://graphql.anilist.co" } = process.env;
 
 const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");
@@ -172,7 +173,7 @@ const Index = () => {
 
     const topResults = result.slice(0, 5);
 
-    const response = await fetch("/anilist", {
+    const response = await fetch(NEXT_PUBLIC_ANILIST_ENDPOINT, {
       method: "POST",
       body: JSON.stringify({
         query: `query ($ids: [Int]) {

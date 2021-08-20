@@ -48,7 +48,6 @@ const Index = () => {
     document.addEventListener(
       "paste",
       (e) => {
-        if (e.target.tagName.toLowerCase() === "input") return;
         const items = e.clipboardData?.items;
         if (!items) return;
         const item = Array.from(items).find((e) => e.type.startsWith("image"));

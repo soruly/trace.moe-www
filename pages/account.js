@@ -25,11 +25,14 @@ import {
 const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
 
 const isGuest = (id) => (id.indexOf("@") >= 0 ? false : true);
+const isAdmin = (id) => (id.match(/^[a-zA-Z0-9_.+-]+@trace.moe$/) ? true : false);
 
 const Account = () => {
   const [apiKey, setAPIKey] = useState("");
   const [apiKeyLabel, setAPIKeyLabel] = useState("");
   const [isResettingApiKey, setIsResettingApiKey] = useState(false);
+  const [createUserLabel, setCreateUserLabel] = useState("");
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
   const [loading, setLoading] = useState(true);
   const [confirmed, setConfirmed] = useState();
   const [dialogue, setDialogue] = useState("");
@@ -50,6 +53,7 @@ const Account = () => {
     setUser(user);
     setLoading(false);
     setAPIKeyLabel("");
+    setCreateUserLabel("");
   };
 
   useEffect(async () => {
@@ -154,6 +158,30 @@ const Account = () => {
     setDialogue("Are you sure you want to reset API Key?");
   };
 
+  const createNewUser = async (e) => {
+    e.preventDefault();
+    setIsCreatingUser(true);
+    setCreateUserLabel("");
+    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/create`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: e.target.querySelector("input[type=email]").value,
+        tier: e.target.querySelector("input[type=number]").value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "x-trace-key": apiKey,
+      },
+    });
+    if (res.status >= 400) {
+      setCreateUserLabel((await res.json()).error);
+    } else {
+      setCreateUserLabel("User created and email is sent.");
+    }
+    e.target.querySelector("input[type=email]").value = "";
+    setIsCreatingUser(false);
+  };
+
   return (
     <Layout title="Account">
       <div className={`${overlay} ${!dialogue ? overlayHidden : ""}`}>
@@ -194,7 +222,7 @@ const Account = () => {
                 </tr>
                 <tr>
                   <td>Account Type</td>
-                  <td>{`${isGuest(user.id) ? "Guest" : "User"}`}</td>
+                  <td>{`${isGuest(user.id) ? "Guest" : isAdmin(user.id) ? "Admin" : "User"}`}</td>
                 </tr>
                 <tr>
                   <td>
@@ -371,6 +399,57 @@ const Account = () => {
                 <div>
                   <div className={apiKeyClass}>{apiKeyLabel}</div>
                   <input type="submit" value="Reset" disabled={isResettingApiKey} />
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {!loading && isAdmin(user.id) && (
+          <div className={`${box} create`}>
+            <div className={boxTitle}>Create New User</div>
+            <div className={boxBody}>
+              <form onSubmit={createNewUser}>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Email: </label>
+                      </td>
+                      <td>
+                        <div>
+                          <input
+                            type="email"
+                            size="1"
+                            placeholder="email address"
+                            required
+                            disabled={isCreatingUser}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Tier: </label>
+                      </td>
+                      <td>
+                        <div>
+                          <input
+                            type="number"
+                            min="0"
+                            max="9"
+                            size="1"
+                            defaultValue={1}
+                            disabled={isCreatingUser}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div>
+                  <div>{createUserLabel}</div>
+                  <input type="submit" value="Submit" disabled={isCreatingUser} />
                 </div>
               </form>
             </div>

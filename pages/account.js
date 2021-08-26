@@ -210,7 +210,7 @@ const Account = () => {
                         <rect
                           x="0"
                           y="0"
-                          width={`${(user.quotaUsed / user.quota) * 100}%`}
+                          width={`${user.quota ? (user.quotaUsed / user.quota) * 100 : 0}%`}
                           height="8"
                           className={meterFG}
                         ></rect>

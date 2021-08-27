@@ -13,51 +13,131 @@ const News = () => (
     <div className={`${container} ${page}`}>
       <div className={pageHeader}>News</div>
       <div className={section}>
-        <div className={sectionHeader}>Tweaked the auto black border cropping function</div>
-        <small>9 Feb 2021</small>
+        <div className={sectionHeader}>Microsoft Edge Add-on is published on store now</div>
+        <small>19 Jul 2021</small>
         <p>
-          Added a toggle border crop button in case you do not like the border cropping function,
-          you can turn it off.
+          <a href="https://microsoftedge.microsoft.com/addons/detail/search-anime-by-screensho/bkigcpancdclbiekidfbcghedaielbda">
+            https://microsoftedge.microsoft.com/addons/detail/search-anime-by-screensho/bkigcpancdclbiekidfbcghedaielbda
+          </a>
+        </p>
+      </div>
+      <div className={section}>
+        <div className={sectionHeader}>trace.moe database dump 2021-04</div>
+        <small>2 Jun 2021</small>
+        <p>
+          <a href="https://nyaa.si/view/1393270">https://nyaa.si/view/1393270</a>
           <br />
-          - black level threshold is lowered, so dark grey backgrounds are not over-cropped
           <br />
-          - always crop a little bit inwards than the detected black borders (to cut away
-          anti-aliasing / bleeding edges)
+          This is the most recent database dump for trace.moe which contains image hashes of ~5000
+          anime titles. (No video files included)
           <br />
-          cutting away a little bit more borders from a dark image would not affect much of
-          accuracy, they are of similar colors anyway
           <br />
-          but leaving an excess black border on a bright image would affect accuracy a lot, so
-          cutting a little bit more seems better
+          Comparing to last DB dump, this data set has recent anime added, and has replaced many
+          subbed versions with raw anime.
+          <br />
+          <br />
+          These can be loaded into sola database for searching locally. You can follow the project
+          on GitHub if you are interested.
+          <br />
+          <br />
+          <a href="https://github.com/soruly/sola">https://github.com/soruly/sola</a>
           <br />
         </p>
       </div>
       <div className={section}>
-        <div className={sectionHeader}>Website updated to use new trace.moe API</div>
-        <small>9 Feb 2021</small>
+        <div className={sectionHeader}>New trace.moe API published</div>
+        <small>10 May 2021</small>
         <p>
-          - the API is now served by the 96 core servers on cloud
-          <br />- front end code rewrite with ES6+ syntax. Dropped IE and some old browsers support.{" "}
+          <a href="https://soruly.github.io/trace.moe-api/">
+            https://soruly.github.io/trace.moe-api/
+          </a>
           <br />
-          - safe search button is removed, it shows only when NSFW results are found
           <br />
-          - search will now perform first 3 trials at once (in DB), you will no longer see results
-          appearing one after another
+          The new trace.moe API is finallized. There are quite a lot of changes so please read the
+          above API docs. It also has a migration guide for developers to update their program. The
+          old API is planned to shut down on 30th June 2021, depending on how fast developers
+          migrate their programs.
           <br />
-          - the candidate size is now set automatically on server side. If it finds that some search
-          results are trimmed, it would increase candidate size and search again. This is done
-          entirely on server side.
           <br />
-          - keep searching button removed. I'm pretty sure you can no longer find relevant results
-          with that function.
+          According to the API changes, the sponsor tiers have also changed. Starting from next
+          month, existing patrons would receive a email of your trace.moe account according to your
+          sponsor tiers. If you can't wait to try it out, you can also message me to get an early
+          access.
           <br />
-          - Flip button removed. (caused many bugs in website, before I add this back, please flip
-          the image on your own.)
           <br />
-          - JCD algo button removed. (will add this back after migration complete, you can still use
-          this algo via trace.moe API)
+          You can also choose to use GitHub sponsor if you perfer. The sponsor tiers are exactly the
+          same. But you'll have to email me your GitHub ID and email address to claim the rewards
+          for sponsors.
           <br />
-          - loop/autoplay/mute button removed. (I may add back an unmute button if possible)
+        </p>
+      </div>
+      <div className={section}>
+        <div className={sectionHeader}>Recent updates</div>
+        <small>2 May 2021</small>
+        <p>
+          Traffic Graph You can now see the server's traffic on{" "}
+          <a href="https://trace.moe/about">https://trace.moe/about</a>
+          <br />
+          <br />
+          Account Page You can check your search quota and limits on{" "}
+          <a href="https://trace.moe/account">https://trace.moe/account</a>
+          <br />
+          <br />
+          Making Anilist info optional Actually crawling anilist data violates Anilist API's terms
+          of service. Instead of crawling everything upfront, I think it's better to query anilist
+          data on-the-fly when necessary. The website and telegram bot has updates to behave like
+          this. In this way, this would reduce future API changes due to anilist's data structure.
+          The chinese translated titles are also separated from my database now. So it can run as a
+          standalone proxy that injects chinese titles on-the-fly. If you're interested in
+          serverless/cloudflare workers, take a look at this repo.{" "}
+          <a href="https://github.com/soruly/anilist-chinese">
+            https://github.com/soruly/anilist-chinese
+          </a>
+          <br />
+          <br />
+          Rate Limits In recent months I've been working hard to regulate the traffic to avoid
+          crashing the server due to overload. Apart from rate limit and concurrent search limit,
+          I've also added a queue of database search. Sadly, the queue still often gets full during
+          rush hours, especially when there are a few slow search requests that blocks the rest of
+          the queue. I'm still evaluating the parameters so the actual numbers are not finalized
+          yet. I'm expecting to complete and release the new API in 1-2 months. So for those whom
+          may concern, join the discussion on Discord{" "}
+          <a href="https://discord.gg/K9jn6Kj">https://discord.gg/K9jn6Kj</a>
+          <br />
+        </p>
+      </div>
+      <div className={section}>
+        <div className={sectionHeader}>Webpage re-design</div>
+        <small>18 Feb 2021</small>
+        <p>
+          I've rewritten the webpage.
+          <br />
+          <br />
+          Now it shows animated GIF preview for all results instead of static thumbnails. Generating
+          that many animated previews is cpu-consuming, so the number of results are capped to top 5
+          only.
+          <br />
+          <br />
+          On top left, you can see your search image that is used for searching. Previously this was
+          drawn behind canvas which is a bit confusing.
+          <br />
+          <br />
+          Now it only shows important informations from anilist. Details like staff/characters are
+          removed, please visit anilist for details if you're interested.
+          <br />
+          <br />
+          Site navigation is moved from top to bottom of the page, including all important urls to
+          related sites.
+          <br />
+          <br />
+          This update also dropped old browsers like Internet Explorer. If you're having issues with
+          the new website, please report to me.
+          <br />
+          <br />
+          The source code of the website is now located at{" "}
+          <a href="https://github.com/soruly/trace.moe-www">
+            https://github.com/soruly/trace.moe-www
+          </a>{" "}
           <br />
         </p>
       </div>
@@ -81,7 +161,6 @@ const News = () => (
         <div className={sectionHeader}>trace.moe database dump 2020-10</div>
         <small>18 Oct 2020</small>
         <p>
-          <br />
           This is the most recent database dump for trace.moe which contains image hashes of ~5000
           anime titles. (No video files included)
           <br />

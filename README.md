@@ -11,7 +11,7 @@ Front-end website for [trace.moe](https://github.com/soruly/trace.moe)
 ## Getting Started
 
 ```
-docker run -it --rm -p 3000:80 ghcr.io/soruly/trace.moe-www:latest
+docker run -it --rm -p 3000:3000 ghcr.io/soruly/trace.moe-www:latest
 ```
 
 ## Development

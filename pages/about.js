@@ -62,6 +62,13 @@ const About = () => {
           borderWidth: 1,
         },
         {
+          label: "500",
+          data: stats.map((e) => e["500"]),
+          backgroundColor: ["rgba(255,128,255,0.2)"],
+          borderColor: ["rgba(255,128,255,1)"],
+          borderWidth: 1,
+        },
+        {
           label: "405",
           data: stats.map((e) => e["405"]),
           backgroundColor: ["rgba(128,128,128,0.2)"],

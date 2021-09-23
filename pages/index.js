@@ -277,7 +277,8 @@ const Index = () => {
   return (
     <Layout title="Anime Scene Search Engine">
       <Head>
-        <meta name="viewport" content="width=650, initial-scale=1" />
+        <meta name="viewport" content="width=650, viewport-fit=cover" />
+        <meta name="theme-color" content="#f9f9fb" />
         <meta itemprop="name" content="WAIT: What Anime Is This?" />
         <meta
           itemprop="description"

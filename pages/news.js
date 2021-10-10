@@ -13,6 +13,77 @@ const News = () => (
     <div className={`${container} ${page}`}>
       <div className={pageHeader}>News</div>
       <div className={section}>
+        <div className={sectionHeader}>trace.moe database dump 2021-10</div>
+        <small>10 Oct 2021</small>
+        <p>
+          <a href="https://nyaa.si/view/1442127">https://nyaa.si/view/1442127</a>
+          <br />
+          <br />
+          This is the most recent database dump for trace.moe which contains image hashes of 31000
+          hours of anime. (No video files included)
+          <br />
+          <br />
+          As mentioned previously, the hashing libarary has upgraded. So these is a complete re-hash
+          of all anime, and these hashes are incompatible with sola. It is only compatible with
+          latest liresolr. Comparing to last DB dump, this data set has recent anime added, and has
+          replaced many subbed versions with raw anime.
+          <br />
+          <br />
+          These can be loaded into a local liresolr database for anime scene search. You can follow
+          the project on GitHub if you are interested.
+          <br />
+          <br />
+          <a href="https://github.com/soruly/trace.moe#hosting-your-own-tracemoe-system">
+            https://github.com/soruly/trace.moe
+          </a>
+          <br />
+        </p>
+      </div>
+      <div className={section}>
+        <div className={sectionHeader}>Software updates and Improving Search Accuracy</div>
+        <small>29 Sep 2021</small>
+        <p>
+          some anime not found previously can now be found after these updates and a re-hash of all
+          anime. See details below:
+        </p>
+        <p>
+          Upgraded from java-1.8.0-openjdk (java 8) to java-latest-openjdk (java 17) for worker
+          nodes
+          <br />
+          Upgraded from solr 7.5.0 to 8.9.0
+          <br />
+          Upgraded liresolr with image cache issues fixed and updated LIRE.
+          <br />
+          <a href="https://github.com/soruly/liresolr">https://github.com/soruly/liresolr</a>
+          <br />
+          Upgraded LIRE from 1.0_b05.jar to 1.0_b06.jar This is a breaking change so it requires a
+          re-hash of all video.
+          <br />
+          <a href="https://github.com/soruly/LIRE">https://github.com/soruly/LIRE</a>
+          <br />
+          The 83203 videos have just been re-hashed with an latest version of liresolr. This should
+          fix some broken video and timecode.
+          <br />
+          An archive of the hashes (~23GB) would be published in October.
+          <br />
+          Accuracy is tuned up from 2% to 3%, which takes 300-500ms longer to search on average.
+          <br />
+        </p>
+      </div>
+      <div className={section}>
+        <div className={sectionHeader}>Add trace.moe to windows context menu</div>
+        <small>19 Sep 2021</small>
+        <p>
+          You can search images directly from windows context menu by installing this powershell
+          script. See instructions below
+        </p>
+        <p>
+          <a href="https://github.com/soruly/trace.moe-windows-menu">
+            https://github.com/soruly/trace.moe-windows-menu
+          </a>
+        </p>
+      </div>
+      <div className={section}>
         <div className={sectionHeader}>Microsoft Edge Add-on is published on store now</div>
         <small>19 Jul 2021</small>
         <p>

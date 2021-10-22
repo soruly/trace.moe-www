@@ -46,7 +46,7 @@ const About = () => {
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hourly");
-  const [trafficData, setTrafficData] = useState("hourly");
+  const [trafficData, setTrafficData] = useState({});
   useEffect(async () => {
     const stats = await fetch(
       `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`
@@ -101,7 +101,7 @@ const About = () => {
   }, [trafficPeriod]);
 
   const [perfPeriod, setPerfPeriod] = useState("hourly");
-  const [perfData, setPerfData] = useState("hourly");
+  const [perfData, setPerfData] = useState({});
   useEffect(async () => {
     const stats = await fetch(
       `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`
@@ -242,61 +242,65 @@ const About = () => {
             Database Index Size: {(numDocs / 1000000).toFixed(2)} Million analyzed frames (
             {(totalSize / 1000000000).toFixed(2)} GB)
           </p>
-          <Bar
-            options={{
-              animations: false,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "trace.moe search traffic",
+          {trafficData ? (
+            <Bar
+              options={{
+                animations: false,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "trace.moe search traffic",
+                  },
                 },
-              },
-              scales: {
-                x: {
-                  stacked: true,
+                scales: {
+                  x: {
+                    stacked: true,
+                  },
+                  y: {
+                    beginAtZero: true,
+                    stacked: true,
+                  },
                 },
-                y: {
-                  beginAtZero: true,
-                  stacked: true,
-                },
-              },
-            }}
-            data={trafficData}
-            width="680"
-            height="400"
-          ></Bar>
+              }}
+              data={trafficData}
+              width="680"
+              height="400"
+            ></Bar>
+          ) : null}
           <p className={graphControl}>
             <button onClick={() => setTrafficPeriod("hourly")}>hourly</button>
             <button onClick={() => setTrafficPeriod("daily")}>daily</button>
             <button onClick={() => setTrafficPeriod("monthly")}>monthly</button>
           </p>
 
-          <Bar
-            options={{
-              animations: false,
-              plugins: {
-                title: {
-                  display: true,
-                  text: "trace.moe search time distribution",
-                },
-              },
-              scales: {
-                x: {
-                  stacked: true,
-                },
-                y: {
-                  beginAtZero: true,
+          {perfData ? (
+            <Bar
+              options={{
+                animations: false,
+                plugins: {
                   title: {
                     display: true,
-                    text: "time (ms)",
+                    text: "trace.moe search time distribution",
                   },
                 },
-              },
-            }}
-            data={perfData}
-            width="680"
-            height="400"
-          ></Bar>
+                scales: {
+                  x: {
+                    stacked: true,
+                  },
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: "time (ms)",
+                    },
+                  },
+                },
+              }}
+              data={perfData}
+              width="680"
+              height="400"
+            ></Bar>
+          ) : null}
           <p className={graphControl}>
             <button onClick={() => setPerfPeriod("hourly")}>hourly</button>
             <button onClick={() => setPerfPeriod("daily")}>daily</button>

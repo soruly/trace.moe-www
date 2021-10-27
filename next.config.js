@@ -1,8 +1,10 @@
-const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
-const { NEXT_PUBLIC_MEDIA_ENDPOINT } = process.env;
-const { NEXT_PUBLIC_ANILIST_ENDPOINT = "https://graphql.anilist.co" } = process.env;
+const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const NEXT_PUBLIC_MEDIA_ENDPOINT = process.env.NEXT_PUBLIC_MEDIA_ENDPOINT;
+const NEXT_PUBLIC_ANILIST_ENDPOINT =
+  process.env.NEXT_PUBLIC_ANILIST_ENDPOINT || "https://graphql.anilist.co";
 
 module.exports = {
+  swcMinify: true,
   async headers() {
     return [
       {

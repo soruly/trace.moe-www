@@ -22,7 +22,7 @@ import {
   error,
 } from "../components/account.module.css";
 
-const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const isGuest = (id) => (id.indexOf("@") >= 0 ? false : true);
 const isAdmin = (id) => (id.match(/^[a-zA-Z0-9_.+-]+@trace.moe$/) ? true : false);

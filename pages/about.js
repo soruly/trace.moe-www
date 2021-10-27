@@ -11,7 +11,7 @@ import {
   graphControl,
 } from "../components/layout.module.css";
 
-const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
+const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const getDatabaseStatus = async () => {
   const status = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`).then((e) => e.json());

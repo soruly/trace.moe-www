@@ -19,8 +19,9 @@ import {
   playerInfoPane,
 } from "../components/index.module.css";
 
-const { NEXT_PUBLIC_API_ENDPOINT } = process.env;
-const { NEXT_PUBLIC_ANILIST_ENDPOINT = "https://graphql.anilist.co" } = process.env;
+const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const NEXT_PUBLIC_ANILIST_ENDPOINT =
+  process.env.NEXT_PUBLIC_ANILIST_ENDPOINT || "https://graphql.anilist.co";
 
 const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");

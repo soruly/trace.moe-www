@@ -46,7 +46,7 @@ const About = () => {
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hourly");
-  const [trafficData, setTrafficData] = useState({});
+  const [trafficData, setTrafficData] = useState(null);
   useEffect(async () => {
     const stats = await fetch(
       `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`
@@ -101,7 +101,7 @@ const About = () => {
   }, [trafficPeriod]);
 
   const [perfPeriod, setPerfPeriod] = useState("hourly");
-  const [perfData, setPerfData] = useState({});
+  const [perfData, setPerfData] = useState(null);
   useEffect(async () => {
     const stats = await fetch(
       `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`

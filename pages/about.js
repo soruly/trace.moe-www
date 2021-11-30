@@ -42,7 +42,7 @@ const getMediaStatus = async () => {
   return {
     mediaCount,
     mediaFramesTotal,
-    mediaDurationTotal: mediaDurationTotal.hours,
+    mediaDurationTotal,
   };
 };
 
@@ -262,7 +262,7 @@ const About = () => {
             <li>
               Total Duration:{" "}
               {mediaDurationTotal
-                ? `${Number(mediaDurationTotal.toFixed(2)).toLocaleString("en-US")} hours`
+                ? `${Number((mediaDurationTotal / 3600).toFixed(2)).toLocaleString("en-US")} hours`
                 : "counting..."}
             </li>
             <li>

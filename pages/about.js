@@ -35,14 +35,31 @@ const getDatabaseStatus = async () => {
   };
 };
 
+const getMediaStatus = async () => {
+  const { mediaCount, mediaFramesTotal, mediaDurationTotal } = await fetch(
+    `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`
+  ).then((e) => e.json());
+  return {
+    mediaCount,
+    mediaFramesTotal,
+    mediaDurationTotal: mediaDurationTotal.hours,
+  };
+};
+
 const About = () => {
   const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
     lastModified: new Date(0),
     numDocs: 0,
     totalSize: 0,
   });
+  const [{ mediaCount, mediaFramesTotal, mediaDurationTotal }, setMediaStatus] = useState({
+    mediaCount: 0,
+    mediaFramesTotal: 0,
+    mediaDurationTotal: 0,
+  });
   useEffect(async () => {
-    setDatabaseStatus(await getDatabaseStatus());
+    getDatabaseStatus().then((e) => setDatabaseStatus(e));
+    getMediaStatus().then((e) => setMediaStatus(e));
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hourly");
@@ -238,10 +255,31 @@ const About = () => {
             </a>
           </p>
           <p>Last Database Update: {lastModified.toString()}</p>
-          <p>
-            Database Index Size: {(numDocs / 1000000).toFixed(2)} Million analyzed frames (
-            {(totalSize / 1000000000).toFixed(2)} GB)
-          </p>
+          <ul>
+            <li>
+              Analyzed Video: {mediaCount ? mediaCount.toLocaleString("en-US") : "counting..."}
+            </li>
+            <li>
+              Total Duration:{" "}
+              {mediaDurationTotal
+                ? `${Number(mediaDurationTotal.toFixed(2)).toLocaleString("en-US")} hours`
+                : "counting..."}
+            </li>
+            <li>
+              Analyzed Frames:{" "}
+              {mediaFramesTotal ? mediaFramesTotal.toLocaleString("en-US") : "counting..."}
+            </li>
+            <li>
+              Indexed Frames: {numDocs ? numDocs.toLocaleString("en-US") : "counting..."}{" "}
+              {numDocs && mediaFramesTotal
+                ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated})`
+                : ""}
+            </li>
+            <li>
+              Index Size:{" "}
+              {totalSize ? `${(totalSize / 1000000000).toFixed(2)} GB` : "calculating..."}
+            </li>
+          </ul>
           {trafficData ? (
             <Bar
               options={{

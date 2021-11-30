@@ -280,12 +280,12 @@ const Index = () => {
       <Head>
         <meta name="viewport" content="width=650, viewport-fit=cover" />
         <meta name="theme-color" content="#f9f9fb" />
-        <meta itemprop="name" content="WAIT: What Anime Is This?" />
+        <meta itemProp="name" content="WAIT: What Anime Is This?" />
         <meta
-          itemprop="description"
+          itemProp="description"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
         />
-        <meta itemprop="image" content="https://trace.moe/favicon128.png" />
+        <meta itemProp="image" content="https://trace.moe/favicon128.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@soruly" />

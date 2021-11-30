@@ -272,7 +272,7 @@ const About = () => {
             <li>
               Indexed Frames: {numDocs ? numDocs.toLocaleString("en-US") : "counting..."}{" "}
               {numDocs && mediaFramesTotal
-                ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated})`
+                ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
                 : ""}
             </li>
             <li>

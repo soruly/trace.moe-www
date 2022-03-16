@@ -177,6 +177,66 @@ const About = () => {
     });
   }, [perfPeriod]);
 
+  const [accuracyPeriod, setAccuracyPeriod] = useState("hourly");
+  const [accuracyData, setAccuracyData] = useState(null);
+  useEffect(async () => {
+    const stats = await fetch(
+      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`
+    ).then((e) => e.json());
+    setAccuracyData({
+      labels: stats.map((e) => e.period),
+      datasets: [
+        {
+          label: "p0",
+          data: stats.map((e) => e.p0),
+          backgroundColor: ["rgba(0,0,0,0)"],
+          borderColor: ["rgba(0,0,0,1)"],
+          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
+          hidden: true,
+        },
+        {
+          label: "p10",
+          data: stats.map((e) => e.p10),
+          backgroundColor: ["rgba(0,0,0,0)"],
+          borderColor: ["rgba(0,0,0,1)"],
+          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
+          hidden: false,
+        },
+        {
+          label: "p50",
+          data: stats.map((e) => e.p50),
+          backgroundColor: ["rgba(0,0,0,0)"],
+          borderColor: ["rgba(255,0,0,1)"],
+          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
+        },
+        {
+          label: "p90",
+          data: stats.map((e) => e.p90),
+          backgroundColor: ["rgba(0,0,0,0)"],
+          borderColor: ["rgba(0,0,0,1)"],
+          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
+          hidden: false,
+        },
+        {
+          label: "p100",
+          data: stats.map((e) => e.p100),
+          backgroundColor: ["rgba(0,0,0,0)"],
+          borderColor: ["rgba(0,0,0,1)"],
+          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
+          hidden: true,
+        },
+        {
+          label: "p25-p75",
+          data: stats.map((e) => [e.p25, e.p75]),
+          backgroundColor: ["rgba(255,255,255,1)"],
+          borderColor: ["rgba(128,128,128,1)"],
+          borderWidth: 1,
+          borderSkipped: "none",
+        },
+      ],
+    });
+  }, [perfPeriod]);
+
   return (
     <Layout title="About">
       <div className={`${container} ${page}`}>
@@ -343,6 +403,40 @@ const About = () => {
             <button onClick={() => setPerfPeriod("hourly")}>hourly</button>
             <button onClick={() => setPerfPeriod("daily")}>daily</button>
             <button onClick={() => setPerfPeriod("monthly")}>monthly</button>
+          </p>
+
+          {accuracyData ? (
+            <Bar
+              options={{
+                animations: false,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "trace.moe accuracy distribution",
+                  },
+                },
+                scales: {
+                  x: {
+                    stacked: true,
+                  },
+                  y: {
+                    beginAtZero: true,
+                    title: {
+                      display: true,
+                      text: "accuracy (1=100%)",
+                    },
+                  },
+                },
+              }}
+              data={accuracyData}
+              width="680"
+              height="400"
+            ></Bar>
+          ) : null}
+          <p className={graphControl}>
+            <button onClick={() => setAccuracyPeriod("hourly")}>hourly</button>
+            <button onClick={() => setAccuracyPeriod("daily")}>daily</button>
+            <button onClick={() => setAccuracyPeriod("monthly")}>monthly</button>
           </p>
         </div>
 

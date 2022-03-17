@@ -420,7 +420,9 @@ const About = () => {
                     stacked: true,
                   },
                   y: {
-                    beginAtZero: true,
+                    min:
+                      accuracyData.datasets?.find((e) => e.label === "p0")?.data?.sort()[0] - 0.1,
+                    max: 1,
                     title: {
                       display: true,
                       text: "accuracy (1=100%)",

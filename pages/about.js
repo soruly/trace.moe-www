@@ -188,7 +188,7 @@ const About = () => {
       datasets: [
         {
           label: "p0",
-          data: stats.map((e) => e.p0),
+          data: stats.map((e) => Number(e.p0.toFixed(3))),
           backgroundColor: ["rgba(0,0,0,0)"],
           borderColor: ["rgba(0,0,0,1)"],
           borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
@@ -196,7 +196,7 @@ const About = () => {
         },
         {
           label: "p10",
-          data: stats.map((e) => e.p10),
+          data: stats.map((e) => Number(e.p10.toFixed(3))),
           backgroundColor: ["rgba(0,0,0,0)"],
           borderColor: ["rgba(0,0,0,1)"],
           borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
@@ -204,14 +204,14 @@ const About = () => {
         },
         {
           label: "p50",
-          data: stats.map((e) => e.p50),
+          data: stats.map((e) => Number(e.p50.toFixed(3))),
           backgroundColor: ["rgba(0,0,0,0)"],
           borderColor: ["rgba(255,0,0,1)"],
           borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
         },
         {
           label: "p90",
-          data: stats.map((e) => e.p90),
+          data: stats.map((e) => Number(e.p90.toFixed(3))),
           backgroundColor: ["rgba(0,0,0,0)"],
           borderColor: ["rgba(0,0,0,1)"],
           borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
@@ -219,7 +219,7 @@ const About = () => {
         },
         {
           label: "p100",
-          data: stats.map((e) => e.p100),
+          data: stats.map((e) => Number(e.p100.toFixed(3))),
           backgroundColor: ["rgba(0,0,0,0)"],
           borderColor: ["rgba(0,0,0,1)"],
           borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
@@ -227,7 +227,7 @@ const About = () => {
         },
         {
           label: "p25-p75",
-          data: stats.map((e) => [e.p25, e.p75]),
+          data: stats.map((e) => [Number(e.p25.toFixed(3)), Number(e.p75.toFixed(3))]),
           backgroundColor: ["rgba(255,255,255,1)"],
           borderColor: ["rgba(128,128,128,1)"],
           borderWidth: 1,

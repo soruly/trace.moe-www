@@ -235,7 +235,7 @@ const About = () => {
         },
       ],
     });
-  }, [perfPeriod]);
+  }, [accuracyPeriod]);
 
   return (
     <Layout title="About">

@@ -525,8 +525,6 @@ const About = () => {
                 },
                 scales: {
                   y: {
-                    min: [...accuracyData.datasets?.find((e) => e.label === "p0")?.data]?.sort()[0],
-                    max: 1,
                     title: {
                       display: true,
                       text: "accuracy (1=100%)",

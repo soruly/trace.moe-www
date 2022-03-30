@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  PointElement,
+  LineElement,
+  Legend,
+} from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
 import Layout from "../components/layout";
 import {
   container,
@@ -12,6 +23,17 @@ import {
 } from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const getDatabaseStatus = async () => {
   const status = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`).then((e) => e.json());
@@ -57,184 +79,265 @@ const About = () => {
     mediaFramesTotal: 0,
     mediaDurationTotal: 0,
   });
-  useEffect(async () => {
+  useEffect(() => {
     getDatabaseStatus().then((e) => setDatabaseStatus(e));
     getMediaStatus().then((e) => setMediaStatus(e));
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hourly");
   const [trafficData, setTrafficData] = useState(null);
-  useEffect(async () => {
-    const stats = await fetch(
-      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`
-    ).then((e) => e.json());
-    setTrafficData({
-      labels: stats.map((e) => e.period),
-      datasets: [
-        {
-          label: "503",
-          data: stats.map((e) => e["503"]),
-          backgroundColor: ["rgba(255,128,128,0.2)"],
-          borderColor: ["rgba(255,128,128,1)"],
-          borderWidth: 1,
-        },
-        {
-          label: "500",
-          data: stats.map((e) => e["500"]),
-          backgroundColor: ["rgba(255,128,255,0.2)"],
-          borderColor: ["rgba(255,128,255,1)"],
-          borderWidth: 1,
-        },
-        {
-          label: "405",
-          data: stats.map((e) => e["405"]),
-          backgroundColor: ["rgba(128,128,128,0.2)"],
-          borderColor: ["rgba(128,128,128,1)"],
-          borderWidth: 1,
-        },
-        {
-          label: "402",
-          data: stats.map((e) => e["402"]),
-          backgroundColor: ["rgba(128,128,255,0.2)"],
-          borderColor: ["rgba(128,128,255,1)"],
-          borderWidth: 1,
-        },
-        {
-          label: "400",
-          data: stats.map((e) => e["400"]),
-          backgroundColor: ["rgba(192,192,0,0.2)"],
-          borderColor: ["rgba(192,192,0,1)"],
-          borderWidth: 1,
-        },
-        {
-          label: "200",
-          data: stats.map((e) => e["200"]),
-          backgroundColor: ["rgba(0,255,0,0.2)"],
-          borderColor: ["rgba(0,255,0,1)"],
-          borderWidth: 1,
-        },
-      ],
-    });
+  useEffect(() => {
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`)
+      .then((e) => e.json())
+      .then((stats) => {
+        setTrafficData({
+          labels: stats.map((e) => e.period),
+          datasets: [
+            {
+              label: "503",
+              data: stats.map((e) => e["503"]),
+              backgroundColor: ["rgba(255,128,128,0.2)"],
+              borderColor: ["rgba(255,128,128,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "500",
+              data: stats.map((e) => e["500"]),
+              backgroundColor: ["rgba(255,128,255,0.2)"],
+              borderColor: ["rgba(255,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "405",
+              data: stats.map((e) => e["405"]),
+              backgroundColor: ["rgba(128,128,128,0.2)"],
+              borderColor: ["rgba(128,128,128,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "402",
+              data: stats.map((e) => e["402"]),
+              backgroundColor: ["rgba(128,128,255,0.2)"],
+              borderColor: ["rgba(128,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "400",
+              data: stats.map((e) => e["400"]),
+              backgroundColor: ["rgba(192,192,0,0.2)"],
+              borderColor: ["rgba(192,192,0,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "200",
+              data: stats.map((e) => e["200"]),
+              backgroundColor: ["rgba(0,255,0,0.2)"],
+              borderColor: ["rgba(0,255,0,1)"],
+              borderWidth: 1,
+            },
+          ],
+        });
+      });
   }, [trafficPeriod]);
 
   const [perfPeriod, setPerfPeriod] = useState("hourly");
   const [perfData, setPerfData] = useState(null);
-  useEffect(async () => {
-    const stats = await fetch(
-      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`
-    ).then((e) => e.json());
-    setPerfData({
-      labels: stats.map((e) => e.period),
-      datasets: [
-        {
-          label: "p0",
-          data: stats.map((e) => e.p0),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: true,
-        },
-        {
-          label: "p10",
-          data: stats.map((e) => e.p10),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: false,
-        },
-        {
-          label: "p50",
-          data: stats.map((e) => e.p50),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(255,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-        },
-        {
-          label: "p90",
-          data: stats.map((e) => e.p90),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: false,
-        },
-        {
-          label: "p100",
-          data: stats.map((e) => e.p100),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: true,
-        },
-        {
-          label: "p25-p75",
-          data: stats.map((e) => [e.p25, e.p75]),
-          backgroundColor: ["rgba(255,255,255,1)"],
-          borderColor: ["rgba(128,128,128,1)"],
-          borderWidth: 1,
-          borderSkipped: "none",
-        },
-      ],
-    });
+  useEffect(() => {
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`)
+      .then((e) => e.json())
+      .then((stats) => {
+        setPerfData({
+          labels: stats.map((e) => e.period),
+          datasets: [
+            {
+              label: "p0",
+              data: stats.map((e) => e.p0),
+              borderColor: "rgba(64,64,64,0)",
+              backgroundColor: "rgba(64,64,64,0)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 1,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+              hidden: true,
+            },
+            {
+              label: "p10",
+              data: stats.map((e) => e.p10),
+              borderColor: "rgba(64,64,64,0.2)",
+              backgroundColor: "rgba(64,64,64,0.2)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+            },
+            {
+              label: "p25",
+              data: stats.map((e) => e.p25),
+              borderColor: "hsl(227, 100%, 70%)",
+              backgroundColor: "hsl(227, 100%, 70%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(227, 100%, 70%)",
+            },
+            {
+              label: "p50",
+              data: stats.map((e) => e.p50),
+              borderColor: "hsl(0, 100%, 66%)",
+              backgroundColor: "hsl(0, 100%, 66%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(0, 100%, 66%)",
+            },
+            {
+              label: "p75",
+              data: stats.map((e) => e.p75),
+              borderColor: "hsl(227, 100%, 70%)",
+              backgroundColor: "hsl(227, 100%, 70%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(227, 100%, 70%)",
+            },
+            {
+              label: "p90",
+              data: stats.map((e) => e.p90),
+              borderColor: "rgba(64,64,64,0.2)",
+              backgroundColor: "rgba(64,64,64,0.2)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+            },
+            {
+              label: "p100",
+              data: stats.map((e) => e.p100),
+              borderColor: "rgba(64,64,64,0)",
+              backgroundColor: "rgba(64,64,64,0)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 1,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+              hidden: true,
+            },
+          ],
+        });
+      });
   }, [perfPeriod]);
 
   const [accuracyPeriod, setAccuracyPeriod] = useState("hourly");
   const [accuracyData, setAccuracyData] = useState(null);
-  useEffect(async () => {
-    const stats = await fetch(
-      `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`
-    ).then((e) => e.json());
-    setAccuracyData({
-      labels: stats.map((e) => e.period),
-      datasets: [
-        {
-          label: "p0",
-          data: stats.map((e) => Number(e.p0?.toFixed(3))),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: true,
-        },
-        {
-          label: "p10",
-          data: stats.map((e) => Number(e.p10?.toFixed(3))),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: false,
-        },
-        {
-          label: "p50",
-          data: stats.map((e) => Number(e.p50?.toFixed(3))),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(255,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-        },
-        {
-          label: "p90",
-          data: stats.map((e) => Number(e.p90?.toFixed(3))),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: false,
-        },
-        {
-          label: "p100",
-          data: stats.map((e) => Number(e.p100?.toFixed(3))),
-          backgroundColor: ["rgba(0,0,0,0)"],
-          borderColor: ["rgba(0,0,0,1)"],
-          borderWidth: { top: 1, right: 0, bottom: 0, left: 0 },
-          hidden: true,
-        },
-        {
-          label: "p25-p75",
-          data: stats.map((e) => [Number(e.p25?.toFixed(3)), Number(e.p75?.toFixed(3))]),
-          backgroundColor: ["rgba(255,255,255,1)"],
-          borderColor: ["rgba(128,128,128,1)"],
-          borderWidth: 1,
-          borderSkipped: "none",
-        },
-      ],
-    });
+  useEffect(() => {
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`)
+      .then((e) => e.json())
+      .then((stats) => {
+        setAccuracyData({
+          labels: stats.map((e) => e.period),
+          datasets: [
+            {
+              label: "p0",
+              data: stats.map((e) => Number(e.p0.toFixed(3))),
+              borderColor: "rgba(64,64,64,0)",
+              backgroundColor: "rgba(64,64,64,0)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 1,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+              hidden: true,
+            },
+            {
+              label: "p10",
+              data: stats.map((e) => Number(e.p10.toFixed(3))),
+              borderColor: "rgba(64,64,64,0.2)",
+              backgroundColor: "rgba(64,64,64,0.2)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+            },
+            {
+              label: "p25",
+              data: stats.map((e) => Number(e.p25.toFixed(3))),
+              borderColor: "hsl(227, 100%, 70%)",
+              backgroundColor: "hsl(227, 100%, 70%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(227, 100%, 70%)",
+            },
+            {
+              label: "p50",
+              data: stats.map((e) => Number(e.p50.toFixed(3))),
+              borderColor: "hsl(0, 100%, 66%)",
+              backgroundColor: "hsl(0, 100%, 66%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(0, 100%, 66%)",
+            },
+            {
+              label: "p75",
+              data: stats.map((e) => Number(e.p75.toFixed(3))),
+              borderColor: "hsl(227, 100%, 70%)",
+              backgroundColor: "hsl(227, 100%, 70%)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "hsl(227, 100%, 70%)",
+            },
+            {
+              label: "p90",
+              data: stats.map((e) => Number(e.p90.toFixed(3))),
+              borderColor: "rgba(64,64,64,0.2)",
+              backgroundColor: "rgba(64,64,64,0.2)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 0,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+            },
+            {
+              label: "p100",
+              data: stats.map((e) => Number(e.p100.toFixed(3))),
+              borderColor: "rgba(64,64,64,0)",
+              backgroundColor: "rgba(64,64,64,0)",
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone",
+              pointHitRadius: 8,
+              pointRadius: 1,
+              pointHoverRadius: 3,
+              pointBackgroundColor: "rgba(64,64,64,0.5)",
+              hidden: true,
+            },
+          ],
+        });
+      });
   }, [accuracyPeriod]);
 
   return (
@@ -372,7 +475,7 @@ const About = () => {
           </p>
 
           {perfData ? (
-            <Bar
+            <Line
               options={{
                 animations: false,
                 plugins: {
@@ -382,9 +485,6 @@ const About = () => {
                   },
                 },
                 scales: {
-                  x: {
-                    stacked: true,
-                  },
                   y: {
                     beginAtZero: true,
                     title: {
@@ -397,7 +497,7 @@ const About = () => {
               data={perfData}
               width="680"
               height="400"
-            ></Bar>
+            ></Line>
           ) : null}
           <p className={graphControl}>
             <button onClick={() => setPerfPeriod("hourly")}>hourly</button>
@@ -406,7 +506,7 @@ const About = () => {
           </p>
 
           {accuracyData ? (
-            <Bar
+            <Line
               options={{
                 animations: false,
                 plugins: {
@@ -416,9 +516,6 @@ const About = () => {
                   },
                 },
                 scales: {
-                  x: {
-                    stacked: true,
-                  },
                   y: {
                     min: [...accuracyData.datasets?.find((e) => e.label === "p0")?.data]?.sort()[0],
                     max: 1,
@@ -432,7 +529,7 @@ const About = () => {
               data={accuracyData}
               width="680"
               height="400"
-            ></Bar>
+            ></Line>
           ) : null}
           <p className={graphControl}>
             <button onClick={() => setAccuracyPeriod("hourly")}>hourly</button>

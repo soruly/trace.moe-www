@@ -56,8 +56,8 @@ const Account = () => {
     setCreateUserLabel("");
   };
 
-  useEffect(async () => {
-    await login();
+  useEffect(() => {
+    login();
   }, []);
 
   const submitLogin = async (e) => {
@@ -130,24 +130,26 @@ const Account = () => {
   };
 
   let apiKeyClass = "";
-  useEffect(async () => {
+  useEffect(() => {
     setDialogue("");
-    if (confirmed) {
-      setAPIKeyLabel("Resetting API Key...");
-      const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/reset-key`, {
-        headers: { "x-trace-key": apiKey },
-      });
-      if (res.status >= 400) {
-        setAPIKeyLabel((await res.json()).error);
-        apiKeyClass = error;
-      } else {
-        const newApiKey = (await res.json()).key;
-        setAPIKeyLabel("API Key has been reset.");
-        setAPIKey(newApiKey);
+    (async () => {
+      if (confirmed) {
+        setAPIKeyLabel("Resetting API Key...");
+        const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/reset-key`, {
+          headers: { "x-trace-key": apiKey },
+        });
+        if (res.status >= 400) {
+          setAPIKeyLabel((await res.json()).error);
+          apiKeyClass = error;
+        } else {
+          const newApiKey = (await res.json()).key;
+          setAPIKeyLabel("API Key has been reset.");
+          setAPIKey(newApiKey);
+        }
       }
-    }
-    setConfirmed();
-    setIsResettingApiKey(false);
+      setConfirmed();
+      setIsResettingApiKey(false);
+    })();
   }, [confirmed]);
 
   const resetAPIKey = async (e) => {

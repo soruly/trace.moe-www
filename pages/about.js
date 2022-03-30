@@ -469,7 +469,9 @@ const About = () => {
               width="680"
               height="400"
             ></Bar>
-          ) : null}
+          ) : (
+            <div className={graph}></div>
+          )}
           <p className={graphControl}>
             <button onClick={() => setTrafficPeriod("hourly")}>hourly</button>
             <button onClick={() => setTrafficPeriod("daily")}>daily</button>
@@ -501,7 +503,9 @@ const About = () => {
               width="680"
               height="400"
             ></Line>
-          ) : null}
+          ) : (
+            <div className={graph}></div>
+          )}
           <p className={graphControl}>
             <button onClick={() => setPerfPeriod("hourly")}>hourly</button>
             <button onClick={() => setPerfPeriod("daily")}>daily</button>
@@ -534,7 +538,9 @@ const About = () => {
               width="680"
               height="400"
             ></Line>
-          ) : null}
+          ) : (
+            <div className={graph}></div>
+          )}
           <p className={graphControl}>
             <button onClick={() => setAccuracyPeriod("hourly")}>hourly</button>
             <button onClick={() => setAccuracyPeriod("daily")}>daily</button>

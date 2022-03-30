@@ -35,6 +35,8 @@
   background-color: #ffffff;
   box-shadow: 0 0 0.2rem var(--text-main-color);
   border-radius: 0.5rem;
+  width: 680px;
+  height: 400px;
 }
 .graphControl {
   text-align: center;

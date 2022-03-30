@@ -37,20 +37,22 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!src) return;
     playerRef.current.pause();
     setPlayerLoading(true);
     playerRef.current.style.opacity = 0;
     setDuration(0);
-    const response = await fetch(`${src}&size=l`);
-    setPlayerSrc(URL.createObjectURL(await response.blob()));
-    const videoDuration = parseFloat(response.headers.get("x-video-duration"));
-    setDuration(videoDuration);
-    setLeft((timeCode / videoDuration) * playerWidth - 6);
+    (async () => {
+      const response = await fetch(`${src}&size=l`);
+      setPlayerSrc(URL.createObjectURL(await response.blob()));
+      const videoDuration = parseFloat(response.headers.get("x-video-duration"));
+      setDuration(videoDuration);
+      setLeft((timeCode / videoDuration) * playerWidth - 6);
+    })();
   }, [src, timeCode]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (src) return;
     if (isSearching) {
       playerRef.current.pause();

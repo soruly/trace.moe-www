@@ -100,7 +100,7 @@ const Index = () => {
     return "";
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!searchImageSrc) return;
     setIsLoading(true);
     setMessageText("Loading search image...");

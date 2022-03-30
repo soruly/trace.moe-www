@@ -19,6 +19,7 @@ import {
   section,
   sectionHeader,
   sectionItem,
+  graph,
   graphControl,
 } from "../components/layout.module.css";
 
@@ -445,6 +446,7 @@ const About = () => {
           </ul>
           {trafficData ? (
             <Bar
+              className={graph}
               options={{
                 animations: false,
                 plugins: {
@@ -476,6 +478,7 @@ const About = () => {
 
           {perfData ? (
             <Line
+              className={graph}
               options={{
                 animations: false,
                 plugins: {
@@ -507,6 +510,7 @@ const About = () => {
 
           {accuracyData ? (
             <Line
+              className={graph}
               options={{
                 animations: false,
                 plugins: {

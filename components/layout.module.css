@@ -31,6 +31,11 @@
 .page ol {
   padding-inline-start: 1rem;
 }
+.graph {
+  background-color: #ffffff;
+  box-shadow: 0 0 0.2rem var(--text-main-color);
+  border-radius: 0.5rem;
+}
 .graphControl {
   text-align: center;
 }

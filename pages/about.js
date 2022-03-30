@@ -252,7 +252,7 @@ const About = () => {
           datasets: [
             {
               label: "p0",
-              data: stats.map((e) => Number(e.p0.toFixed(3))),
+              data: stats.map((e) => Number(e.p0?.toFixed(3))),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,
@@ -265,7 +265,7 @@ const About = () => {
             },
             {
               label: "p10",
-              data: stats.map((e) => Number(e.p10.toFixed(3))),
+              data: stats.map((e) => Number(e.p10?.toFixed(3))),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -277,7 +277,7 @@ const About = () => {
             },
             {
               label: "p25",
-              data: stats.map((e) => Number(e.p25.toFixed(3))),
+              data: stats.map((e) => Number(e.p25?.toFixed(3))),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -289,7 +289,7 @@ const About = () => {
             },
             {
               label: "p50",
-              data: stats.map((e) => Number(e.p50.toFixed(3))),
+              data: stats.map((e) => Number(e.p50?.toFixed(3))),
               borderColor: "hsl(0, 100%, 66%)",
               backgroundColor: "hsl(0, 100%, 66%)",
               borderWidth: 1,
@@ -301,7 +301,7 @@ const About = () => {
             },
             {
               label: "p75",
-              data: stats.map((e) => Number(e.p75.toFixed(3))),
+              data: stats.map((e) => Number(e.p75?.toFixed(3))),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -313,7 +313,7 @@ const About = () => {
             },
             {
               label: "p90",
-              data: stats.map((e) => Number(e.p90.toFixed(3))),
+              data: stats.map((e) => Number(e.p90?.toFixed(3))),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -325,7 +325,7 @@ const About = () => {
             },
             {
               label: "p100",
-              data: stats.map((e) => Number(e.p100.toFixed(3))),
+              data: stats.map((e) => Number(e.p100?.toFixed(3))),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,

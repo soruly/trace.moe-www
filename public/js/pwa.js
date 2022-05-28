@@ -1,4 +1,7 @@
 (async () => {
+  if (!navigator.serviceWorker) return;
+  navigator.serviceWorker.register("/sw.js");
+
   if (!("launchQueue" in window)) return;
   if (!("files" in LaunchParams.prototype)) return;
 
@@ -12,7 +15,4 @@
     canvas.getContext("2d").drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height);
     document.querySelector("#originalImage").src = canvas.toDataURL("image/jpeg", 0.9);
   });
-
-  if (!navigator.serviceWorker) return;
-  navigator.serviceWorker.register("/sw.js");
 })();

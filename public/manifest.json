@@ -30,6 +30,33 @@
       "launch_type": "single-client"
     }
   ],
+  "share_target": {
+    "action": "/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "name",
+      "text": "description",
+      "url": "link",
+      "files": [
+        {
+          "name": "image",
+          "accept": [
+            "image/jpg",
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+            ".webp"
+          ]
+        }
+      ]
+    }
+  },
   "background_color": "#f9f9fb",
   "theme_color": "#f9f9fb"
 }

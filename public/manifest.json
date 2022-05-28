@@ -18,6 +18,18 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "natural",
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "image/jpeg": [".jpeg", ".jpg"],
+        "image/png": [".png"],
+        "image/gif": [".gif"],
+        "image/webp": [".webp"]
+      },
+      "launch_type": "single-client"
+    }
+  ],
   "background_color": "#f9f9fb",
   "theme_color": "#f9f9fb"
 }

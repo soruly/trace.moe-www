@@ -44,7 +44,11 @@ const Index = () => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has("url")) {
       setImageURL(searchParams.get("url"));
-      setSearchImageSrc(`/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`);
+      setSearchImageSrc(
+        searchParams.get("url").startsWith(location.origin)
+          ? searchParams.get("url")
+          : `/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`
+      );
     }
     document.addEventListener(
       "paste",

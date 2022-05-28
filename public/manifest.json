@@ -1,0 +1,23 @@
+{
+  "name": "trace.moe",
+  "short_name": "trace.moe",
+  "icons": [
+    {
+      "src": "icon144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "natural",
+  "background_color": "#f9f9fb",
+  "theme_color": "#f9f9fb"
+}

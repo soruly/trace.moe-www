@@ -19,6 +19,8 @@ export default function Layout({ children, title }) {
         <title>{title} - trace.moe</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="icon" type="image/png" href="/favicon128.png" sizes="128x128" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       {children}
       <footer className={footer}>
@@ -105,6 +107,7 @@ export default function Layout({ children, title }) {
         </div>
       </footer>
       <script src="/js/analytics.js" defer></script>
+      <script src="/js/pwa.js" defer></script>
     </>
   );
 }

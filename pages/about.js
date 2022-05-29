@@ -483,7 +483,7 @@ const About = () => {
               }}
               data={trafficData}
               width="680"
-              height="400"
+              height="500"
             ></Bar>
           ) : (
             <div className={graph}></div>
@@ -517,7 +517,7 @@ const About = () => {
               }}
               data={perfData}
               width="680"
-              height="400"
+              height="500"
             ></Line>
           ) : (
             <div className={graph}></div>
@@ -550,7 +550,7 @@ const About = () => {
               }}
               data={accuracyData}
               width="680"
-              height="400"
+              height="500"
             ></Line>
           ) : (
             <div className={graph}></div>

@@ -69,6 +69,14 @@ const getMediaStatus = async () => {
   };
 };
 
+const formatDate = (period) => {
+  const d = new Date(period.slice(0, -2).replace(" ", "T").concat(":00Z"));
+  const month = (d.getMonth() + 1).toString().padStart(2, "0");
+  const date = d.getDate().toString().padStart(2, "0");
+  const hour = d.getHours().toString().padStart(2, "0");
+  return `${month}-${date} ${hour}:00`;
+};
+
 const About = () => {
   const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
     lastModified: new Date(0),
@@ -92,7 +100,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setTrafficData({
-          labels: stats.map((e) => e.period),
+          labels: stats.map((e) => formatDate(e.period)),
           datasets: [
             {
               label: "503",
@@ -148,7 +156,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setPerfData({
-          labels: stats.map((e) => e.period),
+          labels: stats.map((e) => formatDate(e.period)),
           datasets: [
             {
               label: "p0",
@@ -248,7 +256,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setAccuracyData({
-          labels: stats.map((e) => e.period),
+          labels: stats.map((e) => formatDate(e.period)),
           datasets: [
             {
               label: "p0",

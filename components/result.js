@@ -31,7 +31,7 @@ export default function Result({ searchResult: entry, active: isActive }) {
         <div className={similarity}>{`~${(entry.similarity * 100).toFixed(2)}% Similarity`}</div>
       </div>
       <video
-        src={`${similarity > 0.9 ? `${entry.video}&size=s` : ""}`}
+        src={entry.similarity > 0.87 ? `${entry.video}&size=s` : ""}
         poster={`${entry.image}&size=s`}
         volume="0"
         muted

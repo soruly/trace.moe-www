@@ -69,7 +69,15 @@ const getMediaStatus = async () => {
   };
 };
 
-const formatDate = (period) => {
+const formatDate = (period, trafficPeriod) => {
+  if (trafficPeriod === "monthly") return period;
+  if (trafficPeriod === "daily") {
+    const d = new Date(period);
+    const year = d.getFullYear().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const date = d.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${date}`;
+  }
   const d = new Date(period.slice(0, -2).replace(" ", "T").concat(":00Z"));
   const month = (d.getMonth() + 1).toString().padStart(2, "0");
   const date = d.getDate().toString().padStart(2, "0");
@@ -100,7 +108,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setTrafficData({
-          labels: stats.map((e) => formatDate(e.period)),
+          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
           datasets: [
             {
               label: "503",
@@ -156,7 +164,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setPerfData({
-          labels: stats.map((e) => formatDate(e.period)),
+          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
           datasets: [
             {
               label: "p0",
@@ -256,7 +264,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setAccuracyData({
-          labels: stats.map((e) => formatDate(e.period)),
+          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
           datasets: [
             {
               label: "p0",

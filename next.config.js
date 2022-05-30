@@ -22,7 +22,7 @@ module.exports = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' www.google-analytics.com static.cloudflareinsights.com",
+              "script-src 'self' 'unsafe-eval' www.google-analytics.com www.googletagmanager.com static.cloudflareinsights.com",
               "style-src * 'self' 'unsafe-inline'",
               `img-src * 'self' data: blob: ${NEXT_PUBLIC_MEDIA_ENDPOINT}`,
               "font-src 'self'",

@@ -106,8 +106,9 @@ export default function Layout({ children, title }) {
           </div>
         </div>
       </footer>
-      <script src="https://www.googletagmanager.com/gtag/js?id=UA-70950149-1" async></script>
-      <script src="/js/gtag.js"></script>
+      {/* <script src="https://www.googletagmanager.com/gtag/js?id=UA-70950149-1" async></script> */}
+      <script src="/js/js.js"></script>
+      <script src="/js/t.js"></script>
       <script src="/js/pwa.js" defer></script>
     </>
   );

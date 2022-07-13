@@ -38,14 +38,22 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  align-content: space-around;
-  justify-content: space-between;
-  max-width: 960px;
-  margin: 4rem auto;
-  transition: all 300ms ease-out 200ms;
+  justify-content: center;
+
+  margin: 3rem auto;
+  padding: 1rem 0;
+  gap: 1rem;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
   z-index: 10;
 }
-
+@media (max-width: 500px) {
+  .wrap {
+    padding: 1rem 1rem;
+    margin: 5rem 0;
+  }
+}
 .searchImageDisplay {
   display: flex;
   flex-wrap: wrap;
@@ -92,10 +100,11 @@
 .originalImageDisplay {
   width: 160px;
   min-height: 90px;
+  max-height: 100px;
   display: block;
 }
 .resultList {
-  width: 300px;
+  width: 320px;
   margin-bottom: 2rem;
 }
 .resultList button {
@@ -121,40 +130,62 @@
 }
 
 .playerInfoPane {
-  margin-bottom: 2rem;
   box-shadow: 0 0 20px var(--shadow-color);
-  background: linear-gradient(
-        0deg,
-        var(--info-draw-color) 0,
-        var(--info-draw-color) 95%,
-        var(--info-line-color) 95%,
-        var(--info-line-color) 100%
-      )
-      0 50%,
-    linear-gradient(
-        90deg,
-        var(--info-draw-color) 0,
-        var(--info-draw-color) 95%,
-        var(--info-line-color) 95%,
-        var(--info-line-color) 100%
-      )
-      50% 0,
-    var(--info-main-color);
+  background: var(--blank-color);
   background-size: 50px 50px;
   border-radius: 0.5rem;
   overflow: hidden;
+  transition: all 200ms ease-out;
+}
+.closeBtn {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 100ms ease-out;
+}
+.closeBtn:hover {
+  text-shadow: 0 0 0.125rem var(--text-strong-color);
 }
 
-@media (max-width: 960px) {
-  .wrap {
-    justify-content: space-around;
+@media (max-width: 1008px) {
+  .closeBtn {
+    display: block;
   }
   .resultList {
-    width: 640px;
-    height: 30vh;
-    overflow-y: scroll;
-    padding: 0 20px 0 20px;
-    border-bottom: 1px dashed var(--theme-weak-color);
-    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 640px;
+  }
+  .playerInfoPane {
+    width: 100%;
+    max-width: 640px;
+    position: absolute;
+    transform: translate(0, 0);
+  }
+  .playerInfoPane.hidden {
+    transform: translate(100vw, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    min-height: 150vh;
+  }
+  .closeBtn {
+    display: block;
+  }
+  .resultList {
+    width: 100%;
+  }
+  .playerInfoPane {
+    width: 100%;
+    position: absolute;
+    transform: translate(0, 0);
+  }
+  .playerInfoPane.hidden {
+    transform: translate(100vw, 0);
   }
 }

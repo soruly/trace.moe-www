@@ -1,9 +1,15 @@
 .searchBar {
-  position: absolute;
-  top: calc(50% - 80px);
-  transform: translate(0, -50%);
+  margin-top: 50vh;
+  transform: translate(0, -110px);
   z-index: 20;
   border-radius: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+@media (max-width: 500px) {
+  .searchBar {
+    transform: translate(0, -160px);
+  }
 }
 .greet {
   display: block;
@@ -13,18 +19,8 @@
   font-size: 0.9rem;
   color: var(--text-weak-color);
 }
-.logo {
-  width: 300px;
-  color: var(--text-weak-color);
-}
 .searchBarReady a:hover {
   text-decoration: none;
-}
-.title {
-  font-size: 1.5rem;
-}
-.subtitle {
-  font-size: 0.8rem;
 }
 .searchBarReady {
   position: absolute;
@@ -35,18 +31,12 @@
   border-radius: 0;
   transform: translate(0, 0);
   box-shadow: 0 0 20px var(--shadow-color);
-  background: repeating-linear-gradient(
-        135deg,
-        var(--bar-draw-color) 0,
-        var(--bar-draw-color) 2px,
-        var(--bar-line-color) 2px,
-        var(--bar-line-color) 4px
-      )
-      50% 50%,
-    var(--bar-main-color);
+  background: var(--bar-main-color);
+  height: 3rem;
 }
 .searchBarContent {
-  max-width: 960px;
+  width: 100%;
+  max-width: 976px;
   margin: auto;
   font-size: 0.85rem;
   display: flex;
@@ -58,7 +48,13 @@
   background: var(--bar-draw-color);
 }
 .formControls {
-  margin: 2rem 0 2rem 2rem;
+  width: 100%;
+  margin: 2rem 1rem 2rem 2rem;
+  column-gap: 1rem;
+}
+.formControls > form {
+  display: flex;
+  width: 100%;
 }
 .formControls input[type="submit"] {
   display: none;
@@ -84,8 +80,7 @@
 
 .imageUrlInput {
   color: var(--text-main-color);
-  width: 290px;
-  display: inline-block;
+  width: 100%;
 }
 .anilistFilterInput {
   color: var(--text-main-color);
@@ -104,35 +99,37 @@
   border-color: var(--shadow-color);
 }
 .file {
-  position: relative;
   width: 2rem;
   height: 2rem;
   font-size: 1.5rem;
-  overflow: hidden;
+  position: relative;
   cursor: pointer;
-  display: inline-block;
-  left: -2.5rem;
-  vertical-align: bottom;
-}
-.searchBarReady .file {
-  width: 1.5rem;
-  height: 1.5rem;
-  font-size: 1.2rem;
-  line-height: 1rem;
-  left: -2rem;
-  vertical-align: sub;
 }
 .searchBarReady .formControls {
   margin: 0;
-  width: 640px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   align-content: space-around;
   justify-content: space-between;
+  flex-wrap: nowrap;
+}
+@media (max-width: 1008px) {
+  .searchBarReady .formControls {
+    margin: 0 1rem;
+  }
+}
+@media (max-width: 500px) {
+  .searchBarReady {
+    height: 5rem;
+  }
+  .searchBarReady .formControls {
+    flex-wrap: wrap;
+    margin: 0;
+  }
 }
 .searchBarReady .formControls form {
-  display: inline-block;
+  display: flex;
+  width: 100%;
 }
 .file::after {
   content: "📁";
@@ -152,12 +149,15 @@
 .file input[type="file"] {
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
-  font-size: 3rem;
+  font-size: 1.5rem;
   opacity: 0;
-  cursor: inherit;
+  overflow: hidden;
+  cursor: pointer;
 }
 .cutBordersBtn {
+  white-space: pre;
   color: var(--text-strong-color);
   background-color: transparent;
   outline: 0;

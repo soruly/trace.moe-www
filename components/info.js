@@ -103,8 +103,7 @@ export default function Layout({ anilist: src }) {
         <table>
           <tbody>
             <tr>
-              <td></td>
-              <td>
+              <td colSpan={2}>
                 {naturalText1}
                 <br />
                 {naturalText2}

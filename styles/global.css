@@ -71,7 +71,6 @@ body {
   padding: 0;
   margin: 0;
   margin-bottom: 160px;
-  overflow-y: scroll;
   background: linear-gradient(
         90deg,
         var(--bg-draw-color) 0%,
@@ -107,11 +106,5 @@ a:hover {
 @media (max-width: 500px) {
   body {
     margin-bottom: 320px;
-  }
-}
-
-@media (max-width: 350px) {
-  body {
-    margin-bottom: 600px;
   }
 }

@@ -56,6 +56,14 @@
   color: var(--text-main-color);
   height: 1rem;
 }
+@media (max-width: 640px) {
+  .playerInfo {
+    height: 2rem;
+  }
+  .timeCodeDisplay {
+    margin-left: 0.2rem;
+  }
+}
 .fileNameDisplay {
   font-size: 0.7rem;
   margin-left: 0.2rem;

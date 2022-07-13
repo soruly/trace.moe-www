@@ -22,8 +22,10 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
   const playerRef = useRef(null);
   const [isMute, setIsMute] = useState(true);
   const [duration, setDuration] = useState(0);
-  const playerWidth = 640;
+  const [playerWidth, setPlayerWidth] = useState(window.innerWidth > 640 ? 640 : window.innerWidth);
   const [playerHeight, setPlayerHeight] = useState(360);
+  const [videoWidth, setVideoWidth] = useState(640);
+  const [videoHeight, setVideoHeight] = useState(360);
   const [playerSrc, setPlayerSrc] = useState("");
   const [playerLoading, setPlayerLoading] = useState(isLoading);
   const [left, setLeft] = useState(-12);
@@ -36,6 +38,15 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
       playerRef.current.pause();
     }
   };
+
+  const handleResize = () => {
+    setPlayerWidth(window.innerWidth > 640 ? 640 : window.innerWidth);
+    setPlayerHeight((playerWidth / videoWidth) * videoHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+  }, []);
 
   useEffect(() => {
     if (!src) return;
@@ -82,6 +93,8 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
         onLoadedMetadata={(e) => {
           e.target.style.opacity = 1;
           if (e.target.videoWidth && e.target.videoHeight) {
+            setVideoWidth(e.target.videoWidth);
+            setVideoHeight(e.target.videoHeight);
             setPlayerHeight((playerWidth / e.target.videoWidth) * e.target.videoHeight);
           } else {
             setPlayerHeight(360);

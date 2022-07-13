@@ -34,7 +34,7 @@
 }
 .section {
   font-size: 0.8rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 .sectionHeader {
   font-size: 0.8rem;
@@ -55,14 +55,5 @@
   }
   .section {
     min-width: 140px;
-  }
-}
-
-@media (max-width: 350px) {
-  .footer {
-    height: 600px;
-  }
-  .section {
-    min-width: 250px;
   }
 }

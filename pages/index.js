@@ -17,6 +17,8 @@ import {
   resultList,
   wrap,
   playerInfoPane,
+  hidden,
+  closeBtn,
 } from "../components/index.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -274,7 +276,7 @@ const Index = () => {
     });
     setSearchResult(topResultsWithAnlist);
 
-    if (!topResultsWithAnlist[0].anilist.isAdult) {
+    if (!topResultsWithAnlist[0].anilist.isAdult && window.innerWidth > 1008) {
       topResultsWithAnlist[0].playResult();
     }
   };
@@ -282,7 +284,6 @@ const Index = () => {
   return (
     <Layout title="Anime Scene Search Engine">
       <Head>
-        <meta name="viewport" content="width=650, viewport-fit=cover" />
         <meta name="theme-color" content="#f9f9fb" />
         <meta itemProp="name" content="WAIT: What Anime Is This?" />
         <meta
@@ -404,7 +405,7 @@ const Index = () => {
               )}
             </div>
 
-            <div className={playerInfoPane}>
+            <div className={selectedResult ? playerInfoPane : [playerInfoPane, hidden].join(" ")}>
               <Player
                 src={playerSrc}
                 timeCode={playerTimeCode}
@@ -413,6 +414,18 @@ const Index = () => {
                 isSearching={isSearching}
                 onDrop={handleFileSelect}
               ></Player>
+              <div
+                className={closeBtn}
+                onClick={(e) => {
+                  setSelectedResult();
+                  setAnilistInfo();
+                  setPlayerSrc();
+                  setPlayerFileName("");
+                  setPlayerTimeCode("");
+                }}
+              >
+                ❌
+              </div>
               {!isSearching && <Info anilist={anilistInfo}></Info>}
             </div>
           </div>

@@ -8,7 +8,7 @@
 .title {
   font-size: 1.4rem;
   line-height: 2rem;
-  width: calc(640px - 1.5rem);
+  /* width: calc(640px - 1.5rem); */
   padding: 0 0.5rem 0 0.5rem;
   color: var(--theme-strong-color);
   border-left: 3px double var(--theme-strong-color);
@@ -16,7 +16,7 @@
 .subtitle {
   font-size: 0.8rem;
   line-height: 1rem;
-  width: calc(640px - 1.5rem);
+  /* width: calc(640px - 1.5rem); */
   padding: 0 0.5rem 0.2rem 0.7rem;
   color: var(--theme-main-color);
   border-left: 3px double var(--theme-strong-color);
@@ -34,6 +34,15 @@
   align-items: flex-start;
   align-content: space-around;
   justify-content: space-between;
+}
+
+@media (max-width: 640px) {
+  .detail {
+    width: auto;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 }
 .infoPane table {
   flex-grow: 1;

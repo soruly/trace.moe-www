@@ -3,9 +3,6 @@ import {
   greet,
   searchBarReady,
   searchBarContent,
-  logo,
-  title,
-  subtitle,
   formControls,
   imageUrlInput,
   anilistFilterInput,
@@ -37,14 +34,6 @@ export default function SearchBar({
           <div className={greet}>
             paste or drop image here; trace back the scene from an anime screenshot
           </div>
-        )}
-        {searchImageSrc && (
-          <a href="/">
-            <div className={logo}>
-              <div className={title}>trace.moe</div>
-              <div className={subtitle}>-- Anime Scene Search Engine</div>
-            </div>
-          </a>
         )}
         <div className={formControls}>
           <form>

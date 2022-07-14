@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "build-export-start": "curl -L -o public/js/js.js 'https://www.googletagmanager.com/gtag/js?id=UA-70950149-1' && next build && next export && next start",
+    "build-export-start": "wget -O public/js/js.js 'https://www.googletagmanager.com/gtag/js?id=UA-70950149-1' && next build && next export && next start",
     "prettier": "prettier",
     "format": "prettier --write \"**/*.js\"",
     "lint": "prettier --check \"**/*.js\"",

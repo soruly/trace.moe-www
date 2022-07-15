@@ -16,6 +16,12 @@
   backdrop-filter: blur(0);
   z-index: 1;
 }
+@media (max-width: 500px) {
+  .dropTarget {
+    margin-bottom: 320px;
+  }
+}
+
 .dropping {
   background: var(--drop-main-color);
   border: 0.5rem dashed var(--theme-main-color);

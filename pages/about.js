@@ -78,11 +78,18 @@ const formatDate = (period, trafficPeriod) => {
     const date = d.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${date}`;
   }
-  const d = new Date(period.slice(0, -2).replace(" ", "T").concat(":00Z"));
-  const month = (d.getMonth() + 1).toString().padStart(2, "0");
-  const date = d.getDate().toString().padStart(2, "0");
-  const hour = d.getHours().toString().padStart(2, "0");
-  return `${month}-${date} ${hour}:00`;
+  if (trafficPeriod === "hourly") {
+    const d = new Date(period.slice(0, -2).replace(" ", "T").concat(":00Z"));
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const date = d.getDate().toString().padStart(2, "0");
+    const hour = d.getHours().toString().padStart(2, "0");
+    return `${month}-${date} ${hour}:00`;
+  }
+  const isoString = new Date(period).toISOString();
+  if (trafficPeriod === "year") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1");
+  if (trafficPeriod === "month") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1-$2");
+  if (trafficPeriod === "day") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$2-$3");
+  if (trafficPeriod === "hour") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$4:00");
 };
 
 const About = () => {
@@ -101,14 +108,15 @@ const About = () => {
     getMediaStatus().then((e) => setMediaStatus(e));
   }, []);
 
-  const [trafficPeriod, setTrafficPeriod] = useState("hourly");
+  const [trafficPeriod, setTrafficPeriod] = useState("hour");
   const [trafficData, setTrafficData] = useState(null);
   useEffect(() => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
+        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
         setTrafficData({
-          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
+          labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
           datasets: [
             {
               label: "503",
@@ -164,7 +172,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setPerfData({
-          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
+          labels: stats.map((e) => formatDate(e.period, perfPeriod)),
           datasets: [
             {
               label: "p0",
@@ -264,7 +272,7 @@ const About = () => {
       .then((e) => e.json())
       .then((stats) => {
         setAccuracyData({
-          labels: stats.map((e) => formatDate(e.period, trafficPeriod)),
+          labels: stats.map((e) => formatDate(e.period, accuracyPeriod)),
           datasets: [
             {
               label: "p0",
@@ -474,6 +482,10 @@ const About = () => {
                 scales: {
                   x: {
                     stacked: true,
+                    distribution: "series",
+                    ticks: {
+                      maxRotation: 0,
+                    },
                   },
                   y: {
                     beginAtZero: true,
@@ -489,9 +501,10 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setTrafficPeriod("hourly")}>hourly</button>
-            <button onClick={() => setTrafficPeriod("daily")}>daily</button>
-            <button onClick={() => setTrafficPeriod("monthly")}>monthly</button>
+            <button onClick={() => setTrafficPeriod("hour")}>hourly</button>
+            <button onClick={() => setTrafficPeriod("day")}>daily</button>
+            <button onClick={() => setTrafficPeriod("month")}>monthly</button>
+            <button onClick={() => setTrafficPeriod("year")}>yearly</button>
           </p>
 
           {perfData ? (

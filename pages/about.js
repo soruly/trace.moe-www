@@ -69,23 +69,8 @@ const getMediaStatus = async () => {
   };
 };
 
-const formatDate = (period, trafficPeriod) => {
-  if (trafficPeriod === "monthly") return period;
-  if (trafficPeriod === "daily") {
-    const d = new Date(period);
-    const year = d.getFullYear().toString().padStart(2, "0");
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const date = d.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${date}`;
-  }
-  if (trafficPeriod === "hourly") {
-    const d = new Date(period.slice(0, -2).replace(" ", "T").concat(":00Z"));
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const date = d.getDate().toString().padStart(2, "0");
-    const hour = d.getHours().toString().padStart(2, "0");
-    return `${month}-${date} ${hour}:00`;
-  }
-  const isoString = new Date(period).toISOString();
+const formatDate = (time, trafficPeriod) => {
+  const isoString = new Date(time).toISOString();
   if (trafficPeriod === "year") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1");
   if (trafficPeriod === "month") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1-$2");
   if (trafficPeriod === "day") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$2-$3");
@@ -165,18 +150,19 @@ const About = () => {
       });
   }, [trafficPeriod]);
 
-  const [perfPeriod, setPerfPeriod] = useState("hourly");
-  const [perfData, setPerfData] = useState(null);
+  const [speedPeriod, setSpeedPeriod] = useState("hour");
+  const [speedData, setSpeedData] = useState(null);
   useEffect(() => {
-    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=performance&period=${perfPeriod}`)
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=speed&period=${speedPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        setPerfData({
-          labels: stats.map((e) => formatDate(e.period, perfPeriod)),
+        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
+        setSpeedData({
+          labels: stats.map((e) => formatDate(e.time, speedPeriod)),
           datasets: [
             {
               label: "p0",
-              data: stats.map((e) => e.p0),
+              data: stats.map((e) => (e.p0 ? e.p0 : null)),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,
@@ -189,7 +175,7 @@ const About = () => {
             },
             {
               label: "p10",
-              data: stats.map((e) => e.p10),
+              data: stats.map((e) => (e.p10 ? e.p10 : null)),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -201,7 +187,7 @@ const About = () => {
             },
             {
               label: "p25",
-              data: stats.map((e) => e.p25),
+              data: stats.map((e) => (e.p25 ? e.p25 : null)),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -213,7 +199,7 @@ const About = () => {
             },
             {
               label: "p50",
-              data: stats.map((e) => e.p50),
+              data: stats.map((e) => (e.p50 ? e.p50 : null)),
               borderColor: "hsl(0, 100%, 66%)",
               backgroundColor: "hsl(0, 100%, 66%)",
               borderWidth: 1,
@@ -225,7 +211,7 @@ const About = () => {
             },
             {
               label: "p75",
-              data: stats.map((e) => e.p75),
+              data: stats.map((e) => (e.p75 ? e.p75 : null)),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -237,7 +223,7 @@ const About = () => {
             },
             {
               label: "p90",
-              data: stats.map((e) => e.p90),
+              data: stats.map((e) => (e.p90 ? e.p90 : null)),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -249,7 +235,7 @@ const About = () => {
             },
             {
               label: "p100",
-              data: stats.map((e) => e.p100),
+              data: stats.map((e) => (e.p100 ? e.p100 : null)),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,
@@ -263,20 +249,21 @@ const About = () => {
           ],
         });
       });
-  }, [perfPeriod]);
+  }, [speedPeriod]);
 
-  const [accuracyPeriod, setAccuracyPeriod] = useState("hourly");
+  const [accuracyPeriod, setAccuracyPeriod] = useState("hour");
   const [accuracyData, setAccuracyData] = useState(null);
   useEffect(() => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
+        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
         setAccuracyData({
-          labels: stats.map((e) => formatDate(e.period, accuracyPeriod)),
+          labels: stats.map((e) => formatDate(e.time, accuracyPeriod)),
           datasets: [
             {
               label: "p0",
-              data: stats.map((e) => Number(e.p0?.toFixed(3))),
+              data: stats.map((e) => (e.p0 ? Number(e.p0?.toFixed(3)) : null)),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,
@@ -289,7 +276,7 @@ const About = () => {
             },
             {
               label: "p10",
-              data: stats.map((e) => Number(e.p10?.toFixed(3))),
+              data: stats.map((e) => (e.p10 ? Number(e.p10?.toFixed(3)) : null)),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -301,7 +288,7 @@ const About = () => {
             },
             {
               label: "p25",
-              data: stats.map((e) => Number(e.p25?.toFixed(3))),
+              data: stats.map((e) => (e.p25 ? Number(e.p25?.toFixed(3)) : null)),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -313,7 +300,7 @@ const About = () => {
             },
             {
               label: "p50",
-              data: stats.map((e) => Number(e.p50?.toFixed(3))),
+              data: stats.map((e) => (e.p50 ? Number(e.p50?.toFixed(3)) : null)),
               borderColor: "hsl(0, 100%, 66%)",
               backgroundColor: "hsl(0, 100%, 66%)",
               borderWidth: 1,
@@ -325,7 +312,7 @@ const About = () => {
             },
             {
               label: "p75",
-              data: stats.map((e) => Number(e.p75?.toFixed(3))),
+              data: stats.map((e) => (e.p75 ? Number(e.p75?.toFixed(3)) : null)),
               borderColor: "hsl(227, 100%, 70%)",
               backgroundColor: "hsl(227, 100%, 70%)",
               borderWidth: 1,
@@ -337,7 +324,7 @@ const About = () => {
             },
             {
               label: "p90",
-              data: stats.map((e) => Number(e.p90?.toFixed(3))),
+              data: stats.map((e) => (e.p90 ? Number(e.p90?.toFixed(3)) : null)),
               borderColor: "rgba(64,64,64,0.2)",
               backgroundColor: "rgba(64,64,64,0.2)",
               borderWidth: 1,
@@ -349,7 +336,7 @@ const About = () => {
             },
             {
               label: "p100",
-              data: stats.map((e) => Number(e.p100?.toFixed(3))),
+              data: stats.map((e) => (e.p100 ? Number(e.p100?.toFixed(3)) : null)),
               borderColor: "rgba(64,64,64,0)",
               backgroundColor: "rgba(64,64,64,0)",
               borderWidth: 1,
@@ -507,7 +494,7 @@ const About = () => {
             <button onClick={() => setTrafficPeriod("year")}>yearly</button>
           </p>
 
-          {perfData ? (
+          {speedData ? (
             <Line
               className={graph}
               options={{
@@ -519,6 +506,13 @@ const About = () => {
                   },
                 },
                 scales: {
+                  x: {
+                    stacked: true,
+                    distribution: "series",
+                    ticks: {
+                      maxRotation: 0,
+                    },
+                  },
                   y: {
                     beginAtZero: true,
                     title: {
@@ -528,7 +522,7 @@ const About = () => {
                   },
                 },
               }}
-              data={perfData}
+              data={speedData}
               width="680"
               height="500"
             ></Line>
@@ -536,9 +530,8 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setPerfPeriod("hourly")}>hourly</button>
-            <button onClick={() => setPerfPeriod("daily")}>daily</button>
-            <button onClick={() => setPerfPeriod("monthly")}>monthly</button>
+            <button onClick={() => setSpeedPeriod("hour")}>hourly</button>
+            <button onClick={() => setSpeedPeriod("day")}>daily</button>
           </p>
 
           {accuracyData ? (
@@ -553,6 +546,13 @@ const About = () => {
                   },
                 },
                 scales: {
+                  x: {
+                    stacked: true,
+                    distribution: "series",
+                    ticks: {
+                      maxRotation: 0,
+                    },
+                  },
                   y: {
                     title: {
                       display: true,
@@ -569,9 +569,8 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setAccuracyPeriod("hourly")}>hourly</button>
-            <button onClick={() => setAccuracyPeriod("daily")}>daily</button>
-            <button onClick={() => setAccuracyPeriod("monthly")}>monthly</button>
+            <button onClick={() => setAccuracyPeriod("hour")}>hourly</button>
+            <button onClick={() => setAccuracyPeriod("day")}>daily</button>
           </p>
         </div>
 

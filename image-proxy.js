@@ -46,6 +46,43 @@ const handleRequest = async (originalRequest) => {
   if (
     !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
   ) {
+    // retry as bot to get og:image
+    let webResponse = await fetch(
+      new Request(imageURL, {
+        redirect: "follow",
+        headers: {
+          referer: imageURL.origin,
+          "User-Agent": "googlebot",
+        },
+      })
+    );
+    if (response.status === 200) {
+      const ogImageURL = (await webResponse.text())
+        ?.match(/<[^<]+?"og:image".*?>/, "$1")?.[0]
+        ?.match(/content="(.*?)"/, "$1")?.[1];
+
+      if (ogImageURL && ogImageURL.match(/^https?:\/\//)) {
+        response = await fetch(
+          new Request(ogImageURL, {
+            redirect: "follow",
+            headers: {
+              referer: imageURL.origin,
+            },
+          })
+        );
+        if (response.status >= 400) {
+          return new Response(response.body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+          });
+        }
+      }
+    }
+  }
+  if (
+    !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
+  ) {
     return errorResponse("Error: Content-Type is not image or video");
   }
 

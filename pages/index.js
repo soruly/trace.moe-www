@@ -159,6 +159,14 @@ const Index = () => {
       setMessageText("You searched too many times, please try again later.");
       return;
     }
+    if (res.status === 503) {
+      for (let i = 5; i > 0; i--) {
+        setMessageText(`Server is busy, retrying in ${i}s`);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      search(imageBlob);
+      return;
+    }
     if (res.status >= 400) {
       setMessageText(`${(await res.json()).error} Please try again later.`);
       return;

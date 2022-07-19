@@ -308,7 +308,7 @@ const Index = () => {
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
         />
         <meta name="twitter:creator" content="@soruly" />
-        <meta name="twitter:image" content="<%= ogImage %>" />
+        <meta name="twitter:image" content="https://trace.moe/favicon128.png" />
         <meta
           name="twitter:image:alt"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
@@ -317,7 +317,7 @@ const Index = () => {
         <meta property="og:title" content="WAIT: What Anime Is This?" />
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://trace.moe" />
-        <meta property="og:image" content="<%= ogImage %>" />
+        <meta property="og:image" content="https://trace.moe/favicon128.png" />
         <meta
           property="og:description"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."

@@ -187,67 +187,17 @@ const Index = () => {
 
     const topResults = result.slice(0, 5);
 
-    const response = await fetch(NEXT_PUBLIC_ANILIST_ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify({
-        query: `query ($ids: [Int]) {
-            Page(page: 1, perPage: 50) {
-              media(id_in: $ids, type: ANIME) {
-                id
-                title {
-                  native
-                  romaji
-                  english
-                }
-                type
-                format
-                status
-                startDate {
-                  year
-                  month
-                  day
-                }
-                endDate {
-                  year
-                  month
-                  day
-                }
-                season
-                episodes
-                duration
-                source
-                coverImage {
-                  large
-                  medium
-                }
-                bannerImage
-                genres
-                synonyms
-                studios {
-                  edges {
-                    isMain
-                    node {
-                      id
-                      name
-                      siteUrl
-                    }
-                  }
-                }
-                isAdult
-                externalLinks {
-                  id
-                  url
-                  site
-                }
-                siteUrl
-              }
-            }
-          }
-          `,
-        variables: { ids: topResults.map((e) => e.anilist) },
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
+    let response = await fetch(
+      `${NEXT_PUBLIC_ANILIST_ENDPOINT}${topResults.map((e) => e.anilist)[0]}`,
+      {
+        method: "GET",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).catch((e) => console.log(e));
+    response = {
+      status: 404,
+    };
     if (response.status >= 400) {
       setMessageText("Failed to get Anilist info, please try again later.");
       const topResultsWithoutAnlist = topResults.map((entry) => {
@@ -389,7 +339,7 @@ const Index = () => {
                 <div className={messageTextLabel}>{messageText}</div>
               </div>
               {searchResult
-                .filter((e) => showNSFW || !e.anilist.isAdult)
+                .filter((e) => showNSFW || !e?.anilist?.isAdult)
                 .map((searchResult, i) => {
                   return (
                     <Result
@@ -399,7 +349,7 @@ const Index = () => {
                     ></Result>
                   );
                 })}
-              {searchResult.find((e) => e.anilist.isAdult) && (
+              {searchResult.find((e) => e?.anilist?.isAdult) && (
                 <div style={{ textAlign: "center" }}>
                   <button
                     onClick={(e) => {
@@ -407,7 +357,7 @@ const Index = () => {
                     }}
                   >
                     {showNSFW ? "Hide" : "Show"}{" "}
-                    {searchResult.filter((e) => e.anilist.isAdult).length} NSFW results
+                    {searchResult.filter((e) => e?.anilist?.isAdult).length} NSFW results
                   </button>
                 </div>
               )}

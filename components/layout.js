@@ -23,7 +23,7 @@ export default function Layout({ children, title }) {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       {children}
-      <footer className={footer}>
+      {/* <footer className={footer}>
         <div className={container}>
           <div className={section}>
             <div className={sectionHeader}>
@@ -105,7 +105,7 @@ export default function Layout({ children, title }) {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
       <script src="https://www.googletagmanager.com/gtag/js?id=UA-70950149-1" async></script>
       <script src="/js/gtag.js"></script>
       <script src="/js/pwa.js" defer></script>

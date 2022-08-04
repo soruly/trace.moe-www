@@ -21,6 +21,8 @@ import {
   sectionItem,
   graph,
   graphControl,
+  numberInput,
+  fileList,
 } from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -78,6 +80,7 @@ const formatDate = (time, trafficPeriod) => {
 };
 
 const About = () => {
+  const [message, setMessage] = useState("");
   const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
     lastModified: new Date(0),
     numDocs: 0,
@@ -429,7 +432,6 @@ const About = () => {
               </svg>
             </a>
           </p>
-          <p>Last Database Update: {lastModified.toString()}</p>
           <ul>
             <li>
               Analyzed Video: {mediaCount ? mediaCount.toLocaleString("en-US") : "counting..."}
@@ -455,6 +457,35 @@ const About = () => {
               {totalSize ? `${(totalSize / 1000000000).toFixed(2)} GB` : "calculating..."}
             </li>
           </ul>
+          <p>Last Database Update: {lastModified.toString()}</p>
+          <p>
+            Check database coverage by Anilist ID:{" "}
+            <input
+              className={numberInput}
+              type="number"
+              min="0"
+              max="1000000"
+              onChange={async (e) => {
+                if (!e.target.value.match(/\d+/)) return;
+                setMessage("Searching...");
+                const status = await fetch(
+                  `${NEXT_PUBLIC_API_ENDPOINT}/status?id=${e.target.value}`
+                ).then((e) => e.json());
+                setMessage(`Found ${status.length} records`);
+                if (status.length) {
+                  document.querySelector("pre").innerText = status
+                    .map((e) => e.path.split("/").slice(1))
+                    .join("\n");
+                } else {
+                  document.querySelector(
+                    "pre"
+                  ).innerText = `Cannot find any record for ID ${e.target.value}`;
+                }
+              }}
+            ></input>{" "}
+            {message}
+          </p>
+          <pre className={fileList}></pre>
           {trafficData ? (
             <Bar
               className={graph}

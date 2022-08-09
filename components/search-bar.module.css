@@ -155,6 +155,7 @@
   opacity: 0;
   overflow: hidden;
   cursor: pointer;
+  width: 2rem;
 }
 .cutBordersBtn {
   white-space: pre;

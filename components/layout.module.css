@@ -41,6 +41,27 @@
 .graphControl {
   text-align: center;
 }
+.fileList {
+  height: 200px;
+  overflow-y: scroll;
+}
+.numberInput {
+  vertical-align: middle;
+  padding: 0 0.5rem 0 0.5rem;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
+  vertical-align: bottom;
+  outline: 0;
+  color: var(--text-strong-color);
+  background: var(--blank-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 3px;
+  transition: box-shadow 100ms ease-out;
+}
+.numberInput:focus {
+  box-shadow: 0 0 10px var(--theme-weak-color);
+  border: 1px solid var(--theme-weak-color);
+}
 
 @media (max-width: 500px) {
   .section {

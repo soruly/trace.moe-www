@@ -21,6 +21,8 @@ import {
   sectionItem,
   graph,
   graphControl,
+  numberInput,
+  fileList,
 } from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -78,6 +80,7 @@ const formatDate = (time, trafficPeriod) => {
 };
 
 const About = () => {
+  const [message, setMessage] = useState("");
   const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
     lastModified: new Date(0),
     numDocs: 0,
@@ -104,31 +107,10 @@ const About = () => {
           labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
           datasets: [
             {
-              label: "503",
-              data: stats.map((e) => e["503"]),
-              backgroundColor: ["rgba(255,128,128,0.2)"],
-              borderColor: ["rgba(255,128,128,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "500",
-              data: stats.map((e) => e["500"]),
-              backgroundColor: ["rgba(255,128,255,0.2)"],
-              borderColor: ["rgba(255,128,255,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "405",
-              data: stats.map((e) => e["405"]),
-              backgroundColor: ["rgba(128,128,128,0.2)"],
-              borderColor: ["rgba(128,128,128,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "402",
-              data: stats.map((e) => e["402"]),
-              backgroundColor: ["rgba(128,128,255,0.2)"],
-              borderColor: ["rgba(128,128,255,1)"],
+              label: "200",
+              data: stats.map((e) => e["200"]),
+              backgroundColor: ["rgba(0,255,0,0.2)"],
+              borderColor: ["rgba(0,255,0,1)"],
               borderWidth: 1,
             },
             {
@@ -139,10 +121,31 @@ const About = () => {
               borderWidth: 1,
             },
             {
-              label: "200",
-              data: stats.map((e) => e["200"]),
-              backgroundColor: ["rgba(0,255,0,0.2)"],
-              borderColor: ["rgba(0,255,0,1)"],
+              label: "402",
+              data: stats.map((e) => e["402"]),
+              backgroundColor: ["rgba(128,128,255,0.2)"],
+              borderColor: ["rgba(128,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "405",
+              data: stats.map((e) => e["405"]),
+              backgroundColor: ["rgba(128,128,128,0.2)"],
+              borderColor: ["rgba(128,128,128,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "500",
+              data: stats.map((e) => e["500"]),
+              backgroundColor: ["rgba(255,128,255,0.2)"],
+              borderColor: ["rgba(255,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "503",
+              data: stats.map((e) => e["503"]),
+              backgroundColor: ["rgba(255,128,128,0.2)"],
+              borderColor: ["rgba(255,128,128,1)"],
               borderWidth: 1,
             },
           ],
@@ -429,7 +432,6 @@ const About = () => {
               </svg>
             </a>
           </p>
-          <p>Last Database Update: {lastModified.toString()}</p>
           <ul>
             <li>
               Analyzed Video: {mediaCount ? mediaCount.toLocaleString("en-US") : "counting..."}
@@ -455,6 +457,35 @@ const About = () => {
               {totalSize ? `${(totalSize / 1000000000).toFixed(2)} GB` : "calculating..."}
             </li>
           </ul>
+          <p>Last Database Update: {lastModified.toString()}</p>
+          <p>
+            Check database coverage by Anilist ID:{" "}
+            <input
+              className={numberInput}
+              type="number"
+              min="0"
+              max="1000000"
+              onChange={async (e) => {
+                if (!e.target.value.match(/\d+/)) return;
+                setMessage("Searching...");
+                const status = await fetch(
+                  `${NEXT_PUBLIC_API_ENDPOINT}/status?id=${e.target.value}`
+                ).then((e) => e.json());
+                setMessage(`Found ${status.length} records`);
+                if (status.length) {
+                  document.querySelector("pre").innerText = status
+                    .map((e) => e.path.split("/").slice(1))
+                    .join("\n");
+                } else {
+                  document.querySelector(
+                    "pre"
+                  ).innerText = `Cannot find any record for ID ${e.target.value}`;
+                }
+              }}
+            ></input>{" "}
+            {message}
+          </p>
+          <pre className={fileList}></pre>
           {trafficData ? (
             <Bar
               className={graph}

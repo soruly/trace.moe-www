@@ -434,20 +434,25 @@ const About = () => {
           </p>
           <ul>
             <li>
-              Analyzed Video: {mediaCount ? mediaCount.toLocaleString("en-US") : "counting..."}
+              Analyzed Video:{" "}
+              {mediaCount ? mediaCount.toLocaleString(navigator.language) : "counting..."}
             </li>
             <li>
               Total Duration:{" "}
               {mediaDurationTotal
-                ? `${Number((mediaDurationTotal / 3600).toFixed(2)).toLocaleString("en-US")} hours`
+                ? `${Number((mediaDurationTotal / 3600).toFixed(2)).toLocaleString(
+                    navigator.language
+                  )} hours`
                 : "counting..."}
             </li>
             <li>
               Analyzed Frames:{" "}
-              {mediaFramesTotal ? mediaFramesTotal.toLocaleString("en-US") : "counting..."}
+              {mediaFramesTotal
+                ? mediaFramesTotal.toLocaleString(navigator.language)
+                : "counting..."}
             </li>
             <li>
-              Indexed Frames: {numDocs ? numDocs.toLocaleString("en-US") : "counting..."}{" "}
+              Indexed Frames: {numDocs ? numDocs.toLocaleString(navigator.language) : "counting..."}{" "}
               {numDocs && mediaFramesTotal
                 ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
                 : ""}

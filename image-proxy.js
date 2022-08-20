@@ -44,6 +44,7 @@ const handleRequest = async (originalRequest) => {
   }
 
   if (
+    response.headers.get("Content-Type").toLowerCase() !== "application/octet-stream" &&
     !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
   ) {
     // retry as bot to get og:image
@@ -81,9 +82,10 @@ const handleRequest = async (originalRequest) => {
     }
   }
   if (
+    response.headers.get("Content-Type").toLowerCase() !== "application/octet-stream" &&
     !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
   ) {
-    return errorResponse("Error: Content-Type is not image or video");
+    return errorResponse("Error: Content-Type is not image or video or application/octet-stream");
   }
 
   return new Response(response.body, {

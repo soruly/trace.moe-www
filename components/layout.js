@@ -16,7 +16,7 @@ export default function Layout({ children, title }) {
           name="keywords"
           content="Anime Scene Search, Search by image, Anime Image Search, アニメのキャプ画像"
         />
-        <title>{title} - trace.moe</title>
+        <title>{`${title} - trace.moe`}</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="icon" type="image/png" href="/favicon128.png" sizes="128x128" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

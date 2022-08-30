@@ -22,7 +22,7 @@ module.exports = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' www.google-analytics.com www.googletagmanager.com static.cloudflareinsights.com",
+              "script-src 'self' 'unsafe-eval' static.cloudflareinsights.com",
               "style-src * 'self' 'unsafe-inline'",
               `img-src * 'self' data: blob: ${NEXT_PUBLIC_MEDIA_ENDPOINT}`,
               "font-src 'self'",
@@ -33,7 +33,7 @@ module.exports = {
               "frame-ancestors 'none'",
               "manifest-src 'self'",
               "block-all-mixed-content",
-              `connect-src blob: 'self' ${NEXT_PUBLIC_API_ENDPOINT} ${NEXT_PUBLIC_MEDIA_ENDPOINT} ${NEXT_PUBLIC_ANILIST_ENDPOINT} www.google-analytics.com stats.g.doubleclick.net`,
+              `connect-src blob: 'self' ${NEXT_PUBLIC_API_ENDPOINT} ${NEXT_PUBLIC_MEDIA_ENDPOINT} ${NEXT_PUBLIC_ANILIST_ENDPOINT}`,
             ].join("; "),
           },
         ],

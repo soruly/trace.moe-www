@@ -82,7 +82,7 @@ const formatDate = (time, trafficPeriod) => {
 const About = () => {
   const [message, setMessage] = useState("");
   const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
-    lastModified: new Date(0),
+    lastModified: null,
     numDocs: 0,
     totalSize: 0,
   });
@@ -462,7 +462,7 @@ const About = () => {
               {totalSize ? `${(totalSize / 1000000000).toFixed(2)} GB` : "calculating..."}
             </li>
           </ul>
-          <p>Last Database Update: {lastModified.toString()}</p>
+          <p>Last Database Update: {lastModified ? lastModified.toString() : ""}</p>
           <p>
             Check database coverage by Anilist ID:{" "}
             <input

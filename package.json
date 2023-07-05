@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/soruly/trace.moe-www#readme",
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "prettier": "^3.0.0"
   },
   "dependencies": {
     "chart.js": "^3.9.1",

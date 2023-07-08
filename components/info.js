@@ -59,8 +59,8 @@ export default function Layout({ anilist: src }) {
         ...(src.synonyms_chinese || []),
       ]
         .filter((e) => e)
-        .filter((e) => e !== src.title.native || e !== src.title.romaji)
-    )
+        .filter((e) => e !== src.title.native || e !== src.title.romaji),
+    ),
   )
     .sort()
     .map((title, i) => {

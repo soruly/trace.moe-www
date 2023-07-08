@@ -55,7 +55,7 @@ const handleRequest = async (originalRequest) => {
           referer: imageURL.origin,
           "User-Agent": "googlebot",
         },
-      })
+      }),
     );
     if (response.status === 200) {
       const ogImageURL = (await webResponse.text())
@@ -69,7 +69,7 @@ const handleRequest = async (originalRequest) => {
             headers: {
               referer: imageURL.origin,
             },
-          })
+          }),
         );
         if (response.status >= 400) {
           return new Response(response.body, {

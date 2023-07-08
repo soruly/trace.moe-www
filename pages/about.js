@@ -35,7 +35,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const getDatabaseStatus = async () => {
@@ -62,7 +62,7 @@ const getDatabaseStatus = async () => {
 
 const getMediaStatus = async () => {
   const { mediaCount, mediaFramesTotal, mediaDurationTotal } = await fetch(
-    `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`
+    `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`,
   ).then((e) => e.json());
   return {
     mediaCount,
@@ -441,7 +441,7 @@ const About = () => {
               Total Duration:{" "}
               {mediaDurationTotal
                 ? `${Number((mediaDurationTotal / 3600).toFixed(2)).toLocaleString(
-                    navigator.language
+                    navigator.language,
                   )} hours`
                 : "counting..."}
             </li>
@@ -474,7 +474,7 @@ const About = () => {
                 if (!e.target.value.match(/\d+/)) return;
                 setMessage("Searching...");
                 const status = await fetch(
-                  `${NEXT_PUBLIC_API_ENDPOINT}/status?id=${e.target.value}`
+                  `${NEXT_PUBLIC_API_ENDPOINT}/status?id=${e.target.value}`,
                 ).then((e) => e.json());
                 setMessage(`Found ${status.length} records`);
                 if (status.length) {
@@ -483,7 +483,7 @@ const About = () => {
                     .join("\n");
                 } else {
                   document.querySelector(
-                    "pre"
+                    "pre",
                   ).innerText = `Cannot find any record for ID ${e.target.value}`;
                 }
               }}

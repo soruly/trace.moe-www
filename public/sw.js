@@ -19,7 +19,7 @@ self.addEventListener("fetch", (event) => {
         } catch (e) {
           return fetch(req);
         }
-      })()
+      })(),
     );
   }
   if (

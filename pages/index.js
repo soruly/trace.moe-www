@@ -49,7 +49,7 @@ const Index = () => {
       setSearchImageSrc(
         searchParams.get("url").startsWith(location.origin)
           ? searchParams.get("url")
-          : `/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`
+          : `/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`,
       );
     }
     document.addEventListener(
@@ -62,7 +62,7 @@ const Index = () => {
         setSearchImageSrc(URL.createObjectURL(item.getAsFile()));
         e.preventDefault();
       },
-      false
+      false,
     );
 
     window.onerror = function (message, source, lineno, colno, error) {
@@ -124,7 +124,7 @@ const Index = () => {
           search(blob);
         },
         "image/jpeg",
-        0.8
+        0.8,
       );
     };
     image.onerror = () => {
@@ -177,7 +177,7 @@ const Index = () => {
       `Searched ${frameCount.toLocaleString(navigator.language)} frames in ${(
         (performance.now() - startSearchTime) /
         1000
-      ).toFixed(2)}s`
+      ).toFixed(2)}s`,
     );
 
     if (result.length === 0) {

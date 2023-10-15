@@ -22,6 +22,7 @@ export default (phase) =>
                 },
                 { key: "Referrer-Policy", value: "no-referrer" },
                 { key: "X-Content-Type-Options", value: "nosniff" },
+                { key: "X-XSS-Protection", value: "1; mode=block" },
                 {
                   key: "Content-Security-Policy",
                   value: [

@@ -26,13 +26,13 @@ export default (phase) =>
                 {
                   key: "Content-Security-Policy",
                   value: [
-                    "default-src 'self'",
+                    "default-src 'none'",
                     "script-src 'self' 'unsafe-eval' static.cloudflareinsights.com",
                     "style-src * 'self' 'unsafe-inline'",
                     `img-src * 'self' data: blob: ${NEXT_PUBLIC_MEDIA_ENDPOINT}`,
                     "font-src 'self'",
-                    "frame-src www.youtube-nocookie.com www.youtube.com www.google.com",
                     `media-src blob: 'self' ${NEXT_PUBLIC_MEDIA_ENDPOINT}`,
+                    "worker-src 'self'",
                     "form-action 'self'",
                     "base-uri 'none'",
                     "frame-ancestors 'none'",

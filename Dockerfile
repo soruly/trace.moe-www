@@ -7,4 +7,4 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY . .
 RUN npm install --production
-CMD [ "npm", "run", "build-export-start" ]
+CMD [ "npm", "run", "build-start" ]

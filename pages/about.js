@@ -482,9 +482,8 @@ const About = () => {
                     .map((e) => e.path.split("/").slice(1))
                     .join("\n");
                 } else {
-                  document.querySelector(
-                    "pre",
-                  ).innerText = `Cannot find any record for ID ${e.target.value}`;
+                  document.querySelector("pre").innerText =
+                    `Cannot find any record for ID ${e.target.value}`;
                 }
               }}
             ></input>{" "}

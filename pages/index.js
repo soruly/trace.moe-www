@@ -114,9 +114,27 @@ const Index = () => {
     image.onload = (e) => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      canvas.width = e.target.width;
-      canvas.height = e.target.height;
-      ctx.drawImage(e.target, 0, 0);
+      if (e.target.width <= 640 && e.target.height <= 640) {
+        canvas.width = e.target.width;
+        canvas.height = e.target.height;
+      } else if (e.target.width > e.target.height) {
+        canvas.width = 640;
+        canvas.height = 640 * (e.target.height / e.target.width);
+      } else {
+        canvas.width = 640 * (e.target.width / e.target.height);
+        canvas.height = 640;
+      }
+      ctx.drawImage(
+        e.target,
+        0,
+        0,
+        e.target.width,
+        e.target.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      );
       canvas.toBlob(
         function (blob) {
           setIsLoading(false);

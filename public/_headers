@@ -5,4 +5,4 @@
   Referrer-Policy: no-referrer
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'none'; script-src 'self' static.cloudflareinsights.com; style-src * 'self' 'unsafe-inline'; img-src * 'self' data: blob: https://media.trace.moe; font-src 'self'; media-src blob: 'self' https://media.trace.moe; worker-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'; manifest-src 'self'; block-all-mixed-content; connect-src blob: 'self' https://cloudflareinsights.com https://api.trace.moe https://media.trace.moe https://graphql.anilist.co
+  Content-Security-Policy: default-src 'none'; script-src 'self' static.cloudflareinsights.com; style-src * 'self' 'unsafe-inline'; img-src * 'self' data: blob: https://api.trace.moe; font-src 'self'; media-src blob: 'self' https://api.trace.moe; worker-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'; manifest-src 'self'; block-all-mixed-content; connect-src blob: 'self' https://cloudflareinsights.com https://api.trace.moe https://graphql.anilist.co

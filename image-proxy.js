@@ -9,6 +9,13 @@ const errorResponse = (errorMessage) =>
   });
 
 const handleRequest = async (originalRequest) => {
+  if (originalRequest.headers.get("referrer")) {
+    return new Response("Forbidden", {
+      status: 403,
+      statusText: "Forbidden",
+    });
+  }
+
   let originalURL = new URL(originalRequest.url);
   if (!originalURL.searchParams.get("url")) {
     return errorResponse("Error: Cannot get url from param");
@@ -88,9 +95,11 @@ const handleRequest = async (originalRequest) => {
     return errorResponse("Error: Content-Type is not image or video or application/octet-stream");
   }
 
-  return new Response(response.body, {
+  const res = new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
     headers: response.headers,
   });
+  res.headers.set("Access-Control-Allow-Origin", "https://trace.moe");
+  return res;
 };

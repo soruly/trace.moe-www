@@ -1,3 +1,6 @@
 name = "image-proxy"
-type = "javascript"
-route = "trace.moe/anilist/*"
+main = "image-proxy.js"
+compatibility_date = "2024-04-01"
+
+workers_dev = false
+route = { pattern = "https://trace.moe/image-proxy*", zone_name = "trace.moe" }

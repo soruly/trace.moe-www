@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
 import Result from "../components/result";
@@ -33,7 +33,7 @@ const Index = () => {
   const [imageURL, setImageURL] = useState("");
   const [searchImage, setSearchImage] = useState("");
   const [searchImageSrc, setSearchImageSrc] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState();
   const [showNSFW, setshowNSFW] = useState(false);
   const [anilistInfo, setAnilistInfo] = useState();
@@ -42,6 +42,7 @@ const Index = () => {
   const [playerFileName, setPlayerFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has("url")) {
@@ -151,60 +152,21 @@ const Index = () => {
     image.src = searchImageSrc;
   }, [searchImageSrc]);
 
-  const search = async (imageBlob) => {
-    setMessageText("Searching...");
-    setSearchResult([]);
-    setSelectedResult();
-    setAnilistInfo();
-    setPlayerSrc();
-    setPlayerFileName("");
-    setPlayerTimeCode("");
-    setIsSearching(true);
-    const startSearchTime = performance.now();
-    const formData = new FormData();
-    formData.append("image", imageBlob);
-    const queryString = [
-      isCutBorders ? "cutBorders" : "",
-      anilistFilter ? `anilistID=${anilistFilter}` : "",
-    ].join("&");
-    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
-      method: "POST",
-      body: formData,
-    });
-    setIsSearching(false);
+  const searchAnilist = async (ids) => {
+    if (ids.length > 0) {
+      let [statusCode, data] = await queryAnilist(ids);
 
-    if (res.status === 429) {
-      setMessageText("You searched too many times, please try again later.");
-      return;
-    }
-    if (res.status === 503) {
-      for (let i = 5; i > 0; i--) {
-        setMessageText(`Server is busy, retrying in ${i}s`);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (statusCode >= 400) {
+        setMessageText("Failed to get Anilist info, reduced information available!");
       }
-      search(imageBlob);
-      return;
+
+      return data;
+    } else {
+      return [];
     }
-    if (res.status >= 400) {
-      setMessageText(`${(await res.json()).error} Please try again later.`);
-      return;
-    }
-    const { frameCount, result } = await res.json();
+  };
 
-    setMessageText(
-      `Searched ${frameCount.toLocaleString(navigator.language)} frames in ${(
-        (performance.now() - startSearchTime) /
-        1000
-      ).toFixed(2)}s`,
-    );
-
-    if (result.length === 0) {
-      setMessageText("Cannot find any result");
-      return;
-    }
-
-    const topResults = result.slice(0, 5);
-
+  const queryAnilist = async (ids) => {
     const response = await fetch(NEXT_PUBLIC_ANILIST_ENDPOINT, {
       method: "POST",
       body: JSON.stringify({
@@ -262,48 +224,107 @@ const Index = () => {
             }
           }
           `,
-        variables: { ids: topResults.map((e) => e.anilist) },
+        variables: { ids },
       }),
       headers: { "Content-Type": "application/json" },
     });
-    if (response.status >= 400) {
-      setMessageText("Failed to get Anilist info, please try again later.");
-      const topResultsWithoutAnlist = topResults.map((entry) => {
-        const id = entry.anilist;
-        entry.anilist = {
-          id,
-          title: { native: id },
-          isAdult: false,
-        };
-        entry.playResult = () => {
-          setSelectedResult(entry);
-          setPlayerSrc(entry.video);
-          setPlayerFileName(entry.filename);
-          setPlayerTimeCode(entry.from);
-        };
-        return entry;
-      });
-      setSearchResult(topResultsWithoutAnlist);
-      topResultsWithoutAnlist[0].playResult();
+
+    const statusCode = response.status;
+    const data = statusCode === 200 ? ((await response.json()).data.Page.media ?? []) : [];
+    return [statusCode, data];
+  };
+
+  const search = async (imageBlob) => {
+    setMessageText("Searching...");
+    setSearchResults([]);
+    setSelectedResult();
+    setAnilistInfo();
+    setPlayerSrc();
+    setPlayerFileName("");
+    setPlayerTimeCode("");
+    setIsSearching(true);
+    const startSearchTime = performance.now();
+    const formData = new FormData();
+    formData.append("image", imageBlob);
+    const queryString = [
+      isCutBorders ? "cutBorders" : "",
+      anilistFilter ? `anilistID=${anilistFilter}` : "",
+    ].join("&");
+    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
+      method: "POST",
+      body: formData,
+    });
+    setIsSearching(false);
+
+    if (res.status === 429) {
+      setMessageText("You searched too many times, please try again later.");
       return;
     }
-    const anilistData = (await response.json()).data.Page.media;
+    if (res.status === 503) {
+      for (let i = 5; i > 0; i--) {
+        setMessageText(`Server is busy, retrying in ${i}s`);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      search(imageBlob);
+      return;
+    }
+    if (res.status >= 400) {
+      setMessageText(`${(await res.json()).error} Please try again later.`);
+      return;
+    }
+    const { frameCount, result } = await res.json();
 
-    const topResultsWithAnlist = topResults.map((entry) => {
-      entry.anilist = anilistData.find((e) => e.id === entry.anilist);
+    const searchTime = (performance.now() - startSearchTime) / 1000;
+
+    if (frameCount > 0) {
+      setMessageText(
+        `Searched ${frameCount.toLocaleString(navigator.language)} frames in ${searchTime.toFixed(2)}s`,
+      );
+    } else {
+      setMessageText(`Searched in ${searchTime.toFixed(2)}s`);
+    }
+
+    if (result.length === 0) {
+      setMessageText("Cannot find any result");
+      return;
+    }
+
+    const topResults = result.slice(0, 5);
+    const topResultAnilistIds = topResults.map((e) => e.anilist).filter((id) => !!id);
+    const metadata = await searchAnilist(topResultAnilistIds);
+
+    const topSearchResults = topResults.map((entry) => {
+      const id = entry.anilist ?? 0;
+      const entryMetadata = metadata.find(entry => entry.id === id);
+
+      if (entryMetadata) {
+        entry.anilist = entryMetadata;
+      } else if (!!id) {
+        entry.anilist = id;
+      } else {
+        entry.anilist = entry.filename;
+      }
+
       entry.playResult = () => {
         setSelectedResult(entry);
-        setAnilistInfo(entry.anilist);
         setPlayerSrc(entry.video);
         setPlayerFileName(entry.filename);
         setPlayerTimeCode(entry.from);
+        if (entryMetadata) {
+          setAnilistInfo(entry.anilist);
+        } else {
+          setAnilistInfo();
+        }
       };
+
       return entry;
     });
-    setSearchResult(topResultsWithAnlist);
 
-    if (!topResultsWithAnlist[0].anilist.isAdult && window.innerWidth > 1008) {
-      topResultsWithAnlist[0].playResult();
+    setSearchResults(topSearchResults);
+
+    const [firstResult] = topSearchResults;
+    if (firstResult && !firstResult.anilist.isAdult && window.innerWidth > 1008) {
+      firstResult.playResult();
     }
   };
 
@@ -406,7 +427,7 @@ const Index = () => {
                 />
                 <div className={messageTextLabel}>{messageText}</div>
               </div>
-              {searchResult
+              {searchResults
                 .filter((e) => showNSFW || !e.anilist.isAdult)
                 .map((searchResult, i) => {
                   return (
@@ -417,7 +438,7 @@ const Index = () => {
                     ></Result>
                   );
                 })}
-              {searchResult.find((e) => e.anilist.isAdult) && (
+              {searchResults.find((e) => e.anilist.isAdult) && (
                 <div style={{ textAlign: "center" }}>
                   <button
                     onClick={(e) => {
@@ -425,7 +446,7 @@ const Index = () => {
                     }}
                   >
                     {showNSFW ? "Hide" : "Show"}{" "}
-                    {searchResult.filter((e) => e.anilist.isAdult).length} NSFW results
+                    {searchResults.filter((e) => e.anilist.isAdult).length} NSFW results
                   </button>
                 </div>
               )}

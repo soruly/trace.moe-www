@@ -13,7 +13,7 @@
   position: absolute;
   display: grid;
   place-items: center;
-  font-size: var(1.25rem);
+  font-size: 1.25rem;
   color: var(--text-strong-color);
 }
 

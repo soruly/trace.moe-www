@@ -1,20 +1,21 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  playerPane,
-  player,
-  loading,
-  playerInfo,
-  fileNameDisplay,
-  timeCodeDisplay,
-  playerControl,
-  progressBarControl,
-  soundBtn,
-  iconVolumeOff,
-  iconVolumeUp,
   dropEffect,
   dropping,
+  fileNameDisplay,
+  iconVolumeOff,
+  iconVolumeUp,
+  loading,
+  player,
+  playerControl,
+  playerError,
+  playerInfo,
+  playerPane,
+  progressBarControl,
   ripple,
   seek,
+  soundBtn,
+  timeCodeDisplay,
 } from "./player.module.css";
 import { formatTime } from "./utils";
 
@@ -28,6 +29,7 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
   const [videoHeight, setVideoHeight] = useState(360);
   const [playerSrc, setPlayerSrc] = useState("");
   const [playerLoading, setPlayerLoading] = useState(isLoading);
+  const [playerLoadingError, setPlayerLoadingError] = useState(false);
   const [left, setLeft] = useState(-12);
   const [dropTargetText, setDropTargetText] = useState("");
 
@@ -49,17 +51,26 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
   }, []);
 
   useEffect(() => {
-    if (!src) return;
+    if (!src) {
+      setPlayerLoadingError(true);
+      return;
+    }
     playerRef.current.pause();
     setPlayerLoading(true);
+    setPlayerLoadingError(false);
     playerRef.current.style.opacity = 0;
     setDuration(0);
     (async () => {
-      const response = await fetch(`${src}&size=l`);
-      setPlayerSrc(URL.createObjectURL(await response.blob()));
-      const videoDuration = parseFloat(response.headers.get("x-video-duration"));
-      setDuration(videoDuration);
-      setLeft((timeCode / videoDuration) * playerWidth - 6);
+      try {
+        const response = await fetch(`${src}&size=l`);
+        setPlayerSrc(URL.createObjectURL(await response.blob()));
+        const videoDuration = parseFloat(response.headers.get("x-video-duration"));
+        setDuration(videoDuration);
+        setLeft((timeCode / videoDuration) * playerWidth - 6);
+      } catch (err) {
+        setPlayerLoading(false);
+        setPlayerLoadingError(true);
+      }
     })();
   }, [src, timeCode]);
 
@@ -68,6 +79,7 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
     if (isSearching) {
       playerRef.current.pause();
       setPlayerLoading(true);
+      setPlayerLoadingError(false);
       playerRef.current.style.opacity = 0;
       setDuration(0);
       setPlayerSrc("");
@@ -80,6 +92,11 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
 
   return (
     <div className={playerPane}>
+      {playerLoadingError ? (
+        <div className={playerError} style={{ height: playerHeight, width: playerWidth }}>
+          No video available.
+        </div>
+      ) : null}
       <video
         ref={playerRef}
         className={player}

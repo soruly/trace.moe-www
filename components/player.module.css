@@ -8,6 +8,15 @@
   opacity: 0;
   transition: all 100ms ease-out;
 }
+
+.playerError {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  color: var(--text-strong-color);
+}
+
 .loading {
   width: 640px;
   height: 360px;

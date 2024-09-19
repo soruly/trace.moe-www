@@ -295,7 +295,7 @@ const Index = () => {
 
     const topSearchResults = topResults.map((entry) => {
       const id = entry.anilist ?? 0;
-      const entryMetadata = metadata.find(entry => entry.id === id);
+      const entryMetadata = metadata.find((entry) => entry.id === id);
 
       if (entryMetadata) {
         entry.anilist = entryMetadata;

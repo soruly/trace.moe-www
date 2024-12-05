@@ -369,9 +369,7 @@ const News = () => (
           .<br />
           <br />
           I've also improved website security to score A+ (115/100) in{" "}
-          <a href="https://observatory.mozilla.org/analyze/trace.moe">
-            Mozilla Observatory test
-          </a>.
+          <a href="https://observatory.mozilla.org/analyze/trace.moe">Mozilla Observatory test</a>.
           <br />
           <br />
           Recently I've found that Cloudflare's free plan did not route to nearest edge server due

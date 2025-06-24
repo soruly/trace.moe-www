@@ -4,7 +4,8 @@
   bottom: 0;
   width: 100%;
   height: 160px;
-  background: linear-gradient(
+  background:
+    linear-gradient(
         0deg,
         var(--footer-draw-color) 0,
         var(--footer-draw-color) 70%,

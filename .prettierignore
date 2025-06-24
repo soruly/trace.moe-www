@@ -1,4 +1,10 @@
-.next/
-out/
-public/js/js.js
-.github/
+.dockerignore
+.env
+.env.example
+.gitignore
+.prettierignore
+*.svg
+*.jpg
+*.png
+*.txt
+*.toml

@@ -11,7 +11,8 @@
   border-radius: 0.5rem;
   overflow: hidden;
   transition: all 300ms ease-out;
-  background: linear-gradient(
+  background:
+    linear-gradient(
         0deg,
         var(--result-draw-color) 0,
         var(--result-draw-color) 90%,

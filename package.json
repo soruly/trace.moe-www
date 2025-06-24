@@ -9,9 +9,9 @@
     "start": "next start",
     "build-start": "next build && next start",
     "prettier": "prettier",
-    "format": "prettier --write \"**/*.js\"",
-    "lint": "prettier --check \"**/*.js\"",
-    "test": "prettier --check \"**/*.js\""
+    "format": "prettier --write \"**/*.*\"",
+    "lint": "prettier --check \"**/*.*\"",
+    "test": "prettier --check \"**/*.*\""
   },
   "repository": {
     "type": "git",

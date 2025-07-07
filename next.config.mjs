@@ -1,8 +1,6 @@
 import { PHASE_PRODUCTION_BUILD } from "next/constants.js";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
-const NEXT_PUBLIC_ANILIST_ENDPOINT =
-  process.env.NEXT_PUBLIC_ANILIST_ENDPOINT || "https://graphql.anilist.co";
 
 export default (phase) =>
   phase === PHASE_PRODUCTION_BUILD
@@ -37,7 +35,7 @@ export default (phase) =>
                     "frame-ancestors 'none'",
                     "manifest-src 'self'",
                     "block-all-mixed-content",
-                    `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT} ${NEXT_PUBLIC_ANILIST_ENDPOINT}`,
+                    `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT}`,
                   ].join("; "),
                 },
               ],

@@ -22,8 +22,6 @@ import {
 } from "../components/index.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
-const NEXT_PUBLIC_ANILIST_ENDPOINT =
-  process.env.NEXT_PUBLIC_ANILIST_ENDPOINT || "https://graphql.anilist.co";
 
 const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");
@@ -152,88 +150,6 @@ const Index = () => {
     image.src = searchImageSrc;
   }, [searchImageSrc]);
 
-  const searchAnilist = async (ids) => {
-    if (ids.length > 0) {
-      let [statusCode, data] = await queryAnilist(ids);
-
-      if (statusCode >= 400) {
-        setMessageText("Failed to get Anilist info, reduced information available!");
-      }
-
-      return data;
-    } else {
-      return [];
-    }
-  };
-
-  const queryAnilist = async (ids) => {
-    const response = await fetch(NEXT_PUBLIC_ANILIST_ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify({
-        query: `query ($ids: [Int]) {
-            Page(page: 1, perPage: 50) {
-              media(id_in: $ids, type: ANIME) {
-                id
-                title {
-                  native
-                  romaji
-                  english
-                }
-                type
-                format
-                status
-                startDate {
-                  year
-                  month
-                  day
-                }
-                endDate {
-                  year
-                  month
-                  day
-                }
-                season
-                episodes
-                duration
-                source
-                coverImage {
-                  large
-                  medium
-                }
-                bannerImage
-                genres
-                synonyms
-                studios {
-                  edges {
-                    isMain
-                    node {
-                      id
-                      name
-                      siteUrl
-                    }
-                  }
-                }
-                isAdult
-                externalLinks {
-                  id
-                  url
-                  site
-                }
-                siteUrl
-              }
-            }
-          }
-          `,
-        variables: { ids },
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const statusCode = response.status;
-    const data = statusCode === 200 ? ((await response.json()).data.Page.media ?? []) : [];
-    return [statusCode, data];
-  };
-
   const search = async (imageBlob) => {
     setMessageText("Searching...");
     setSearchResults([]);
@@ -247,6 +163,7 @@ const Index = () => {
     const formData = new FormData();
     formData.append("image", imageBlob);
     const queryString = [
+      "anilistInfo=2",
       isCutBorders ? "cutBorders" : "",
       anilistFilter ? `anilistID=${anilistFilter}` : "",
     ].join("&");
@@ -290,31 +207,14 @@ const Index = () => {
     }
 
     const topResults = result.slice(0, 5);
-    const topResultAnilistIds = topResults.map((e) => e.anilist).filter((id) => !!id);
-    const metadata = await searchAnilist(topResultAnilistIds);
 
     const topSearchResults = topResults.map((entry) => {
-      const id = entry.anilist ?? 0;
-      const entryMetadata = metadata.find((entry) => entry.id === id);
-
-      if (entryMetadata) {
-        entry.anilist = entryMetadata;
-      } else if (!!id) {
-        entry.anilist = id;
-      } else {
-        entry.anilist = entry.filename;
-      }
-
       entry.playResult = () => {
         setSelectedResult(entry);
         setPlayerSrc(entry.video);
         setPlayerFileName(entry.filename);
         setPlayerTimeCode(entry.from);
-        if (entryMetadata) {
-          setAnilistInfo(entry.anilist);
-        } else {
-          setAnilistInfo();
-        }
+        setAnilistInfo(entry.anilist);
       };
 
       return entry;

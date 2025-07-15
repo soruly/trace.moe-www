@@ -71,12 +71,17 @@ const getMediaStatus = async () => {
   };
 };
 
-const formatDate = (time, trafficPeriod) => {
-  const isoString = new Date(time).toISOString();
-  if (trafficPeriod === "year") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1");
-  if (trafficPeriod === "month") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$1-$2");
-  if (trafficPeriod === "day") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$2-$3");
-  if (trafficPeriod === "hour") return isoString.replace(/(\d+)-(\d+)-(\d+)T(\d+):.*$/, "$4:00");
+const formatDate = (timeISOStringUTC, trafficPeriod) => {
+  const date = new Date(timeISOStringUTC);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minute = date.getMinutes().toString().padStart(2, "0");
+
+  if (trafficPeriod === "day") return `${day}/${month}`;
+  if (trafficPeriod === "hour") return `${hour}:00`;
+  if (trafficPeriod === "minute") return `${hour}:${minute}`;
+  return timeISOStringUTC;
 };
 
 const About = () => {
@@ -523,10 +528,9 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setTrafficPeriod("hour")}>hourly</button>
-            <button onClick={() => setTrafficPeriod("day")}>daily</button>
-            <button onClick={() => setTrafficPeriod("month")}>monthly</button>
-            <button onClick={() => setTrafficPeriod("year")}>yearly</button>
+            <button onClick={() => setTrafficPeriod("minute")}>60 mins</button>
+            <button onClick={() => setTrafficPeriod("hour")}>72 hours</button>
+            <button onClick={() => setTrafficPeriod("day")}>60 days</button>
           </p>
 
           {speedData ? (
@@ -565,8 +569,9 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setSpeedPeriod("hour")}>hourly</button>
-            <button onClick={() => setSpeedPeriod("day")}>daily</button>
+            <button onClick={() => setSpeedPeriod("minute")}>60 mins</button>
+            <button onClick={() => setSpeedPeriod("hour")}>72 hours</button>
+            <button onClick={() => setSpeedPeriod("day")}>60 days</button>
           </p>
 
           {accuracyData ? (
@@ -604,8 +609,9 @@ const About = () => {
             <div className={graph}></div>
           )}
           <p className={graphControl}>
-            <button onClick={() => setAccuracyPeriod("hour")}>hourly</button>
-            <button onClick={() => setAccuracyPeriod("day")}>daily</button>
+            <button onClick={() => setAccuracyPeriod("minute")}>60 mins</button>
+            <button onClick={() => setAccuracyPeriod("hour")}>72 hours</button>
+            <button onClick={() => setAccuracyPeriod("day")}>60 days</button>
           </p>
         </div>
 

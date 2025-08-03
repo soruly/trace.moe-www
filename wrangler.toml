@@ -3,4 +3,8 @@ main = "image-proxy.js"
 compatibility_date = "2024-04-01"
 
 workers_dev = false
-route = { pattern = "https://trace.moe/image-proxy*", zone_name = "trace.moe" }
+routes = [
+  { pattern = "https://trace.moe/image-proxy*", zone_name = "trace.moe" },
+  { pattern = "https://www.trace.moe/image-proxy*", zone_name = "trace.moe" },
+  { pattern = "https://www2.trace.moe/image-proxy*", zone_name = "trace.moe" }
+]

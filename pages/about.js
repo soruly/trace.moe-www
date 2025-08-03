@@ -61,11 +61,12 @@ const getDatabaseStatus = async () => {
 };
 
 const getMediaStatus = async () => {
-  const { mediaCount, mediaDurationTotal } = await fetch(
+  const { mediaCount, mediaFramesTotal, mediaDurationTotal } = await fetch(
     `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`,
   ).then((e) => e.json());
   return {
     mediaCount,
+    mediaFramesTotal,
     mediaDurationTotal,
   };
 };
@@ -90,8 +91,9 @@ const About = () => {
     numDocs: 0,
     totalSize: 0,
   });
-  const [{ mediaCount, mediaDurationTotal }, setMediaStatus] = useState({
+  const [{ mediaCount, mediaFramesTotal, mediaDurationTotal }, setMediaStatus] = useState({
     mediaCount: 0,
+    mediaFramesTotal: 0,
     mediaDurationTotal: 0,
   });
   useEffect(() => {
@@ -449,7 +451,16 @@ const About = () => {
                 : "counting..."}
             </li>
             <li>
-              Indexed Frames: {numDocs ? numDocs.toLocaleString(navigator.language) : "counting..."}
+              Analyzed Frames:{" "}
+              {mediaFramesTotal
+                ? mediaFramesTotal.toLocaleString(navigator.language)
+                : "counting..."}
+            </li>
+            <li>
+              Indexed Frames: {numDocs ? numDocs.toLocaleString(navigator.language) : "counting..."}{" "}
+              {numDocs && mediaFramesTotal
+                ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
+                : ""}
             </li>
             <li>
               Index Size:{" "}

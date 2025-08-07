@@ -62,11 +62,7 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
     setDuration(0);
     (async () => {
       try {
-        const url = new URL(src);
-        const urlSearchParams = new URLSearchParams(url.search);
-        urlSearchParams.set("size", "l");
-        url.search = urlSearchParams;
-        const response = await fetch(url);
+        const response = await fetch(`${src}?size=l`);
         setPlayerSrc(URL.createObjectURL(await response.blob()));
         const videoDuration = parseFloat(response.headers.get("x-video-duration"));
         setDuration(videoDuration);

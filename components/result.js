@@ -16,16 +16,6 @@ export default function Result({ searchResult: entry, active: isActive }) {
       ? formatTime(entry.from)
       : `${formatTime(entry.from)} - ${formatTime(entry.to)}`;
 
-  const videoUrl = new URL(entry.video);
-  const videoUrlSearchParams = new URLSearchParams(videoUrl.search);
-  videoUrlSearchParams.set("size", "s");
-  videoUrl.search = videoUrlSearchParams;
-
-  const imageUrl = new URL(entry.image);
-  const imageUrlSearchParams = new URLSearchParams(imageUrl.search);
-  imageUrlSearchParams.set("size", "s");
-  imageUrl.search = imageUrlSearchParams;
-
   return (
     <div
       className={`${result} ${isActive ? active : ""}`}
@@ -41,8 +31,8 @@ export default function Result({ searchResult: entry, active: isActive }) {
         <div className={similarity}>{`~${(entry.similarity * 100).toFixed(2)}% Similarity`}</div>
       </div>
       <video
-        src={entry.similarity > 0.87 ? `${videoUrl}` : ""}
-        poster={`${imageUrl}`}
+        src={entry.similarity > 0.87 ? `${entry.video}?size=s` : ""}
+        poster={`${entry.image}?size=s`}
         volume="0"
         muted
         autoPlay

@@ -38,39 +38,6 @@ ChartJS.register(
   Legend,
 );
 
-const getDatabaseStatus = async () => {
-  const status = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`).then((e) => e.json());
-  let numDocs = 0;
-  let totalSize = 0;
-  let lastModified = new Date(0);
-  for (const [_, server] of Object.entries(status)) {
-    for (const core of server) {
-      numDocs += core.index.numDocs;
-      totalSize += core.index.sizeInBytes;
-      lastModified =
-        lastModified > new Date(core.index.lastModified)
-          ? lastModified
-          : new Date(core.index.lastModified);
-    }
-  }
-  return {
-    lastModified,
-    numDocs,
-    totalSize,
-  };
-};
-
-const getMediaStatus = async () => {
-  const { mediaCount, mediaFramesTotal, mediaDurationTotal } = await fetch(
-    `${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`,
-  ).then((e) => e.json());
-  return {
-    mediaCount,
-    mediaFramesTotal,
-    mediaDurationTotal,
-  };
-};
-
 const formatDate = (timeISOStringUTC, trafficPeriod) => {
   const date = new Date(timeISOStringUTC);
   const month = date.getMonth() + 1;
@@ -86,10 +53,11 @@ const formatDate = (timeISOStringUTC, trafficPeriod) => {
 
 const About = () => {
   const [message, setMessage] = useState("");
-  const [{ lastModified, numDocs, totalSize }, setDatabaseStatus] = useState({
-    lastModified: null,
-    numDocs: 0,
-    totalSize: 0,
+  const [{ updated, row_count, memory, memory_usage }, setSystemStatus] = useState({
+    updated: null,
+    row_count: 0,
+    memory: 0,
+    memory_usage: 0,
   });
   const [{ mediaCount, mediaFramesTotal, mediaDurationTotal }, setMediaStatus] = useState({
     mediaCount: 0,
@@ -97,8 +65,12 @@ const About = () => {
     mediaDurationTotal: 0,
   });
   useEffect(() => {
-    getDatabaseStatus().then((e) => setDatabaseStatus(e));
-    getMediaStatus().then((e) => setMediaStatus(e));
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`)
+      .then((e) => e.json())
+      .then((e) => setSystemStatus(e));
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`)
+      .then((e) => e.json())
+      .then((e) => setMediaStatus(e));
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hour");
@@ -457,17 +429,20 @@ const About = () => {
                 : "counting..."}
             </li>
             <li>
-              Indexed Frames: {numDocs ? numDocs.toLocaleString(navigator.language) : "counting..."}{" "}
-              {numDocs && mediaFramesTotal
-                ? `(${((1 - numDocs / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
+              Indexed Frames:{" "}
+              {row_count ? row_count.toLocaleString(navigator.language) : "counting..."}{" "}
+              {row_count && mediaFramesTotal
+                ? `(${((1 - row_count / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
                 : ""}
             </li>
             <li>
-              Index Size:{" "}
-              {totalSize ? `${(totalSize / 1000000000).toFixed(2)} GB` : "calculating..."}
+              Memory Usage:{" "}
+              {memory && memory_usage
+                ? `${(memory_usage / 1024 / 1024 / 1024).toFixed(2)} GB / ${(memory / 1024 / 1024 / 1024).toFixed(2)} GB`
+                : "calculating..."}
             </li>
           </ul>
-          <p>Last Database Update: {lastModified ? lastModified.toString() : ""}</p>
+          <p>Last Database Update: {updated ? new Date(updated).toString() : ""}</p>
           <p>
             Check database coverage by Anilist ID:{" "}
             <input

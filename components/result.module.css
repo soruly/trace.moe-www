@@ -68,5 +68,8 @@
   font-size: 0.75rem;
 }
 .result video {
+  background: var(--blank-color);
+  width: 100%;
+  min-height: 90px;
   max-width: 160px;
 }

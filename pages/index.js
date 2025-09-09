@@ -37,6 +37,7 @@ const Index = () => {
   const [anilistInfo, setAnilistInfo] = useState();
   const [playerSrc, setPlayerSrc] = useState();
   const [playerTimeCode, setPlayerTimeCode] = useState("");
+  const [playerDuration, setPlayerDuration] = useState(0);
   const [playerFileName, setPlayerFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -158,6 +159,7 @@ const Index = () => {
     setPlayerSrc();
     setPlayerFileName("");
     setPlayerTimeCode("");
+    setPlayerDuration("");
     setIsSearching(true);
     const startSearchTime = performance.now();
     const formData = new FormData();
@@ -214,6 +216,7 @@ const Index = () => {
         setPlayerSrc(entry.video);
         setPlayerFileName(entry.filename);
         setPlayerTimeCode(entry.from);
+        setPlayerDuration(entry.duration);
         setAnilistInfo(entry.anilist);
       };
 
@@ -356,6 +359,7 @@ const Index = () => {
               <Player
                 src={playerSrc}
                 timeCode={playerTimeCode}
+                duration={playerDuration}
                 fileName={playerFileName}
                 isLoading={isLoading}
                 isSearching={isSearching}
@@ -369,6 +373,7 @@ const Index = () => {
                   setPlayerSrc();
                   setPlayerFileName("");
                   setPlayerTimeCode("");
+                  setPlayerDuration(0);
                 }}
               >
                 ❌

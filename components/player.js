@@ -19,10 +19,17 @@ import {
 } from "./player.module.css";
 import { formatTime } from "./utils";
 
-export default function Player({ src, fileName, onDrop, timeCode, isLoading, isSearching }) {
+export default function Player({
+  src,
+  fileName,
+  onDrop,
+  timeCode,
+  duration,
+  isLoading,
+  isSearching,
+}) {
   const playerRef = useRef(null);
   const [isMute, setIsMute] = useState(true);
-  const [duration, setDuration] = useState(0);
   const [playerWidth, setPlayerWidth] = useState(window.innerWidth > 640 ? 640 : window.innerWidth);
   const [playerHeight, setPlayerHeight] = useState(360);
   const [videoWidth, setVideoWidth] = useState(640);
@@ -30,7 +37,6 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
   const [playerSrc, setPlayerSrc] = useState("");
   const [playerLoading, setPlayerLoading] = useState(isLoading);
   const [playerLoadingError, setPlayerLoadingError] = useState(false);
-  const [left, setLeft] = useState(-12);
   const [dropTargetText, setDropTargetText] = useState("");
 
   const playPause = function () {
@@ -59,20 +65,8 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
     setPlayerLoading(true);
     setPlayerLoadingError(false);
     playerRef.current.style.opacity = 0;
-    setDuration(0);
-    (async () => {
-      try {
-        const response = await fetch(`${src}?size=l`);
-        setPlayerSrc(URL.createObjectURL(await response.blob()));
-        const videoDuration = parseFloat(response.headers.get("x-video-duration"));
-        setDuration(videoDuration);
-        setLeft((timeCode / videoDuration) * playerWidth - 6);
-      } catch (err) {
-        setPlayerLoading(false);
-        setPlayerLoadingError(true);
-      }
-    })();
-  }, [src, timeCode]);
+    setPlayerSrc(`${src}?size=l`);
+  }, [src]);
 
   useEffect(() => {
     if (src) return;
@@ -81,10 +75,7 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
       setPlayerLoading(true);
       setPlayerLoadingError(false);
       playerRef.current.style.opacity = 0;
-      setDuration(0);
       setPlayerSrc("");
-      setDuration(0);
-      setLeft(-12);
     } else {
       setPlayerLoading(false);
     }
@@ -177,8 +168,8 @@ export default function Player({ src, fileName, onDrop, timeCode, isLoading, isS
         <div
           className={progressBarControl}
           style={{
-            animationName: duration ? "none" : seek,
-            left,
+            animationName: isSearching ? seek : "none",
+            left: (timeCode / duration) * playerWidth - 6,
           }}
         >
           ▲

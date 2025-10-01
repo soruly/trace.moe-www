@@ -567,24 +567,6 @@ const About = () => {
             <button onClick={() => setAccuracyPeriod("day")}>60 days</button>
           </p>
         </div>
-
-        <div className={section}>
-          <div className={sectionHeader}>Credit</div>
-          <div className={sectionItem}>
-            Dr. Mathias Lux (<a href="http://www.lire-project.net/">LIRE Project</a>)<br />
-          </div>
-          <small>
-            Lux Mathias, Savvas A. Chatzichristofis. Lire: Lucene Image Retrieval – An Extensible
-            Java CBIR Library. In proceedings of the 16th ACM International Conference on
-            Multimedia, pp. 1085-1088, Vancouver, Canada, 2008{" "}
-            <a href="http://www.morganclaypool.com/doi/abs/10.2200/S00468ED1V01Y201301ICR025">
-              Visual Information Retrieval with Java and LIRE
-            </a>
-          </small>
-          <div className={sectionItem}>
-            Josh (<a href="https://anilist.co/">Anilist</a>) and Anilist team
-          </div>
-        </div>
       </div>
     </Layout>
   );

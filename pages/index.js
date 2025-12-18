@@ -151,6 +151,13 @@ const Index = () => {
     image.src = searchImageSrc;
   }, [searchImageSrc]);
 
+  useEffect(() => {
+    if (searchImageSrc) return;
+    // get search image from WebExtension
+    if (document.querySelector("#originalImage").src)
+      setSearchImageSrc(document.querySelector("#originalImage").src);
+  }, []);
+
   const search = async (imageBlob) => {
     setMessageText("Searching...");
     setSearchResults([]);

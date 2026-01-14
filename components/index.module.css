@@ -137,6 +137,7 @@
 }
 
 .playerInfoPane {
+  width: 640px;
   box-shadow: 0 0 20px var(--shadow-color);
   background: var(--blank-color);
   background-size: 50px 50px;

@@ -1,4 +1,4 @@
-import { infoPane, title, subtitle, divider, poster, detail, footNotes } from "./info.module.css";
+import styles from "./info.module.css";
 
 export default function Layout({ anilist: src }) {
   if (!src) {
@@ -94,12 +94,12 @@ export default function Layout({ anilist: src }) {
   }
 
   return (
-    <div className={infoPane}>
-      <div className={title}>{src.title.native}</div>
-      <div className={subtitle}>{src.title.romaji}</div>
-      <div className={divider}></div>
+    <div className={styles.infoPane}>
+      <div className={styles.title}>{src.title.native}</div>
+      <div className={styles.subtitle}>{src.title.romaji}</div>
+      <div className={styles.divider}></div>
 
-      <div className={detail}>
+      <div className={styles.detail}>
         <table>
           <tbody>
             <tr>
@@ -127,21 +127,21 @@ export default function Layout({ anilist: src }) {
             </tr>
           </tbody>
         </table>
-        <div className={poster}>
+        <div className={styles.poster}>
           <a href={`//anilist.co/anime/${src.id}`}>
             <img
               key={src.coverImage.large}
               src={src.coverImage.large}
               style={{ opacity: 0 }}
-              onLoad={(e) => {
-                e.target.style.opacity = 1;
+              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.style.opacity = "1";
               }}
             />
           </a>
         </div>
       </div>
-      <div className={divider}></div>
-      <div className={footNotes}>
+      <div className={styles.divider}></div>
+      <div className={styles.footNotes}>
         Information provided by <a href="https://anilist.co">anilist.co</a>
       </div>
     </div>

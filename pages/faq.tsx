@@ -1,19 +1,12 @@
 import Layout from "../components/layout";
-import {
-  container,
-  page,
-  pageHeader,
-  section,
-  sectionHeader,
-  sectionItem,
-} from "../components/layout.module.css";
+import styles from "../components/layout.module.css";
 
 const FAQ = () => (
   <Layout title="FAQ">
-    <div className={`${container} ${page}`}>
-      <div className={pageHeader}>FAQ</div>
-      <div className={section}>
-        <div className={sectionHeader}>Why I can't find the search result?</div>
+    <div className={`${styles.container} ${styles.page}`}>
+      <div className={styles.pageHeader}>FAQ</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Why I can't find the search result?</div>
         <p>
           Possible reasons:
           <br />
@@ -52,8 +45,8 @@ const FAQ = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Examples of bad screenshots</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Examples of bad screenshots</div>
         <br />
         <h4>Extra border added</h4>
         <div style={{ float: "left", textAlign: "center", width: "288px" }}>
@@ -243,8 +236,8 @@ const FAQ = () => (
         </p>
         <br />
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Examples of acceptable screenshots</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Examples of acceptable screenshots</div>
         <h4>Slightly distorted size</h4>
         <div style={{ float: "left", textAlign: "center", width: "288px" }}>
           <img
@@ -376,8 +369,8 @@ const FAQ = () => (
         </p>
         <br />
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>How do I search for a more accurate result?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>How do I search for a more accurate result?</div>
         <p>
           Crop your screenshot to 16:9 or 4:3 before searching. Remove any extra borders in
           screencap (if any). By default, it crops the image to 16:9, if you upload a 16:10
@@ -385,8 +378,8 @@ const FAQ = () => (
           the image and adjust the crop position. If your image is tinted, you are out of luck.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>What anime are being indexed?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>What anime are being indexed?</div>
         <p>
           Most Japanese anime since 2000 are indexed, plus some popular anime in 1990s, and little
           anime before 1990. A list of anime are incomplete in index at this stage, including
@@ -394,16 +387,16 @@ const FAQ = () => (
           Chibi Maruko-chan.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Why can't I preview the search result?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Why can't I preview the search result?</div>
         <p>
           Some anime are being removed or relocated, so some of the previews may go offline. The
           preview uses a considerable amount of network bandwidth, it would take some time to load
           if you have a slow connection.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Why are the anime chinese-subbed?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Why are the anime chinese-subbed?</div>
         <p>
           I am still collecting raw anime, and it would take a number of powerful servers several
           months to complete. It will switch to the new dataset once it is ready. The current
@@ -411,28 +404,28 @@ const FAQ = () => (
           users.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Cannot open the website!</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Cannot open the website!</div>
         <p>
           trace.moe requires TLS 1.2 to work. Try upgrading or use another browser. Primary
           supported browsers are Chrome and Firefox. You may also try disabling some of your
           browsers extensions/add-ons.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>How can I watch the entire anime?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>How can I watch the entire anime?</div>
         <p>
           You cannot do that. This website is not intended for watching anime. If you wish to watch
           the anime, you may check which TV channel is broadcasting the anime in your country. For
           those which has finished airing, consider buying or renting the original Blu-ray/DVDs.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>How can I share the search result?</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>How can I share the search result?</div>
         <p>You can only have a sharable URL if you search by image URL.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>How to add trace.moe to Image Search Options</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>How to add trace.moe to Image Search Options</div>
         <p>
           If you prefer to use trace.moe with{" "}
           <a href="https://chrome.google.com/webstore/detail/image-search-options/kljmejbpilkadikecejccebmccagifhl">

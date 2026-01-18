@@ -12,18 +12,7 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import Layout from "../components/layout";
-import {
-  container,
-  page,
-  pageHeader,
-  section,
-  sectionHeader,
-  sectionItem,
-  graph,
-  graphControl,
-  numberInput,
-  fileList,
-} from "../components/layout.module.css";
+import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -79,7 +68,7 @@ const About = () => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
+        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
         setTrafficData({
           labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
           datasets: [
@@ -136,7 +125,7 @@ const About = () => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=speed&period=${speedPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
+        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
         setSpeedData({
           labels: stats.map((e) => formatDate(e.time, speedPeriod)),
           datasets: [
@@ -237,7 +226,7 @@ const About = () => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time) - new Date(b.time));
+        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
         setAccuracyData({
           labels: stats.map((e) => formatDate(e.time, accuracyPeriod)),
           datasets: [
@@ -334,11 +323,11 @@ const About = () => {
 
   return (
     <Layout title="About">
-      <div className={`${container} ${page}`}>
-        <div className={pageHeader}>About</div>
+      <div className={`${styles.container} ${styles.page}`}>
+        <div className={styles.pageHeader}>About</div>
 
-        <div className={section}>
-          <div className={sectionHeader}>What is trace.moe?</div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>What is trace.moe?</div>
           <p>
             <b>trace.moe is an Anime Scene Search Engine</b> that helps users to trace back the
             original anime by a screenshot. It search in ~30000 hours of anime and find the best
@@ -354,8 +343,8 @@ const About = () => {
             operational costs.
           </p>
         </div>
-        <div className={section}>
-          <div className={sectionHeader}>What trace.moe is NOT</div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>What trace.moe is NOT</div>
           <p>
             <b>This website is not for watching anime</b>. The server has effective measures to
             prevent users from accessing the original video beyond the preview limit. If you ask me
@@ -381,8 +370,8 @@ const About = () => {
             details.
           </p>
         </div>
-        <div className={section}>
-          <div className={sectionHeader}>System Status</div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>System Status</div>
           <p>
             This search engine index latest anime automatically, usually within hours after
             broadcast.
@@ -424,7 +413,7 @@ const About = () => {
           <p>
             Check database coverage by Anilist ID:{" "}
             <input
-              className={numberInput}
+              className={styles.numberInput}
               type="number"
               min="0"
               max="1000000"
@@ -447,12 +436,12 @@ const About = () => {
             ></input>{" "}
             {message}
           </p>
-          <pre className={fileList}></pre>
+          <pre className={styles.fileList}></pre>
           {trafficData ? (
             <Bar
-              className={graph}
+              className={styles.graph}
               options={{
-                animations: false,
+                animation: false,
                 plugins: {
                   title: {
                     display: true,
@@ -462,7 +451,6 @@ const About = () => {
                 scales: {
                   x: {
                     stacked: true,
-                    distribution: "series",
                     ticks: {
                       maxRotation: 0,
                     },
@@ -478,9 +466,9 @@ const About = () => {
               height="500"
             ></Bar>
           ) : (
-            <div className={graph}></div>
+            <div className={styles.graph}></div>
           )}
-          <p className={graphControl}>
+          <p className={styles.graphControl}>
             <button onClick={() => setTrafficPeriod("minute")}>60 mins</button>
             <button onClick={() => setTrafficPeriod("hour")}>72 hours</button>
             <button onClick={() => setTrafficPeriod("day")}>60 days</button>
@@ -488,9 +476,9 @@ const About = () => {
 
           {speedData ? (
             <Line
-              className={graph}
+              className={styles.graph}
               options={{
-                animations: false,
+                animation: false,
                 plugins: {
                   title: {
                     display: true,
@@ -500,7 +488,6 @@ const About = () => {
                 scales: {
                   x: {
                     stacked: true,
-                    distribution: "series",
                     ticks: {
                       maxRotation: 0,
                     },
@@ -519,9 +506,9 @@ const About = () => {
               height="500"
             ></Line>
           ) : (
-            <div className={graph}></div>
+            <div className={styles.graph}></div>
           )}
-          <p className={graphControl}>
+          <p className={styles.graphControl}>
             <button onClick={() => setSpeedPeriod("minute")}>60 mins</button>
             <button onClick={() => setSpeedPeriod("hour")}>72 hours</button>
             <button onClick={() => setSpeedPeriod("day")}>60 days</button>
@@ -529,9 +516,9 @@ const About = () => {
 
           {accuracyData ? (
             <Line
-              className={graph}
+              className={styles.graph}
               options={{
-                animations: false,
+                animation: false,
                 plugins: {
                   title: {
                     display: true,
@@ -541,7 +528,6 @@ const About = () => {
                 scales: {
                   x: {
                     stacked: true,
-                    distribution: "series",
                     ticks: {
                       maxRotation: 0,
                     },
@@ -559,9 +545,9 @@ const About = () => {
               height="500"
             ></Line>
           ) : (
-            <div className={graph}></div>
+            <div className={styles.graph}></div>
           )}
-          <p className={graphControl}>
+          <p className={styles.graphControl}>
             <button onClick={() => setAccuracyPeriod("minute")}>60 mins</button>
             <button onClick={() => setAccuracyPeriod("hour")}>72 hours</button>
             <button onClick={() => setAccuracyPeriod("day")}>60 days</button>

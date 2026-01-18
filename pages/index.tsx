@@ -5,21 +5,7 @@ import Result from "../components/result";
 import Player from "../components/player";
 import Info from "../components/info";
 import SearchBar from "../components/search-bar";
-import {
-  dropTarget,
-  dropping,
-  main,
-  mainReady,
-  searchImageDisplay,
-  messageTextLabel,
-  detail,
-  originalImageDisplay,
-  resultList,
-  wrap,
-  playerInfoPane,
-  hidden,
-  closeBtn,
-} from "../components/index.module.css";
+import styles from "../components/index.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -29,13 +15,13 @@ const Index = () => {
   const [anilistFilter, setAnilistFilter] = useState();
   const [messageText, setMessageText] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [searchImage, setSearchImage] = useState("");
+  const [searchImage, setSearchImage] = useState<string | Blob>("");
   const [searchImageSrc, setSearchImageSrc] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedResult, setSelectedResult] = useState();
+  const [selectedResult, setSelectedResult] = useState(undefined);
   const [showNSFW, setshowNSFW] = useState(false);
-  const [anilistInfo, setAnilistInfo] = useState();
-  const [playerSrc, setPlayerSrc] = useState();
+  const [anilistInfo, setAnilistInfo] = useState(undefined);
+  const [playerSrc, setPlayerSrc] = useState(undefined);
   const [playerTimeCode, setPlayerTimeCode] = useState("");
   const [playerDuration, setPlayerDuration] = useState(0);
   const [playerFileName, setPlayerFileName] = useState("");
@@ -64,12 +50,6 @@ const Index = () => {
       },
       false,
     );
-
-    window.onerror = function (message, source, lineno, colno, error) {
-      if (typeof ga === "function") {
-        ga("send", "event", "error", error ? error.stack : message);
-      }
-    };
   }, []);
 
   const imageURLInput = (e) => {
@@ -88,11 +68,11 @@ const Index = () => {
     }
   };
 
-  const handleFileSelect = function (e) {
+  const handleFileSelect = function (e: any) {
     e.stopPropagation();
     e.preventDefault();
     if (imageURL) {
-      setImageURL();
+      setImageURL("");
       history.replaceState(null, null, "/");
     }
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
@@ -101,7 +81,7 @@ const Index = () => {
       return "Error: File is not an image";
     }
     setDropTargetText("");
-    e.target.classList.remove(dropping);
+    e.target.classList.remove(styles.dropping);
     setSearchImageSrc(URL.createObjectURL(file));
     return "";
   };
@@ -112,29 +92,20 @@ const Index = () => {
     setMessageText("Loading search image...");
     const image = new Image();
     image.onload = (e) => {
+      const target = e.target as HTMLImageElement;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      if (e.target.width <= 640 && e.target.height <= 640) {
-        canvas.width = e.target.width;
-        canvas.height = e.target.height;
-      } else if (e.target.width > e.target.height) {
+      if (target.width <= 640 && target.height <= 640) {
+        canvas.width = target.width;
+        canvas.height = target.height;
+      } else if (target.width > target.height) {
         canvas.width = 640;
-        canvas.height = 640 * (e.target.height / e.target.width);
+        canvas.height = 640 * (target.height / target.width);
       } else {
-        canvas.width = 640 * (e.target.width / e.target.height);
+        canvas.width = 640 * (target.width / target.height);
         canvas.height = 640;
       }
-      ctx.drawImage(
-        e.target,
-        0,
-        0,
-        e.target.width,
-        e.target.height,
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      );
+      ctx.drawImage(target, 0, 0, target.width, target.height, 0, 0, canvas.width, canvas.height);
       canvas.toBlob(
         function (blob) {
           setIsLoading(false);
@@ -154,19 +125,19 @@ const Index = () => {
   useEffect(() => {
     if (searchImageSrc) return;
     // get search image from WebExtension
-    if (document.querySelector("#originalImage").src)
-      setSearchImageSrc(document.querySelector("#originalImage").src);
+    if ((document.querySelector("#originalImage") as HTMLImageElement).src)
+      setSearchImageSrc((document.querySelector("#originalImage") as HTMLImageElement).src);
   }, []);
 
   const search = async (imageBlob) => {
     setMessageText("Searching...");
     setSearchResults([]);
-    setSelectedResult();
-    setAnilistInfo();
-    setPlayerSrc();
+    setSelectedResult(undefined);
+    setAnilistInfo(undefined);
+    setPlayerSrc(undefined);
     setPlayerFileName("");
     setPlayerTimeCode("");
-    setPlayerDuration("");
+    setPlayerDuration(0);
     setIsSearching(true);
     const startSearchTime = performance.now();
     const formData = new FormData();
@@ -281,16 +252,16 @@ const Index = () => {
         src=""
         style={{ display: "none" }}
         onLoad={(e) => {
-          setSearchImageSrc(e.target.src);
+          setSearchImageSrc((e.target as HTMLImageElement).src);
         }}
       />
       {/* legacy element for not breaking WebExtension */}
       <input id="autoSearch" type="checkbox" style={{ display: "none" }}></input>
 
-      <div className={searchImageSrc ? mainReady : main}>
+      <div className={searchImageSrc ? styles.mainReady : styles.main}>
         {!searchImageSrc && (
           <div
-            className={dropTarget}
+            className={styles.dropTarget}
             onDrop={handleFileSelect}
             onDragOver={(e) => {
               e.stopPropagation();
@@ -298,11 +269,11 @@ const Index = () => {
               e.dataTransfer.dropEffect = "copy";
             }}
             onDragEnter={(e) => {
-              e.target.classList.add(dropping);
+              (e.target as HTMLElement).classList.add(styles.dropping);
               setDropTargetText("Drop image here");
             }}
             onDragLeave={(e) => {
-              e.target.classList.remove(dropping);
+              (e.target as HTMLElement).classList.remove(styles.dropping);
             }}
           >
             {dropTargetText}
@@ -323,19 +294,19 @@ const Index = () => {
         ></SearchBar>
 
         {searchImageSrc && (
-          <div className={wrap}>
-            <div className={resultList}>
-              <div className={searchImageDisplay}>
-                <div className={detail}>Your search image</div>
+          <div className={styles.wrap}>
+            <div className={styles.resultList}>
+              <div className={styles.searchImageDisplay}>
+                <div className={styles.detail}>Your search image</div>
                 <img
-                  className={originalImageDisplay}
+                  className={styles.originalImageDisplay}
                   src={searchImageSrc}
                   crossOrigin="anonymous"
                   onError={() => {
                     setMessageText("Failed to load search image");
                   }}
                 />
-                <div className={messageTextLabel}>{messageText}</div>
+                <div className={styles.messageTextLabel}>{messageText}</div>
               </div>
               {searchResults
                 .filter((e) => showNSFW || !e.anilist.isAdult)
@@ -362,7 +333,13 @@ const Index = () => {
               )}
             </div>
 
-            <div className={selectedResult ? playerInfoPane : [playerInfoPane, hidden].join(" ")}>
+            <div
+              className={
+                selectedResult
+                  ? styles.playerInfoPane
+                  : [styles.playerInfoPane, styles.hidden].join(" ")
+              }
+            >
               <Player
                 src={playerSrc}
                 timeCode={playerTimeCode}
@@ -373,11 +350,11 @@ const Index = () => {
                 onDrop={handleFileSelect}
               ></Player>
               <div
-                className={closeBtn}
+                className={styles.closeBtn}
                 onClick={(e) => {
-                  setSelectedResult();
-                  setAnilistInfo();
-                  setPlayerSrc();
+                  setSelectedResult(undefined);
+                  setAnilistInfo(undefined);
+                  setPlayerSrc(undefined);
                   setPlayerFileName("");
                   setPlayerTimeCode("");
                   setPlayerDuration(0);

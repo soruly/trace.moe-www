@@ -1,19 +1,12 @@
 import Layout from "../components/layout";
-import {
-  container,
-  page,
-  pageHeader,
-  section,
-  sectionHeader,
-  sectionItem,
-} from "../components/layout.module.css";
+import styles from "../components/layout.module.css";
 
 const News = () => (
   <Layout title="News">
-    <div className={`${container} ${page}`}>
-      <div className={pageHeader}>News</div>
-      <div className={section}>
-        <div className={sectionHeader}>trace.moe database dump 2021-10</div>
+    <div className={`${styles.container} ${styles.page}`}>
+      <div className={styles.pageHeader}>News</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>trace.moe database dump 2021-10</div>
         <small>10 Oct 2021</small>
         <p>
           <a href="https://nyaa.si/view/1442127">https://nyaa.si/view/1442127</a>
@@ -39,8 +32,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Software updates and Improving Search Accuracy</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Software updates and Improving Search Accuracy</div>
         <small>29 Sep 2021</small>
         <p>
           some anime not found previously can now be found after these updates and a re-hash of all
@@ -70,8 +63,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Add trace.moe to windows context menu</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Add trace.moe to windows context menu</div>
         <small>19 Sep 2021</small>
         <p>
           You can search images directly from windows context menu by installing this powershell
@@ -83,8 +76,8 @@ const News = () => (
           </a>
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Microsoft Edge Add-on is published on store now</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Microsoft Edge Add-on is published on store now</div>
         <small>19 Jul 2021</small>
         <p>
           <a href="https://microsoftedge.microsoft.com/addons/detail/search-anime-by-screensho/bkigcpancdclbiekidfbcghedaielbda">
@@ -92,8 +85,8 @@ const News = () => (
           </a>
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>trace.moe database dump 2021-04</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>trace.moe database dump 2021-04</div>
         <small>2 Jun 2021</small>
         <p>
           <a href="https://nyaa.si/view/1393270">https://nyaa.si/view/1393270</a>
@@ -115,8 +108,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>New trace.moe API published</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>New trace.moe API published</div>
         <small>10 May 2021</small>
         <p>
           <a href="https://soruly.github.io/trace.moe-api/">
@@ -142,8 +135,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Recent updates</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Recent updates</div>
         <small>2 May 2021</small>
         <p>
           Traffic Graph You can now see the server's traffic on{" "}
@@ -177,8 +170,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Webpage re-design</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Webpage re-design</div>
         <small>18 Feb 2021</small>
         <p>
           I've rewritten the webpage.
@@ -212,8 +205,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Updates to trace.moe API</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Updates to trace.moe API</div>
         <small>30 Jan 2021</small>
         <p>
           - Change: image preview endpoint has changed, the url is now consistent with video preview
@@ -228,8 +221,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>trace.moe database dump 2020-10</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>trace.moe database dump 2020-10</div>
         <small>18 Oct 2020</small>
         <p>
           This is the most recent database dump for trace.moe which contains image hashes of ~5000
@@ -248,8 +241,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>New Image Search Algorithm (JCD)</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>New Image Search Algorithm (JCD)</div>
         <small>13 Apr 2020</small>
         <p>
           A new search algorithm has been added to trace.moe. You can try this using the "Use new
@@ -286,8 +279,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>trace.moe database dump 2020-04</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>trace.moe database dump 2020-04</div>
         <small>13 Apr 2020</small>
         <p>
           This is the most recent database dump for trace.moe which contains image hashes of
@@ -308,8 +301,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added dark theme support</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added dark theme support</div>
         <small>14 Sep 2019</small>
         <p>
           If your OS is in dark mode, it would switch to dark mode automatically without any
@@ -320,8 +313,8 @@ const News = () => (
           For macOS, it'd be in system preferences =&gt; general =&gt; appearance <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added image URL support to trace.moe API</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added image URL support to trace.moe API</div>
         <small>4 May 2019</small>
         <p>
           You can now easily use http://trace.moe API directly with image URL
@@ -330,8 +323,8 @@ const News = () => (
           <a href="https://soruly.github.io/trace.moe/">https://soruly.github.io/trace.moe/</a>
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>trace.moe database dump 2019-04</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>trace.moe database dump 2019-04</div>
         <small>4 May 2019</small>
         <p>
           This is the most recent database dump for trace.moe which contains image hashes of
@@ -346,8 +339,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Optimizing website loading speed</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Optimizing website loading speed</div>
         <small>1 May 2019</small>
         <p>
           Recently I've been improving webpage loading times in various ways:
@@ -380,8 +373,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Recent updates to trace.moe</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Recent updates to trace.moe</div>
         <small>3 Feb 2019</small>
         <p>
           New web UI layout for mobile devices!
@@ -437,8 +430,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Moving to new domain: trace.moe</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Moving to new domain: trace.moe</div>
         <small>22 Oct 2018</small>
         <p>
           Yesterday, the .ga domain provided by Freenom (domain name registrar) was suddenly
@@ -460,8 +453,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>open sourcing scene search with sola</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>open sourcing scene search with sola</div>
         <small>2 May 2018</small>
         <p>
           The last piece of puzzle in whatanime.ga has published.
@@ -496,8 +489,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Speeding up search on whatanime.ga</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Speeding up search on whatanime.ga</div>
         <small>2 Apr 2018</small>
         <p>
           <a href="https://youtu.be/HjL5O3k3C7s">https://youtu.be/HjL5O3k3C7s</a>
@@ -519,8 +512,8 @@ const News = () => (
           <br />
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added auto black border crop</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added auto black border crop</div>
         <small>13 Nov 2017</small>
         <p>
           This will automatically detect and crop black borders on search image, significantly
@@ -531,49 +524,49 @@ const News = () => (
           This is achieved by openCV using a simple python script
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Telegram Channel</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Telegram Channel</div>
         <small>26 Aug 2017</small>
         <p>
           You can subscribe the <a href="https://telegram.me/whatanimeupdates">Telegram Channel</a>{" "}
           for database and news updates.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>GIF and video support for Telegram Bot</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>GIF and video support for Telegram Bot</div>
         <small>24 Aug 2017</small>
         <p>
           You can now send GIF or video to the{" "}
           <a href="https://telegram.me/WhatAnimeBot">Telegram Bot</a>.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Group chat support for Telegram Bot</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Group chat support for Telegram Bot</div>
         <small>23 Aug 2017</small>
         <p>
           You can now add the <a href="https://telegram.me/WhatAnimeBot">Telegram Bot</a> to
           Telegram group. Use @ to mention the bot on any photo to search.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>
           Fix search requests failed when Google Analytics is blocked
         </div>
         <small>5 Aug 2017</small>
         <p>Identified and fixed an issue where browsers failed to search due to blocked scripts.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added 2017-04 database dump</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added 2017-04 database dump</div>
         <small>26 Jul 2017</small>
         <p>Database dump updated to 2017-04.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added demo for the upcoming search engine update</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added demo for the upcoming search engine update</div>
         <small>14 Jun 2017</small>
         <p>Take a look at a demo on demo.whatanime.ga</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>New Icon</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>New Icon</div>
         <small>5 Jun 2017</small>
         <p>
           <img src="/favicon128.png" alt="favicon" />
@@ -581,8 +574,8 @@ const News = () => (
           This is the new icon for whatanime.ga
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>2017 Presentation slides updates</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>2017 Presentation slides updates</div>
         <small>4 Jun 2017</small>
         <p>
           Want to know more about whatanime.ga? Read the{" "}
@@ -592,8 +585,8 @@ const News = () => (
           .
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Search changes</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Search changes</div>
         <small>30 Apr 2017</small>
         <p>
           You can now search scenes with any aspect ratio. Thumbnail preview also respect aspect
@@ -602,8 +595,8 @@ const News = () => (
           webpage now loads faster. And a new loading animation was added.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Search for more results</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Search for more results</div>
         <small>23 Apr 2017</small>
         <p>
           You can now keep searching the database for more results. Previously, the search would
@@ -611,24 +604,24 @@ const News = () => (
           results with even higher similarity!
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Search in specific season</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Search in specific season</div>
         <small>18 Apr 2017</small>
         <p>
           You can now select a particular year / season to search. If you like this project, feel
           free to <a href="https://www.patreon.com/soruly">Support whatanime.ga on Patreon.</a>
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>System maintenance</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>System maintenance</div>
         <small>15 Apr 2017</small>
         <p>
           Server upgrade and cleanup was completed on 15 Apr 2017. An additional hard drive and new
           network adapter has been installed.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>System status page</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>System status page</div>
         <small>14 Apr 2017</small>
         <p>
           You can now see the system status in{" "}
@@ -636,40 +629,40 @@ const News = () => (
           UptimeRobot).
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Partial service interruption</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Partial service interruption</div>
         <small>23 Feb 2017</small>
         <p>
           Anime info panel was not showing since Feb 21 21:13 UTC , the service has been restored on
           Feb 23 03:34 UTC.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Image proxy relocated</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Image proxy relocated</div>
         <small>21 Feb 2017</small>
         <p>
           The image proxy server has been moved from Singapore (Digital Ocean) to Tokyo (Linode). It
           may affect loading times of images from ?url= params.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Video preview for Telegram Bot</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Video preview for Telegram Bot</div>
         <small>4 Feb 2017</small>
         <p>
           The <a href="https://telegram.me/WhatAnimeBot">Telegram Bot</a> will now sends you a video
           preview.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Official API released</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Official API released</div>
         <small>17 Jan 2017</small>
         <p>
           The official API is now open for testing. Interested developers may read the page on{" "}
           <a href="https://soruly.github.io/whatanime.ga/">GitHub Pages</a>.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>WebExtension updated</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>WebExtension updated</div>
         <small>16 Nov 2016</small>
         <p>
           The image extraction method of WebExtension has changed. This would be able to fix some
@@ -679,42 +672,42 @@ const News = () => (
           enabling extension developer features in about:flags.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Enabled autoplay on mobile</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Enabled autoplay on mobile</div>
         <small>11 Nov 2016</small>
         <p>Now mobile devices will mute and autoplay the video preview.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added URL params for playback options</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added URL params for playback options</div>
         <small>29 Oct 2016</small>
         <p>You can now use URL params to control playback options, for example:</p>
         <pre>https://trace.moe/?autoplay=0&loop&mute=1&url=</pre>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Improved performance</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Improved performance</div>
         <small>23 Oct 2016</small>
         <p>
           Reduced search result candidates from 10 Million to 3 Million. This would reduce accuracy
           but greatly improves performance.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added links to database dump</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added links to database dump</div>
         <small>5 Oct 2016</small>
         <p>You can now download a complete dump of the database.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added more server status</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added more server status</div>
         <small>1 Oct 2016</small>
         <p>You can see server load and recently indexed files in /about</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Adding Raw Anime</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Adding Raw Anime</div>
         <small>1 Oct 2016</small>
         <p>The database has started indexing raw anime from now on.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added Telegram Bot</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added Telegram Bot</div>
         <small>14 Sep 2016</small>
         <p>
           This telegram bot can tell you where an anime screenshot is taken from. Just send /
@@ -722,8 +715,8 @@ const News = () => (
           <a href="https://telegram.me/WhatAnimeBot">https://telegram.me/WhatAnimeBot</a> .
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>WebExtension Changes</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>WebExtension Changes</div>
         <small>14 Aug 2016</small>
         <p>The ?auto url param is no longer used. Now it would always automatically search.</p>
         <p>
@@ -733,8 +726,8 @@ const News = () => (
           click it. Now extensions no longer use the ?url to send search images.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>WebExtension for Chrome, Firefox and Opera</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>WebExtension for Chrome, Firefox and Opera</div>
         <small>1 July 2016</small>
         <p>
           {" "}
@@ -755,53 +748,53 @@ const News = () => (
           <a href="https://github.com/soruly/whatanime.ga-WebExtension">GitHub</a>
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Improved anime title language</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Improved anime title language</div>
         <small>30 Jun 2016</small>
         <p>It now shows anime titles according to users' browser language.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added loading icon</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added loading icon</div>
         <small>30 Jun 2016</small>
         <p>
           It now shows a loading icon (instead of blurring) while searching. Also display a loading
           icon when the video preview is loading.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added preview thumbnails</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added preview thumbnails</div>
         <small>30 May 2016</small>
         <p>
           The thumbnail may not be at the exact moment, since the seeking is not very accurate. Play
           the preview to see if it's what you are looking for.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Fixed some bugs in URL loading</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Fixed some bugs in URL loading</div>
         <small>6 May 2016</small>
         <p>
           In case the image cannot be loaded, upload the image from file or copy image itself (not
           URL) then Ctrl+V
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Speed up image load from URL</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Speed up image load from URL</div>
         <small>23 Apr 2016</small>
         <p>
           Images load from URL would be compressed. This would speed up loading GIF and large images
           from URL.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Performance Tweaks</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Performance Tweaks</div>
         <small>18 Apr 2016</small>
         <p>
           Server will now cache some search results. Search results would be cached for 5-30
           minutes. The better the search results, the longer the results would be cached.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Updated Chrome Extension</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Updated Chrome Extension</div>
         <small>8 Apr 2016</small>
         <p>
           Once the image completes loading, it would search automatically. You can change the
@@ -809,16 +802,16 @@ const News = () => (
           <a href="/faq">FAQ</a>.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added index cache status</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added index cache status</div>
         <small>7 Apr 2016</small>
         <p>
           You can now see how much data is cached in RAM from About page. The higher the percentage
           faster the search. It usually stays around 33% due to limited RAM.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Incorrect timestamp issue identified</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Incorrect timestamp issue identified</div>
         <small>6 Apr 2016</small>
         <p>
           There has been some incorrect timestamp in search results due to image analyze scripts
@@ -827,44 +820,44 @@ const News = () => (
           already indexed animes. The new script is also 33% faster when indexing anime.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Fixes some image editing issue</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Fixes some image editing issue</div>
         <small>10 Mar 2016</small>
         <p>Image would sometimes gone black when clicking fit / flip button. Now fixed.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added Fit Width / Height option</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added Fit Width / Height option</div>
         <small>6 Mar 2016</small>
         <p>
           You can now choose to Fit Width / Height for your search image. Also fixed some flickering
           issue on previews.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Fixed some Image URL issue</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Fixed some Image URL issue</div>
         <small>3 Mar 2016</small>
         <p>Fixed some cross-site image URL linking issue. Most image URL should load now.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>New Anime Info Panel UI</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>New Anime Info Panel UI</div>
         <small>1 Mar 2016</small>
         <p>A better layout for more Anime information.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added Image URL Option</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added Image URL Option</div>
         <small>1 Mar 2016</small>
         <p>You can now search by Image URL</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added Safe Search Option</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added Safe Search Option</div>
         <small>28 Feb 2016</small>
         <p>
           The Safe Search Option can hide most Hentai Anime from search result. But you should aware
           that some regular season Animes can still be obscene. (NSFW)
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Try the Chrome Extension</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Try the Chrome Extension</div>
         <small>28 Feb 2016</small>
         <p>
           Now you can use the{" "}
@@ -874,62 +867,62 @@ const News = () => (
           to search.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added some Heitai Anime</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added some Heitai Anime</div>
         <small>28 Feb 2016</small>
         <p>About 168 Heitai Anime series has been added.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added sample screenshot in FAQ</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added sample screenshot in FAQ</div>
         <small>28 Feb 2016</small>
         <p>
           To help users to understand how the search engine works, we have added some good and bad
           screenshots in <a href="/faq">FAQ</a>.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Performance Improvement</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Performance Improvement</div>
         <small>21 Feb 2016</small>
         <p>Improved caching method to warmup cold data.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>More fixes</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>More fixes</div>
         <small>20 Feb 2016</small>
         <p>
           Database has been cleaned up and reloaded. This should fix most video previews. Fixed some
           anime titles still being null.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Bug Fix</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Bug Fix</div>
         <small>17 Feb 2016</small>
         <p>
           Fixed the empty search result. The issue has been resolved. A large number of files has
           been relocated, video preview may be missing for some search results.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Improved Performance</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Improved Performance</div>
         <small>01 Jan 2016</small>
         <p>
           Increased cache size to improve performance when the server has been idle for a long time.
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Added a Flip Button</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Added a Flip Button</div>
         <small>31 Dec 2015</small>
         <p>
           You may now flip the image before searching. If you can't find a match, try to flip your
           image and search again. (Especially useful for AMV)
         </p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Search Algorithm Changed</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Search Algorithm Changed</div>
         <small>21 Dec 2015</small>
         <p>Switched to use a new searching algorithm. The search is slower but more accurate.</p>
       </div>
-      <div className={section}>
-        <div className={sectionHeader}>Public Beta</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Public Beta</div>
         <small>19 Dec 2015</small>
         <p>Adding some informative pages.</p>
       </div>

@@ -1,19 +1,12 @@
 import Layout from "../components/layout";
-import {
-  container,
-  page,
-  pageHeader,
-  section,
-  sectionHeader,
-  sectionItem,
-} from "../components/layout.module.css";
+import styles from "../components/layout.module.css";
 
 const Terms = () => (
   <Layout title="Terms">
-    <div className={`${container} ${page}`} style={{ fontSize: "0.75rem" }}>
-      <div className={pageHeader}>Terms</div>
-      <div className={section}>
-        <div className={sectionHeader}>Copyright &amp; Intellectual Property Policy</div>
+    <div className={`${styles.container} ${styles.page}`} style={{ fontSize: "0.75rem" }}>
+      <div className={styles.pageHeader}>Terms</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Copyright &amp; Intellectual Property Policy</div>
         <p>
           trace.moe respects the intellectual property rights of others and expects its users to do
           the same. <br />
@@ -43,8 +36,8 @@ const Terms = () => (
         </p>
       </div>
 
-      <div className={section}>
-        <div className={sectionHeader}>DMCA Notice of Alleged Infringement ("Notice")</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>DMCA Notice of Alleged Infringement ("Notice")</div>
         <ol>
           <li>
             <p>
@@ -85,8 +78,8 @@ const Terms = () => (
         </p>
       </div>
 
-      <div className={section}>
-        <div className={sectionHeader}>Notification of Trademark Infringement:</div>
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>Notification of Trademark Infringement:</div>
         <p>
           If you believe that your trademark (the "Mark") is being used on the Services by a user in
           a way that constitutes trademark infringement, please provide our Designated Copyright

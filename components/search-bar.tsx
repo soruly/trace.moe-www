@@ -1,18 +1,4 @@
-import {
-  searchBar,
-  greet,
-  searchBarReady,
-  searchBarContent,
-  formControls,
-  imageUrlInput,
-  anilistFilterInput,
-  file,
-  cutBordersBtn,
-  searchBtn,
-  iconSearch,
-  iconCheck,
-  iconCross,
-} from "./search-bar.module.css";
+import styles from "./search-bar.module.css";
 
 export default function SearchBar({
   searchImageSrc,
@@ -28,27 +14,27 @@ export default function SearchBar({
   searchImage,
 }) {
   return (
-    <div className={searchImageSrc ? searchBarReady : searchBar}>
-      <div className={searchBarContent}>
+    <div className={searchImageSrc ? styles.searchBarReady : styles.searchBar}>
+      <div className={styles.searchBarContent}>
         {!searchImageSrc && (
-          <div className={greet}>
+          <div className={styles.greet}>
             paste or drop image here; trace back the scene from an anime screenshot
           </div>
         )}
-        <div className={formControls}>
+        <div className={styles.formControls}>
           <form>
             <input
               type="url"
               pattern="https?://.+"
               required
               name="imageURL"
-              className={imageUrlInput}
+              className={styles.imageUrlInput}
               placeholder="Image URL"
               value={imageURL}
               onInput={imageURLInput}
             />
             <input type="submit" />
-            <div className={file}>
+            <div className={styles.file}>
               <input type="file" name="files[]" accept="image/*" onChange={handleFileSelect} />
             </div>
           </form>
@@ -56,22 +42,28 @@ export default function SearchBar({
             <>
               <input
                 type="text"
-                className={anilistFilterInput}
+                className={styles.anilistFilterInput}
                 placeholder="anilist ID"
                 value={anilistFilter}
                 onChange={(e) => {
                   setAnilistFilter(e.target.value);
                 }}
               />
-              <button className={cutBordersBtn} onClick={() => setIsCutBorders(!isCutBorders)}>
-                <span className={`icon ${isCutBorders ? iconCheck : iconCross}`}></span> Cut Borders
+              <button
+                className={styles.cutBordersBtn}
+                onClick={() => setIsCutBorders(!isCutBorders)}
+              >
+                <span
+                  className={`icon ${isCutBorders ? styles.iconCheck : styles.iconCross}`}
+                ></span>{" "}
+                Cut Borders
               </button>
               <button
-                className={searchBtn}
+                className={styles.searchBtn}
                 disabled={isSearching}
                 onClick={() => search(searchImage)}
               >
-                <span className={iconSearch}></span>
+                <span className={styles.iconSearch}></span>
               </button>
             </>
           )}

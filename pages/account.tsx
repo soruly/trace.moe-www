@@ -1,26 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
-import {
-  container,
-  page,
-  pageHeader,
-  section,
-  sectionHeader,
-  sectionItem,
-} from "../components/layout.module.css";
-import {
-  overlay,
-  overlayHidden,
-  box,
-  confirmBoxBody,
-  boxTitle,
-  boxBody,
-  accountPriority,
-  accountPriorityActive,
-  meterBG,
-  meterFG,
-  error,
-} from "../components/account.module.css";
+import styles from "../components/layout.module.css";
+import accountStyles from "../components/account.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -34,7 +15,7 @@ const Account = () => {
   const [createUserLabel, setCreateUserLabel] = useState("");
   const [isCreatingUser, setIsCreatingUser] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [confirmed, setConfirmed] = useState();
+  const [confirmed, setConfirmed] = useState(undefined);
   const [dialogue, setDialogue] = useState("");
   const [user, setUser] = useState({
     concurrency: 0,
@@ -43,7 +24,7 @@ const Account = () => {
     quota: 0,
     quotaUsed: 0,
   });
-  const login = async (apiKey) => {
+  const login = async (apiKey?: string) => {
     setLoading(true);
     let res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me`, {
       headers: { "x-trace-key": apiKey || "" },
@@ -65,7 +46,7 @@ const Account = () => {
     e.target.querySelectorAll("input").forEach((e) => {
       e.disabled = true;
     });
-    e.target.querySelector("#login-label").classList.remove(error);
+    e.target.querySelector("#login-label").classList.remove(accountStyles.error);
     e.target.querySelector("#login-label").innerText = "";
     const email = e.target.querySelector("input[type=email]").value;
     const password = e.target.querySelector("input[type=password]").value;
@@ -80,7 +61,7 @@ const Account = () => {
     });
     if (res.status >= 400) {
       e.target.querySelector("#login-label").innerText = (await res.json()).error;
-      e.target.querySelector("#login-label").classList.add(error);
+      e.target.querySelector("#login-label").classList.add(accountStyles.error);
     } else {
       await login((await res.json()).key);
       e.target.querySelector("#login-label").innerText = "";
@@ -104,7 +85,7 @@ const Account = () => {
     e.target.querySelectorAll("input").forEach((e) => {
       e.disabled = true;
     });
-    e.target.querySelector("#password-label").classList.remove(error);
+    e.target.querySelector("#password-label").classList.remove(accountStyles.error);
     e.target.querySelector("#password-label").innerText = "";
     const password = e.target.querySelector("input[type=password]").value;
     const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/reset-password`, {
@@ -119,7 +100,7 @@ const Account = () => {
     });
     if (res.status >= 400) {
       e.target.querySelector("#password-label").innerText = (await res.json()).error;
-      e.target.querySelector("#password-label").classList.add(error);
+      e.target.querySelector("#password-label").classList.add(accountStyles.error);
     } else {
       e.target.querySelector("#password-label").innerText = "Password has changed successfully.";
     }
@@ -140,14 +121,14 @@ const Account = () => {
         });
         if (res.status >= 400) {
           setAPIKeyLabel((await res.json()).error);
-          apiKeyClass = error;
+          apiKeyClass = accountStyles.error;
         } else {
           const newApiKey = (await res.json()).key;
           setAPIKeyLabel("API Key has been reset.");
           setAPIKey(newApiKey);
         }
       }
-      setConfirmed();
+      setConfirmed(undefined);
       setIsResettingApiKey(false);
     })();
   }, [confirmed]);
@@ -186,10 +167,10 @@ const Account = () => {
 
   return (
     <Layout title="Account">
-      <div className={`${overlay} ${!dialogue ? overlayHidden : ""}`}>
-        <div className={box}>
-          <div className={boxTitle}>Confirm</div>
-          <div className={`${boxBody} ${confirmBoxBody}`}>
+      <div className={`${accountStyles.overlay} ${!dialogue ? accountStyles.overlayHidden : ""}`}>
+        <div className={accountStyles.box}>
+          <div className={accountStyles.boxTitle}>Confirm</div>
+          <div className={`${accountStyles.boxBody} ${accountStyles.confirmBoxBody}`}>
             <div>{dialogue}</div>
             <div>
               <button
@@ -210,12 +191,12 @@ const Account = () => {
           </div>
         </div>
       </div>
-      <div className={`${container} ${page}`}>
-        <div className={pageHeader}>Account</div>
+      <div className={`${styles.container} ${styles.page}`}>
+        <div className={styles.pageHeader}>Account</div>
 
-        <div className={`${box} account-info loading`}>
-          <div className={boxTitle}>Account Info</div>
-          <div className={boxBody}>
+        <div className={`${accountStyles.box} account-info loading`}>
+          <div className={accountStyles.boxTitle}>Account Info</div>
+          <div className={accountStyles.boxBody}>
             <table>
               <tbody>
                 <tr>
@@ -236,13 +217,19 @@ const Account = () => {
                     <div>{`${user.quotaUsed} / ${user.quota}`}</div>
                     {
                       <svg width="100%" height="8">
-                        <rect x="0" y="0" width="100%" height="8" className={meterBG}></rect>
+                        <rect
+                          x="0"
+                          y="0"
+                          width="100%"
+                          height="8"
+                          className={accountStyles.meterBG}
+                        ></rect>
                         <rect
                           x="0"
                           y="0"
                           width={`${user.quota ? (user.quotaUsed / user.quota) * 100 : 0}%`}
                           height="8"
-                          className={meterFG}
+                          className={accountStyles.meterFG}
                         ></rect>
                       </svg>
                     }
@@ -250,23 +237,31 @@ const Account = () => {
                 </tr>
                 <tr>
                   <td>Priority</td>
-                  <td className={accountPriority}>
-                    <div className={user.priority === 0 ? accountPriorityActive : ""}>Low</div>
+                  <td className={accountStyles.accountPriority}>
+                    <div className={user.priority === 0 ? accountStyles.accountPriorityActive : ""}>
+                      Low
+                    </div>
                     <div
                       className={
-                        user.priority > 0 && user.priority <= 2 ? accountPriorityActive : ""
+                        user.priority > 0 && user.priority <= 2
+                          ? accountStyles.accountPriorityActive
+                          : ""
                       }
                     >
                       Medium
                     </div>
                     <div
                       className={
-                        user.priority > 2 && user.priority <= 5 ? accountPriorityActive : ""
+                        user.priority > 2 && user.priority <= 5
+                          ? accountStyles.accountPriorityActive
+                          : ""
                       }
                     >
                       High
                     </div>
-                    <div className={user.priority > 5 ? accountPriorityActive : ""}>Highest</div>
+                    <div className={user.priority > 5 ? accountStyles.accountPriorityActive : ""}>
+                      Highest
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -278,9 +273,9 @@ const Account = () => {
           </div>
         </div>
         {!loading && isGuest(user.id) && (
-          <div className={`${box}`}>
-            <div className={boxTitle}>Login</div>
-            <div className={boxBody}>
+          <div className={`${accountStyles.box}`}>
+            <div className={accountStyles.boxTitle}>Login</div>
+            <div className={accountStyles.boxBody}>
               <form onSubmit={submitLogin}>
                 <table>
                   <tbody>
@@ -290,7 +285,7 @@ const Account = () => {
                       </td>
                       <td>
                         <div>
-                          <input type="email" size="1" placeholder="email address" required />
+                          <input type="email" size={1} placeholder="email address" required />
                         </div>
                       </td>
                     </tr>
@@ -302,9 +297,9 @@ const Account = () => {
                         <div>
                           <input
                             type="password"
-                            size="1"
+                            size={1}
                             placeholder="password"
-                            minLength="8"
+                            minLength={8}
                             autoComplete="current-password"
                             required
                           />
@@ -323,9 +318,9 @@ const Account = () => {
         )}
 
         {!isGuest(user.id) && (
-          <div className={`${box} logout`}>
-            <div className={boxTitle}>Logout</div>
-            <div className={boxBody}>
+          <div className={`${accountStyles.box} logout`}>
+            <div className={accountStyles.boxTitle}>Logout</div>
+            <div className={accountStyles.boxBody}>
               <form onSubmit={logout}>
                 <div>
                   <div id="logout-label"></div>
@@ -337,9 +332,9 @@ const Account = () => {
         )}
 
         {!loading && !isGuest(user.id) && (
-          <div className={`${box} security`}>
-            <div className={boxTitle}>Security</div>
-            <div className={boxBody}>
+          <div className={`${accountStyles.box} security`}>
+            <div className={accountStyles.boxTitle}>Security</div>
+            <div className={accountStyles.boxBody}>
               <form onSubmit={submitPassword}>
                 <table>
                   <tbody>
@@ -352,9 +347,9 @@ const Account = () => {
                           <input
                             id="new-password"
                             type="password"
-                            size="1"
+                            size={1}
                             placeholder="New Password"
-                            minLength="8"
+                            minLength={8}
                             autoComplete="new-password"
                             required
                           />
@@ -373,9 +368,9 @@ const Account = () => {
         )}
 
         {!loading && !isGuest(user.id) && (
-          <div className={`${box} developer`}>
-            <div className={boxTitle}>Developer's Zone</div>
-            <div className={boxBody}>
+          <div className={`${accountStyles.box} developer`}>
+            <div className={accountStyles.boxTitle}>Developer's Zone</div>
+            <div className={accountStyles.boxBody}>
               <form onSubmit={resetAPIKey}>
                 <table>
                   <tbody>
@@ -388,7 +383,7 @@ const Account = () => {
                           <input
                             id="api-key"
                             type="text"
-                            size="1"
+                            size={1}
                             readOnly
                             value={apiKey}
                             disabled={isResettingApiKey}
@@ -408,9 +403,9 @@ const Account = () => {
         )}
 
         {!loading && isAdmin(user.id) && (
-          <div className={`${box} create`}>
-            <div className={boxTitle}>Create New User</div>
-            <div className={boxBody}>
+          <div className={`${accountStyles.box} create`}>
+            <div className={accountStyles.boxTitle}>Create New User</div>
+            <div className={accountStyles.boxBody}>
               <form onSubmit={createNewUser}>
                 <table>
                   <tbody>
@@ -422,7 +417,7 @@ const Account = () => {
                         <div>
                           <input
                             type="email"
-                            size="1"
+                            size={1}
                             placeholder="email address"
                             required
                             disabled={isCreatingUser}
@@ -438,9 +433,9 @@ const Account = () => {
                         <div>
                           <input
                             type="number"
-                            min="0"
-                            max="9"
-                            size="1"
+                            min={0}
+                            max={9}
+                            size={1}
                             defaultValue={1}
                             disabled={isCreatingUser}
                           />

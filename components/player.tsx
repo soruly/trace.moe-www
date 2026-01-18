@@ -1,22 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  dropEffect,
-  dropping,
-  fileNameDisplay,
-  iconVolumeOff,
-  iconVolumeUp,
-  loading,
-  player,
-  playerControl,
-  playerError,
-  playerInfo,
-  playerPane,
-  progressBarControl,
-  ripple,
-  seek,
-  soundBtn,
-  timeCodeDisplay,
-} from "./player.module.css";
+import styles from "./player.module.css";
 import { formatTime } from "./utils";
 
 export default function Player({
@@ -82,15 +65,15 @@ export default function Player({
   }, [isSearching]);
 
   return (
-    <div className={playerPane}>
+    <div className={styles.playerPane}>
       {playerLoadingError ? (
-        <div className={playerError} style={{ height: playerHeight, width: playerWidth }}>
+        <div className={styles.playerError} style={{ height: playerHeight, width: playerWidth }}>
           No video available.
         </div>
       ) : null}
       <video
         ref={playerRef}
-        className={player}
+        className={styles.player}
         src={playerSrc}
         width={playerWidth}
         height={playerHeight}
@@ -98,84 +81,86 @@ export default function Player({
         autoPlay
         loop
         playsInline
-        onLoadedMetadata={(e) => {
-          e.target.style.opacity = 1;
-          if (e.target.videoWidth && e.target.videoHeight) {
-            setVideoWidth(e.target.videoWidth);
-            setVideoHeight(e.target.videoHeight);
-            setPlayerHeight((playerWidth / e.target.videoWidth) * e.target.videoHeight);
+        onLoadedMetadata={(e: React.SyntheticEvent<HTMLVideoElement>) => {
+          e.currentTarget.style.opacity = "1";
+          if (e.currentTarget.videoWidth && e.currentTarget.videoHeight) {
+            setVideoWidth(e.currentTarget.videoWidth);
+            setVideoHeight(e.currentTarget.videoHeight);
+            setPlayerHeight(
+              (playerWidth / e.currentTarget.videoWidth) * e.currentTarget.videoHeight,
+            );
           } else {
             setPlayerHeight(360);
           }
         }}
         onClick={playPause}
-        onCanPlayThrough={(e) => {
+        onCanPlayThrough={(e: React.SyntheticEvent<HTMLVideoElement>) => {
           setPlayerLoading(false);
           playerRef.current.play();
         }}
-        onContextMenu={(e) => {
+        onContextMenu={(e: React.MouseEvent<HTMLVideoElement>) => {
           e.preventDefault();
         }}
       ></video>
       <div
-        className={dropEffect}
+        className={styles.dropEffect}
         style={{ height: playerHeight - 10 }}
         onClick={playPause}
-        onDrop={(e) => {
+        onDrop={(e: React.DragEvent<HTMLDivElement>) => {
           const result = onDrop(e);
           if (result) {
             setDropTargetText(result);
           } else {
-            e.target.classList.remove(dropping);
+            e.currentTarget.classList.remove(styles.dropping);
           }
         }}
-        onDragOver={(e) => {
+        onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
           e.stopPropagation();
           e.preventDefault();
           e.dataTransfer.dropEffect = "copy";
         }}
-        onDragEnter={(e) => {
-          e.target.classList.add(dropping);
+        onDragEnter={(e: React.DragEvent<HTMLDivElement>) => {
+          e.currentTarget.classList.add(styles.dropping);
           setDropTargetText("Drop image here");
         }}
-        onDragLeave={(e) => {
-          e.target.classList.remove(dropping);
+        onDragLeave={(e: React.DragEvent<HTMLDivElement>) => {
+          e.currentTarget.classList.remove(styles.dropping);
         }}
-        onContextMenu={(e) => {
+        onContextMenu={(e: React.MouseEvent<HTMLDivElement>) => {
           e.preventDefault();
         }}
       >
         {dropTargetText}
       </div>
       <div
-        className={loading}
+        className={styles.loading}
         style={{ height: playerHeight, display: playerLoading || isSearching ? "flex" : "none" }}
       >
         <div
-          className={playerLoading || isSearching ? ripple : ""}
+          className={playerLoading || isSearching ? styles.ripple : ""}
           style={{ height: (playerHeight - 800) / 2 }}
         ></div>
       </div>
 
-      <div className={playerInfo}>
-        <div className={fileNameDisplay}>{fileName}</div>
-        <div className={timeCodeDisplay}>
+      <div className={styles.playerInfo}>
+        <div className={styles.fileNameDisplay}>{fileName}</div>
+        <div className={styles.timeCodeDisplay}>
           {timeCode ? formatTime(timeCode) : "--:--:--"}/
           {duration ? formatTime(duration) : "--:--:--"}
         </div>
       </div>
-      <div className={playerControl}>
+      <div className={styles.playerControl}>
         <div
-          className={progressBarControl}
+          className={styles.progressBarControl}
           style={{
-            animationName: isSearching ? seek : "none",
+            animationName: isSearching ? styles.seek : "none",
             left: (timeCode / duration) * playerWidth - 6,
           }}
         >
           ▲
         </div>
         <div
-          className={`${soundBtn} ${isMute ? iconVolumeOff : iconVolumeUp}`}
+          className={`${styles.soundBtn} ${isMute ? styles.iconVolumeOff : styles.iconVolumeUp}`}
           onClick={() => {
             setIsMute(!isMute);
             playerRef.current.muted = !isMute;

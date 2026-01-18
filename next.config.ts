@@ -1,8 +1,9 @@
-import { PHASE_PRODUCTION_BUILD } from "next/constants.js";
+import type { NextConfig } from "next";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-export default (phase) =>
+export default (phase): NextConfig =>
   phase === PHASE_PRODUCTION_BUILD
     ? { output: "export" }
     : {

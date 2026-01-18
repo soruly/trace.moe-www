@@ -23,16 +23,20 @@ npm install
 npm run dev
 ```
 
-You can also use [pm2](https://pm2.keymetrics.io/) to run this in background in cluster mode.
+Production build will generate a static website
 
-Use below commands to start / restart / stop server.
+```
+npm run build
+```
+
+Serve the static website with
 
 ```
 npm run start
-npm run stop
-npm run reload
-npm run restart
-npm run delete
 ```
 
-To change the number of nodejs instances, edit ecosystem.config.json
+You can also use [pm2](https://pm2.keymetrics.io/) to run the production build in background.
+
+```
+pm2 start --name trace.moe-www npm -- start
+```

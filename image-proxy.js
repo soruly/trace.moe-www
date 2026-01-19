@@ -116,15 +116,11 @@ const getOgImageFromStream = async (response) => {
 
       buffer += decoder.decode(value, { stream: true });
 
-      // Match og:image tag
-      const match = buffer.match(/<[^<]+?"og:image".*?>/);
+      // Match og:image tag and extract content
+      const match = buffer.match(/<(?=[^<]*?"og:image")[^<]*?content="([^"]*?)"[^<]*?>/);
       if (match) {
-        // Extract content attribute
-        const contentMatch = match[0].match(/content="(.*?)"/);
-        if (contentMatch) {
-          found = contentMatch[1];
-          break;
-        }
+        found = match[1];
+        break;
       }
 
       if (buffer.length > MAX_BUFFER_SIZE) {

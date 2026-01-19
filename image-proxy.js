@@ -65,9 +65,7 @@ const handleRequest = async (originalRequest) => {
       }),
     );
     if (response.status === 200) {
-      const ogImageURL = (await webResponse.text())
-        ?.match(/<[^<]+?"og:image".*?>/, "$1")?.[0]
-        ?.match(/content="(.*?)"/, "$1")?.[1];
+      const ogImageURL = await getOgImageFromStream(webResponse);
 
       if (ogImageURL && ogImageURL.match(/^https?:\/\//)) {
         response = await fetch(
@@ -102,4 +100,41 @@ const handleRequest = async (originalRequest) => {
   });
   res.headers.set("Access-Control-Allow-Origin", "https://trace.moe");
   return res;
+};
+
+const getOgImageFromStream = async (response) => {
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+  let buffer = "";
+  const MAX_BUFFER_SIZE = 128 * 1024; // 128KB
+  let found = null;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // Match og:image tag
+      const match = buffer.match(/<[^<]+?"og:image".*?>/);
+      if (match) {
+        // Extract content attribute
+        const contentMatch = match[0].match(/content="(.*?)"/);
+        if (contentMatch) {
+          found = contentMatch[1];
+          break;
+        }
+      }
+
+      if (buffer.length > MAX_BUFFER_SIZE) {
+        break;
+      }
+    }
+  } catch (e) {
+    // ignore error
+  } finally {
+    reader.cancel();
+  }
+  return found;
 };

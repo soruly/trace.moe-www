@@ -147,10 +147,20 @@ const Index = () => {
       isCutBorders ? "cutBorders" : "",
       anilistFilter ? `anilistID=${anilistFilter}` : "",
     ].join("&");
-    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
-      method: "POST",
-      body: formData,
-    });
+    let res;
+    for (let retries = 5; retries > 0; retries--) {
+      res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (res.status !== 503 || retries === 1) {
+        break;
+      }
+      for (let i = 5; i > 0; i--) {
+        setMessageText(`Server is busy, retrying in ${i}s`);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
     setIsSearching(false);
 
     if (res.status === 429) {
@@ -158,11 +168,7 @@ const Index = () => {
       return;
     }
     if (res.status === 503) {
-      for (let i = 5; i > 0; i--) {
-        setMessageText(`Server is busy, retrying in ${i}s`);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
-      search(imageBlob);
+      setMessageText("Server is busy, please try again later.");
       return;
     }
     if (res.status >= 400) {

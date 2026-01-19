@@ -103,15 +103,14 @@ const handleRequest = async (originalRequest) => {
 };
 
 const getOgImageFromStream = async (response) => {
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder("utf-8");
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
   let buffer = "";
   let match;
   try {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      buffer += decoder.decode(value, { stream: true });
+      buffer += value;
       match = buffer.match(/<(?=[^<]*?"og:image")[^<]*?content="([^"]*?)"[^<]*?>/);
       if (match) break;
       if (buffer.length > 131072) break;

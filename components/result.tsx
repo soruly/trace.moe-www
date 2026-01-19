@@ -1,13 +1,6 @@
 import styles from "./result.module.css";
 import { formatTime } from "./utils";
 
-const zeroPad = (n, width) => {
-  if (n.length === undefined) {
-    return n.toString();
-  }
-  return n.toString().padStart(width, "0");
-};
-
 export default function Result({ searchResult: entry, active: isActive }) {
   const timeCode =
     formatTime(entry.from) === formatTime(entry.to)
@@ -24,7 +17,9 @@ export default function Result({ searchResult: entry, active: isActive }) {
         {entry.anilist.title?.native || entry.anilist.title?.romaji || entry.anilist}
       </div>
       <div className={styles.detail}>
-        <div className={styles.ep}>{entry.episode && `Episode ${zeroPad(entry.episode, 2)}`}</div>
+        <div className={styles.ep}>
+          {entry.episode && `Episode ${entry.episode.toString().padStart(2, "0")}`}
+        </div>
         <div className={styles.time}>{timeCode}</div>
         <div
           className={styles.similarity}

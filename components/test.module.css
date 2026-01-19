@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.page {
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  text-shadow: 1px 1px 3px var(--shadow-color);
+  color: var(--text-strong-color);
+}
+.video {
+  width: 640px;
+  min-height: 360px;
+}
+.screenshots {
+  font-size: 0.75rem;
+  & > div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    white-space: nowrap;
+    gap: 0.5rem;
+    & > img {
+      max-width: 320px;
+    }
+  }
+}
+.pre {
+  font-family: monospace;
+  white-space: pre;
+  font-size: 0.5rem;
+}

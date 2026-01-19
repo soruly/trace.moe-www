@@ -113,7 +113,7 @@ const getOgImageFromStream = async (response) => {
       buffer += value;
       match = buffer.match(/<(?=[^<]*?"og:image")[^<]*?content="([^"]*?)"[^<]*?>/);
       if (match) break;
-      if (buffer.length > 131072) break;
+      if (buffer.length > 65536) break;
     }
   } catch (e) {
   } finally {

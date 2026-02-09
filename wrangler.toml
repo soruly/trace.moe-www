@@ -1,6 +1,6 @@
 name = "image-proxy"
 main = "image-proxy.js"
-compatibility_date = "2025-11-17"
+compatibility_date = "2026-01-20"
 
 workers_dev = false
 routes = [

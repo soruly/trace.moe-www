@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import styles from "./info.module.css";
 
 export default function Layout({ anilist: src }) {
@@ -50,22 +51,26 @@ export default function Layout({ anilist: src }) {
 
   naturalText2 += ". ";
 
-  const synonyms = Array.from(
-    new Set(
-      [
-        src.title.chinese || "",
-        src.title.english || "",
-        ...(src.synonyms || []),
-        ...(src.synonyms_chinese || []),
-      ]
-        .filter((e) => e)
-        .filter((e) => e !== src.title.native || e !== src.title.romaji),
-    ),
-  )
-    .sort()
-    .map((title, i) => {
-      return <div key={i}>{title}</div>;
-    });
+  const synonyms = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          [
+            src.title.chinese || "",
+            src.title.english || "",
+            ...(src.synonyms || []),
+            ...(src.synonyms_chinese || []),
+          ]
+            .filter((e) => e)
+            .filter((e) => e !== src.title.native || e !== src.title.romaji),
+        ),
+      )
+        .sort()
+        .map((title, i) => {
+          return <div key={i}>{title}</div>;
+        }),
+    [src.title, src.synonyms, src.synonyms_chinese],
+  );
 
   let studio = [];
   if (src.studios && src.studios && src.studios.edges.length > 0) {

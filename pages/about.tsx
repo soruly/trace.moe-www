@@ -330,9 +330,9 @@ const About = () => {
           <div className={styles.sectionHeader}>What is trace.moe?</div>
           <p>
             <b>trace.moe is an Anime Scene Search Engine</b> that helps users to trace back the
-            original anime by a screenshot. It search in ~30000 hours of anime and find the best
-            matching scene. It can tell the anime, the episode and the exact time that scene
-            appears. Since the search result may not be correct, it provides a few seconds of
+            original anime by a screenshot. It searches over tens of thousands of hours of anime and
+            find the best matching scene. It can tell the anime, the episode and the exact time that
+            scene appears. Since the search result may not be correct, it provides a few seconds of
             preview for verification. There has been a lot of anime screencaps and GIFs spreading
             around the internet without quoting the source. And trace.moe is built to fix that,
             helping people to get to know the source anime, not just some random piece of work in

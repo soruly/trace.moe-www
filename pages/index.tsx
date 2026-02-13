@@ -199,7 +199,7 @@ const Index = () => {
         setSelectedResult(entry);
         setPlayerSrc(entry.video);
         setPlayerFileName(entry.filename);
-        setPlayerTimeCode(entry.from);
+        setPlayerTimeCode(entry.at);
         setPlayerDuration(entry.duration);
         setAnilistInfo(entry.anilist);
       };

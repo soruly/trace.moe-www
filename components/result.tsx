@@ -14,7 +14,7 @@ export default function Result({ searchResult: entry, active: isActive }) {
       onClick={entry.playResult}
     >
       <div className={styles.title}>
-        {entry.anilist.title?.native || entry.anilist.title?.romaji || entry.anilist}
+        {entry.anilist.title?.native || entry.anilist.title?.romaji || entry.anilist?.id}
       </div>
       <div className={styles.detail}>
         <div className={styles.ep}>

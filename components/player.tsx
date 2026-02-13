@@ -30,14 +30,22 @@ export default function Player({
     }
   };
 
-  const handleResize = () => {
-    setPlayerWidth(window.innerWidth > 640 ? 640 : window.innerWidth);
-    setPlayerHeight((playerWidth / videoWidth) * videoHeight);
-  };
-
   useEffect(() => {
+    let animationFrameId;
+    const handleResize = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        const newWidth = window.innerWidth > 640 ? 640 : window.innerWidth;
+        setPlayerWidth(newWidth);
+        setPlayerHeight((newWidth / videoWidth) * videoHeight);
+      });
+    };
     window.addEventListener("resize", handleResize, false);
-  }, []);
+    return () => {
+      window.removeEventListener("resize", handleResize, false);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [videoWidth, videoHeight]);
 
   useEffect(() => {
     if (!src) {

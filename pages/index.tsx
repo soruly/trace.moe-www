@@ -38,18 +38,18 @@ const Index = () => {
           : `/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`,
       );
     }
-    document.addEventListener(
-      "paste",
-      (e) => {
-        const items = e.clipboardData?.items;
-        if (!items) return;
-        const item = Array.from(items).find((e) => e.type.startsWith("image"));
-        if (!item) return;
-        setSearchImageSrc(URL.createObjectURL(item.getAsFile()));
-        e.preventDefault();
-      },
-      false,
-    );
+    const handlePaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      const item = Array.from(items).find((e) => e.type.startsWith("image"));
+      if (!item) return;
+      setSearchImageSrc(URL.createObjectURL(item.getAsFile()));
+      e.preventDefault();
+    };
+    document.addEventListener("paste", handlePaste, false);
+    return () => {
+      document.removeEventListener("paste", handlePaste, false);
+    };
   }, []);
 
   const imageURLInput = (e) => {

@@ -155,7 +155,6 @@
   background-size: 50px 50px;
   border-radius: 0.5rem;
   overflow: hidden;
-  transition: all 200ms ease-out;
 }
 .closeBtn {
   display: none;

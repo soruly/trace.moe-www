@@ -1,53 +1,78 @@
 .playerPane {
   position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
 }
 
 .player {
   background: var(--blank-color);
   display: block;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   transition: all 100ms ease-out;
 }
 
+.player.visible {
+  opacity: 1;
+}
+
 .playerError {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
   font-size: 1.25rem;
   color: var(--text-strong-color);
+  text-align: center;
 }
 
 .loading {
-  width: 640px;
-  height: 360px;
-  top: 0;
-  overflow: hidden;
   position: absolute;
-  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
   align-content: center;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 }
+
+.loading.active {
+  display: flex;
+}
+
 .ripple {
   position: relative;
   box-sizing: content-box;
   display: block;
   border-style: double;
-  border-radius: 800px;
+  border-radius: 50%;
   animation: ripple 1s cubic-bezier(0, 0, 0.2, 1);
   animation-iteration-count: infinite;
+  width: 0;
+  height: 0;
 }
+
 @keyframes ripple {
   0% {
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     border-width: 50px;
     border-color: var(--theme-weak-color);
     opacity: 1;
   }
   100% {
-    width: 800px;
-    height: 800px;
+    width: 640px;
+    height: 640px;
     border-width: 0;
     border-color: var(--blank-color);
     opacity: 0;
@@ -61,10 +86,10 @@
   align-items: center;
   align-content: space-around;
   justify-content: space-between;
-  transition: all 300ms ease-out;
   color: var(--text-main-color);
   height: 1rem;
 }
+
 @media (max-width: 640px) {
   .playerInfo {
     height: 2rem;
@@ -73,6 +98,7 @@
     margin-left: 0.2rem;
   }
 }
+
 .fileNameDisplay {
   font-size: 0.7rem;
   margin-left: 0.2rem;
@@ -82,29 +108,36 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
 .timeCodeDisplay {
   font-size: 0.7rem;
   padding-right: 1rem;
   font-family: monospace;
 }
+
 .playerControl {
   display: block;
   opacity: 1;
   position: relative;
   height: 1rem;
   border-top: 1px dashed var(--theme-main-color);
-  transition: all 300ms ease-out;
 }
+
 .progressBarControl {
   font-size: 0.7rem;
   position: absolute;
   color: var(--theme-main-color);
-  transition: left 500ms cubic-bezier(0.19, 1.37, 0.57, 1);
+  transition: left 300ms cubic-bezier(0.19, 1.37, 0.57, 1);
+  left: calc(var(--progress, 0) * 100% - 6px);
+}
+
+.progressBarControl.seeking {
   animation: seek;
   animation-timing-function: linear;
   animation-duration: 100ms;
   animation-iteration-count: infinite;
 }
+
 @keyframes seek {
   0% {
     transform: rotate(0deg);
@@ -113,6 +146,7 @@
     transform: rotate(360deg);
   }
 }
+
 .soundBtn {
   position: absolute;
   top: -1.1rem;
@@ -121,16 +155,21 @@
   width: 1rem;
   cursor: pointer;
 }
+
 .iconVolumeOff::after {
   content: "🔈";
 }
+
 .iconVolumeUp::after {
   content: "🔊";
 }
+
 .dropEffect {
   position: absolute;
   top: 0;
-  width: 630px;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: var(--drop-bg-color);
   border: 5px solid transparent;
   text-align: center;
@@ -142,7 +181,9 @@
   transition: all 50ms ease-out;
   backdrop-filter: blur(0);
   z-index: 0;
+  box-sizing: border-box;
 }
+
 .dropping {
   background: var(--drop-main-color);
   border: 5px dashed var(--theme-main-color);

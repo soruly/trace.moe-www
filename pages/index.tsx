@@ -14,7 +14,7 @@ const Index = () => {
   const [isCutBorders, setIsCutBorders] = useState(true);
   const [anilistFilter, setAnilistFilter] = useState();
   const [messageText, setMessageText] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [imageURL, setImageURL] = useState(undefined);
   const [searchImage, setSearchImage] = useState<string | Blob>("");
   const [searchImageSrc, setSearchImageSrc] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -55,7 +55,7 @@ const Index = () => {
   const imageURLInput = (e) => {
     e.preventDefault();
     if (!e.target.value.length) {
-      setImageURL("");
+      setImageURL(undefined);
       history.replaceState(null, null, "/");
       return;
     }
@@ -72,7 +72,7 @@ const Index = () => {
     e.stopPropagation();
     e.preventDefault();
     if (imageURL) {
-      setImageURL("");
+      setImageURL(undefined);
       history.replaceState(null, null, "/");
     }
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
@@ -255,7 +255,7 @@ const Index = () => {
       {/* inject target for WebExtension */}
       <img
         id="originalImage"
-        src=""
+        src={null}
         className={styles.hide}
         onLoad={(e) => {
           setSearchImageSrc((e.target as HTMLImageElement).src);
@@ -325,7 +325,7 @@ const Index = () => {
                     ></Result>
                   );
                 })}
-              {searchResults.find((e) => e.anilist.isAdult || true) && (
+              {searchResults.find((e) => e.anilist.isAdult) && (
                 <div className={styles.hideNSFW}>
                   <button
                     onClick={(e) => {

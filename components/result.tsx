@@ -24,7 +24,7 @@ const Result = ({ searchResult: entry, active: isActive }) => {
         >{`~${(entry.similarity * 100).toFixed(2)}% Similarity`}</div>
       </div>
       <video
-        src={entry.similarity > 0.87 ? `${entry.video}?size=s` : ""}
+        src={entry.similarity > 0.87 ? `${entry.video}?size=s` : null}
         poster={`${entry.image}?size=s`}
         muted
         autoPlay

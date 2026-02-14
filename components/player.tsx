@@ -17,7 +17,7 @@ export default function Player({
   const [playerHeight, setPlayerHeight] = useState(360);
   const [videoWidth, setVideoWidth] = useState(640);
   const [videoHeight, setVideoHeight] = useState(360);
-  const [playerSrc, setPlayerSrc] = useState("");
+  const [playerSrc, setPlayerSrc] = useState(null);
   const [playerLoading, setPlayerLoading] = useState(isLoading);
   const [playerLoadingError, setPlayerLoadingError] = useState(false);
   const [dropTargetText, setDropTargetText] = useState("");
@@ -66,7 +66,7 @@ export default function Player({
       setPlayerLoading(true);
       setPlayerLoadingError(false);
       playerRef.current.style.opacity = 0;
-      setPlayerSrc("");
+      setPlayerSrc(null);
     } else {
       setPlayerLoading(false);
     }
@@ -162,7 +162,7 @@ export default function Player({
           className={styles.progressBarControl}
           style={{
             animationName: isSearching ? styles.seek : "none",
-            left: (timeCode / duration) * playerWidth - 6,
+            left: (timeCode / duration) * playerWidth - 6 || 0,
           }}
         >
           ▲

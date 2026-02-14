@@ -1,16 +1,18 @@
+import { memo, useMemo } from "react";
 import styles from "./result.module.css";
 import { formatTime } from "./utils";
 
-export default function Result({ searchResult: entry, active: isActive }) {
-  const timeCode =
-    formatTime(entry.from) === formatTime(entry.to)
-      ? formatTime(entry.from)
-      : `${formatTime(entry.from)} - ${formatTime(entry.to)}`;
+const Result = ({ searchResult: entry, active: isActive }) => {
+  const timeCode = useMemo(() => {
+    const start = formatTime(entry.from);
+    const end = formatTime(entry.to);
+    return start === end ? start : `${start} - ${end}`;
+  }, [entry.from, entry.to]);
 
   return (
     <div
       className={`${styles.result} ${isActive ? styles.active : ""}`}
-      style={{ display: entry.anilist.isAdult ? "hidden" : "flex" }}
+      style={{ display: entry.anilist.isAdult ? "none" : "flex" }}
       onClick={entry.playResult}
     >
       <div className={styles.title}>
@@ -38,4 +40,6 @@ export default function Result({ searchResult: entry, active: isActive }) {
       ></video>
     </div>
   );
-}
+};
+
+export default memo(Result);

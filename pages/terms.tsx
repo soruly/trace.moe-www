@@ -3,7 +3,7 @@ import styles from "../components/layout.module.css";
 
 const Terms = () => (
   <Layout title="Terms">
-    <div className={`${styles.container} ${styles.page}`} style={{ fontSize: "0.75rem" }}>
+    <div className={`${styles.container} ${styles.page} ${styles.small}`}>
       <div className={styles.pageHeader}>Terms</div>
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Copyright &amp; Intellectual Property Policy</div>

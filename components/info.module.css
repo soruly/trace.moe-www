@@ -26,7 +26,8 @@
 }
 .poster img {
   min-width: 230px;
-  transition: all 300ms ease-out;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
 }
 .detail {
   width: 640px;

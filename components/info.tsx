@@ -137,7 +137,6 @@ export default function Layout({ anilist: src }) {
             <img
               key={src.coverImage.large}
               src={src.coverImage.large}
-              style={{ opacity: 0 }}
               onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
                 e.currentTarget.style.opacity = "1";
               }}

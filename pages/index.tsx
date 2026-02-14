@@ -256,13 +256,13 @@ const Index = () => {
       <img
         id="originalImage"
         src=""
-        style={{ display: "none" }}
+        className={styles.hide}
         onLoad={(e) => {
           setSearchImageSrc((e.target as HTMLImageElement).src);
         }}
       />
       {/* legacy element for not breaking WebExtension */}
-      <input id="autoSearch" type="checkbox" style={{ display: "none" }}></input>
+      <input id="autoSearch" type="checkbox" className={styles.hide}></input>
 
       <div className={searchImageSrc ? styles.mainReady : styles.main}>
         {!searchImageSrc && (
@@ -325,8 +325,8 @@ const Index = () => {
                     ></Result>
                   );
                 })}
-              {searchResults.find((e) => e.anilist.isAdult) && (
-                <div style={{ textAlign: "center" }}>
+              {searchResults.find((e) => e.anilist.isAdult || true) && (
+                <div className={styles.hideNSFW}>
                   <button
                     onClick={(e) => {
                       setshowNSFW(!showNSFW);

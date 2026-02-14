@@ -79,6 +79,10 @@
   }
 }
 
+.small {
+  font-size: 0.75rem;
+}
+
 @media (max-width: 500px) {
   .section {
     min-width: 140px;

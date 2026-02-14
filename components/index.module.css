@@ -1,3 +1,7 @@
+.hide {
+  display: none;
+}
+
 .dropTarget {
   position: absolute;
   top: 0;
@@ -112,7 +116,10 @@
 }
 .resultList {
   width: 320px;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
 }
 .resultList button {
   color: var(--text-main-color);
@@ -134,6 +141,11 @@
   box-shadow: 0 0 2px var(--theme-main-color);
   transform: translate(1px, 1px);
   transition: all 100ms ease-out;
+}
+.hideNSFW {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .playerInfoPane {

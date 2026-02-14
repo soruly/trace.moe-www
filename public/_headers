@@ -3,6 +3,6 @@
   Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS
   Access-Control-Allow-Headers: Content-Type, x-trace-secret
   Referrer-Policy: no-referrer
-  Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Resource-Policy: same-origin
   X-Content-Type-Options: nosniff
-  Content-Security-Policy: default-src 'none'; script-src 'self' static.cloudflareinsights.com; style-src * 'self' 'unsafe-inline'; img-src * 'self' data: blob: https://api.trace.moe; font-src 'self'; media-src blob: 'self' https://api.trace.moe; worker-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'; manifest-src 'self'; block-all-mixed-content; connect-src blob: 'self' https://cloudflareinsights.com https://api.trace.moe https://graphql.anilist.co
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src * 'self' data: blob: https://api.trace.moe; media-src blob: 'self' https://api.trace.moe; worker-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'; manifest-src 'self'; block-all-mixed-content; connect-src 'self' https://api.trace.moe

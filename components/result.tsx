@@ -10,11 +10,7 @@ const Result = ({ searchResult: entry, active: isActive }) => {
   }, [entry.from, entry.to]);
 
   return (
-    <div
-      className={`${styles.result} ${isActive ? styles.active : ""}`}
-      style={{ display: entry.anilist.isAdult ? "none" : "flex" }}
-      onClick={entry.playResult}
-    >
+    <div className={`${styles.result} ${isActive ? styles.active : ""}`} onClick={entry.playResult}>
       <div className={styles.title}>
         {entry.anilist.title?.native || entry.anilist.title?.romaji || entry.anilist?.id}
       </div>

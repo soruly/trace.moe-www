@@ -47,89 +47,45 @@ const FAQ = () => (
       </div>
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Examples of bad screenshots</div>
-        <br />
         <h4>Extra border added</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/border-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Bad Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/border-bad.jpg" />
+            <div>Bad Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/border-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/border-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>
+        <p>
           In case your screenshot has extra borders, please trim off the extra borders before you
           search.
         </p>
-        <br />
         <h4>Cropped Image</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/cropped-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Bad Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/cropped-bad.jpg" />
+            <div>Bad Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/cropped-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/cropped-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>
-          Cropping the image would result a huge loss of information content.
-        </p>
-        <br />
+        <p>Cropping the image would result a huge loss of information content.</p>
         <h4>Flipped image</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/flipped-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Bad Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/flipped-bad.jpg" />
+            <div>Bad Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/flipped-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/flipped-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>
+        <p>
           This screenshot from{" "}
           <a href="https://www.youtube.com/watch?v=TUoWYoTWcnA&feature=youtu.be&t=2m59s">
             AMV - Animegraphy 2015
@@ -137,237 +93,127 @@ const FAQ = () => (
           flipped the original scene in the anime. Try to search with a flipped image if you guess
           the image has been flipped.
         </p>
-        <br />
         <h4>Tinted images</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/tinted-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Not a good Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/tinted-bad.jpg" />
+            <div>Not a good Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/tinted-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/tinted-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>
+        <p>
           Tinted images are hard to search. Because the applied filter effects heavily distorted the
           information in the original screenshot. The color layout image descriptor can no longer
           find such images.
         </p>
-        <br />
         <h4>Old Japanese Anime</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/old-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Sample Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/old-bad.jpg" />
+            <div>Sample Screenshot</div>
+          </div>
         </div>
-        <p style={{ clear: "both" }}>Anime of this age are not indexed.</p>
-        <br />
+        <p>Anime of this age are not indexed.</p>
         <h4>Not from Anime Screenshot</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/notanime-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Sample Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/notanime-bad.jpg" />
+            <div>Sample Screenshot</div>
+          </div>
         </div>
-        <p style={{ clear: "both" }}>
+        <p>
           You should try <a href="https://saucenao.com/">SauceNAO</a> and{" "}
           <a href="https://iqdb.org/">https://iqdb.org/</a> to search anime / doujin artwork.
         </p>
-        <br />
         <h4>Not Japanese Anime</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/nonjapanese-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Sample Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/nonjapanese-bad.jpg" />
+            <div>Sample Screenshot</div>
+          </div>
         </div>
-        <p style={{ clear: "both" }}>Tom and Jerry is obviously not a Japanese Anime.</p>
-        <br />
+        <p>Tom and Jerry is obviously not a Japanese Anime.</p>
         <h4>Dark image</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/dark-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Sample Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/dark-bad.jpg" />
+            <div>Sample Screenshot</div>
+          </div>
         </div>
-        <p style={{ clear: "both" }}>
-          Dark images are hard to distinguish using the colorlayout descriptor.
-        </p>
-        <br />
+        <p>Dark images are hard to distinguish using the colorlayout descriptor.</p>
         <h4>Low resolution image</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/lowres-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Sample Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/lowres-bad.jpg" />
+            <div>Sample Screenshot</div>
+          </div>
         </div>
-        <p style={{ clear: "both" }}>
-          Your image should be at least 320x180px to search effectively.
-        </p>
-        <br />
+        <p>Your image should be at least 320x180px to search effectively.</p>
       </div>
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Examples of acceptable screenshots</div>
         <h4>Slightly distorted size</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/distorted-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Acceptable Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/distorted-bad.jpg" />
+            <div>Acceptable Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/distorted-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/distorted-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}></p>
-        <br />
         <h4>Reasonably sized subtitles</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/subtitles-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Acceptable Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/subtitles-bad.jpg" />
+            <div>Acceptable Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/subtitles-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/subtitles-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}></p>
-        <br />
         <h4>A frame of GIF</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/gif-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Acceptable Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/gif-bad.jpg" />
+            <div>Acceptable Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/gif-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/gif-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>If the color distortion is acceptable, GIF is also OK.</p>
-        <br />
+        <p>If the color distortion is acceptable, GIF is also OK.</p>
         <h4>Drawings of the anime scene</h4>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/draw2-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Acceptable Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/draw2-bad.jpg" />
+            <div>Acceptable Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/draw2-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/draw2-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
+        <div className={styles.example}>
+          <div>
+            <img alt="" src="/img/draw4-bad.jpg" />
+            <div>Acceptable Screenshot</div>
+          </div>
+          <div>
+            <img alt="" src="/img/draw4-good.jpg" />
+            <div>Original Screenshot</div>
+          </div>
         </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/draw4-bad.jpg"
-            style={{ maxWidth: "288px", maxHeight: "162px", verticalAlign: "middle" }}
-          />
-          <br />
-          Acceptable Screenshot
-        </div>
-        <div style={{ float: "left", textAlign: "center", width: "288px" }}>
-          <img
-            alt=""
-            src="/img/draw4-good.jpg"
-            style={{
-              float: "left",
-              maxWidth: "288px",
-              maxHeight: "162px",
-              verticalAlign: "middle",
-            }}
-          />
-          <br />
-          Original Screenshot
-        </div>
-        <p style={{ clear: "both" }}>
+        <p>
           The search image does not has to be taken from anime screencap directly. You can use
           drawings of some scenes as long as it is similar to the original one.
         </p>
-        <br />
       </div>
       <div className={styles.section}>
         <div className={styles.sectionHeader}>How do I search for a more accurate result?</div>
@@ -383,8 +229,7 @@ const FAQ = () => (
         <p>
           Most Japanese anime since 2000 are indexed, plus some popular anime in 1990s, and little
           anime before 1990. A list of anime are incomplete in index at this stage, including
-          Jewelpet, Yu-Gi-Oh!, Dragon Ball, Crayon Shin-chan, Doraemon, Pokemon, Detective Conan,
-          Chibi Maruko-chan.
+          Yu-Gi-Oh!, Crayon Shin-chan, Doraemon, Chibi Maruko-chan.
         </p>
       </div>
       <div className={styles.section}>

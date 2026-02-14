@@ -31,12 +31,16 @@ const Index = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has("url")) {
-      setImageURL(searchParams.get("url"));
-      setSearchImageSrc(
-        searchParams.get("url").startsWith(location.origin)
-          ? searchParams.get("url")
-          : `/image-proxy?url=${encodeURIComponent(searchParams.get("url"))}`,
-      );
+      const url = searchParams.get("url");
+      try {
+        new URL(url);
+        setImageURL(url);
+        setSearchImageSrc(
+          url.startsWith(location.origin) ? url : `/image-proxy?url=${encodeURIComponent(url)}`,
+        );
+      } catch (e) {
+        console.error(e);
+      }
     }
     const handlePaste = (e: ClipboardEvent) => {
       const items = e.clipboardData?.items;

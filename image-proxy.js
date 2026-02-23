@@ -29,6 +29,14 @@ const handleRequest = async (originalRequest) => {
     return errorResponse("Error: Invalid URL string");
   }
 
+  if (imageURL.protocol !== "http:" && imageURL.protocol !== "https:") {
+    return errorResponse("Error: Protocol must be http or https");
+  }
+
+  if (isPrivateIP(imageURL.hostname)) {
+    return errorResponse("Error: Forbidden URL");
+  }
+
   let imageRequest = new Request(imageURL, {
     redirect: "follow",
     headers: {
@@ -120,4 +128,37 @@ const getOgImageFromStream = async (response) => {
     reader.cancel();
   }
   return match?.[1];
+};
+
+const isPrivateIP = (hostname) => {
+  // IPv4
+  const ipv4 = hostname.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
+  if (ipv4) {
+    const [_, a, b, c, d] = ipv4.map(Number);
+    // 127.0.0.0/8 (Loopback)
+    // 10.0.0.0/8 (Private)
+    // 172.16.0.0/12 (Private)
+    // 192.168.0.0/16 (Private)
+    // 169.254.0.0/16 (Link-local)
+    // 0.0.0.0/8 (Current network)
+    if (
+      a === 127 ||
+      a === 10 ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      (a === 169 && b === 254) ||
+      a === 0
+    ) {
+      return true;
+    }
+  }
+
+  // IPv6
+  const ipv6 = hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  // ::1 (Loopback)
+  // fc00::/7 (Unique Local)
+  // fe80::/10 (Link-local)
+  if (ipv6 === "::1" || ipv6.match(/^f[cd]/) || ipv6.match(/^fe[89ab]/)) return true;
+
+  return false;
 };

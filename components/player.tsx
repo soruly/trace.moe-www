@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./player.module.css";
+
 import { formatTime } from "./utils";
+
+import styles from "./player.module.css";
 
 export default function Player({
   src,

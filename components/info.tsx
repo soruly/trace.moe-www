@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import styles from "./info.module.css";
 
 export default function Layout({ anilist: src }) {

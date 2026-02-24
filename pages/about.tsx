@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +9,11 @@ import {
   LineElement,
   Legend,
 } from "chart.js";
+import { useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
+
 import Layout from "../components/layout";
+
 import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;

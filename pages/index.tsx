@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
-import Layout from "../components/layout";
-import Result from "../components/result";
-import Player from "../components/player";
+import { useEffect, useState } from "react";
+
 import Info from "../components/info";
+import Layout from "../components/layout";
+import Player from "../components/player";
+import Result from "../components/result";
 import SearchBar from "../components/search-bar";
+
 import styles from "../components/index.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;

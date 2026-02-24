@@ -1,4 +1,5 @@
 import Layout from "../components/layout";
+
 import styles from "../components/layout.module.css";
 
 const News = () => (
@@ -210,8 +211,7 @@ const News = () => (
         <small>30 Jan 2021</small>
         <p>
           - Change: image preview endpoint has changed, the url is now consistent with video preview
-          <br />
-          - New: size param for image/video preview
+          <br />- New: size param for image/video preview
           <br />
           <br />
           Please refer to{" "}
@@ -344,12 +344,9 @@ const News = () => (
         <small>1 May 2019</small>
         <p>
           Recently I've been improving webpage loading times in various ways:
-          <br />
-          - Re-write webpage js to remove heavy libraries like jQuery / bootstrap.js
-          <br />
-          - Use HTTP/2 Push to reduce round-trip times
-          <br />
-          - Upgraded Cloudflare CDN to pro plan ($20/month)
+          <br />- Re-write webpage js to remove heavy libraries like jQuery / bootstrap.js
+          <br />- Use HTTP/2 Push to reduce round-trip times
+          <br />- Upgraded Cloudflare CDN to pro plan ($20/month)
           <br />
           <br />
           Now the webpage can complete loading in just 90ms!! (from regions close to origin server)
@@ -378,10 +375,9 @@ const News = () => (
         <small>3 Feb 2019</small>
         <p>
           New web UI layout for mobile devices!
-          <br />
-          A few days ago, I redesigned a the webpage layout a bit to better support mobile devices.
-          (finally!) Though the layout isn't very perfect, at least it's easier to use and browse
-          compared to the fixed viewport before. Try the webpage now at https://trace.moe
+          <br />A few days ago, I redesigned a the webpage layout a bit to better support mobile
+          devices. (finally!) Though the layout isn't very perfect, at least it's easier to use and
+          browse compared to the fixed viewport before. Try the webpage now at https://trace.moe
           <br />
           <br />
           Natural Scene Cutter for video preview
@@ -499,9 +495,8 @@ const News = () => (
           New testing site on https://beta.whatanime.ga
           <br />
           I've been testing a new beta site with improved performance on search speed.
-          <br />
-          A copy of the 130GB solr core from http://whatanime.ga is split into 10 smaller cores
-          (10-16GB each, with 59-89 million hashes). Each search queries all 10 solr cores in
+          <br />A copy of the 130GB solr core from http://whatanime.ga is split into 10 smaller
+          cores (10-16GB each, with 59-89 million hashes). Each search queries all 10 solr cores in
           parallel and then merge back. Early tests shows that it can query 950 million image hashes
           in 1.35 seconds! Almost 10 times as much than the existing one.
           <br />

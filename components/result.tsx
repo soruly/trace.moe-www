@@ -1,6 +1,8 @@
 import { memo, useMemo } from "react";
-import styles from "./result.module.css";
+
 import { formatTime } from "./utils";
+
+import styles from "./result.module.css";
 
 const Result = ({ searchResult: entry, active: isActive }) => {
   const timeCode = useMemo(() => {

@@ -320,10 +320,10 @@ const Index = () => {
               </div>
               {searchResults
                 .filter((e) => showNSFW || !e.anilist.isAdult)
-                .map((searchResult, i) => {
+                .map((searchResult) => {
                   return (
                     <Result
-                      key={i}
+                      key={`${searchResult.filename}-${searchResult.episode}-${searchResult.from}`}
                       searchResult={searchResult}
                       active={searchResult === selectedResult}
                     ></Result>

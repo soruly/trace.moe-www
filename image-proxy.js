@@ -131,6 +131,7 @@ const getOgImageFromStream = async (response) => {
 };
 
 const isPrivateIP = (hostname) => {
+  if (hostname === "localhost") return true;
   // IPv4
   const ipv4 = hostname.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
   if (ipv4) {
@@ -154,11 +155,15 @@ const isPrivateIP = (hostname) => {
   }
 
   // IPv6
-  const ipv6 = hostname.replace(/^\[|\]$/g, "").toLowerCase();
-  // ::1 (Loopback)
-  // fc00::/7 (Unique Local)
-  // fe80::/10 (Link-local)
-  if (ipv6 === "::1" || ipv6.match(/^f[cd]/) || ipv6.match(/^fe[89ab]/)) return true;
+  if (hostname.includes(":")) {
+    const ipv6 = hostname.replace(/^\[|\]$/g, "").toLowerCase();
+    // :: (Unspecified)
+    // ::1 (Loopback)
+    // fc00::/7 (Unique Local)
+    // fe80::/10 (Link-local)
+    if (ipv6 === "::" || ipv6 === "::1" || ipv6.match(/^f[cd]/) || ipv6.match(/^fe[89ab]/))
+      return true;
+  }
 
   return false;
 };

@@ -133,9 +133,18 @@ const getOgImageFromStream = async (response) => {
 const isPrivateIP = (hostname) => {
   if (hostname === "localhost") return true;
   // IPv4
-  const ipv4 = hostname.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
-  if (ipv4) {
-    const [_, a, b, c, d] = ipv4.map(Number);
+  // Check for Hex/Octal/Integer formats that are not standard dotted quad
+  if (hostname.match(/^0x[0-9a-f]+$/i)) return true;
+
+  // If it looks like an IPv4 (digits and dots), enforce strictness
+  if (hostname.match(/^[\d.]+$/)) {
+    const parts = hostname.split(".");
+    if (parts.length !== 4) return true; // Block non-4-part IPs (int, short, etc)
+
+    // Block leading zeros (octal)
+    if (parts.some((p) => p.length > 1 && p.startsWith("0"))) return true;
+
+    const [a, b, c, d] = parts.map(Number);
     // 127.0.0.0/8 (Loopback)
     // 10.0.0.0/8 (Private)
     // 172.16.0.0/12 (Private)
@@ -152,6 +161,7 @@ const isPrivateIP = (hostname) => {
     ) {
       return true;
     }
+    return false;
   }
 
   // IPv6
@@ -163,6 +173,8 @@ const isPrivateIP = (hostname) => {
     // fe80::/10 (Link-local)
     if (ipv6 === "::" || ipv6 === "::1" || ipv6.match(/^f[cd]/) || ipv6.match(/^fe[89ab]/))
       return true;
+    // Block IPv4 mapped
+    if (ipv6.includes(".")) return true;
   }
 
   return false;

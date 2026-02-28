@@ -174,6 +174,7 @@ const isPrivateIP = (hostname) => {
     if (ipv6 === "::" || ipv6 === "::1" || ipv6.match(/^f[cd]/) || ipv6.match(/^fe[89ab]/))
       return true;
     // Block IPv4 mapped
+    if (ipv6.startsWith("::ffff:")) return true;
     if (ipv6.includes(".")) return true;
   }
 

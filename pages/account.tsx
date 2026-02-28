@@ -211,9 +211,9 @@ const Account = () => {
                 </tr>
                 <tr>
                   <td>
-                    Search Quota
+                    Daily Search Quota
                     <br />
-                    (Monthly)
+                    (24-hour period)
                   </td>
                   <td>
                     <div>{`${user.quotaUsed} / ${user.quota}`}</div>

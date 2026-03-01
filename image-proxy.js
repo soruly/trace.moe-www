@@ -76,6 +76,15 @@ const handleRequest = async (originalRequest) => {
       const ogImageURL = await getOgImageFromStream(webResponse);
 
       if (ogImageURL && ogImageURL.match(/^https?:\/\//)) {
+        let ogParsedURL;
+        try {
+          ogParsedURL = new URL(ogImageURL);
+        } catch (e) {}
+
+        if (!ogParsedURL || isPrivateIP(ogParsedURL.hostname)) {
+          return errorResponse("Error: Forbidden URL in og:image");
+        }
+
         response = await fetch(
           new Request(ogImageURL, {
             redirect: "follow",

@@ -35,8 +35,24 @@ Serve the static website with
 npm run start
 ```
 
-You can also use [pm2](https://pm2.keymetrics.io/) to run the production build in background.
+### Run as systemd
+
+Put this file to `/etc/systemd/system/trace.moe-www.service`
 
 ```
-pm2 start --name trace.moe-www npm -- start
+[Unit]
+Description=trace.moe-www
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=____
+Group=____
+WorkingDirectory=/home/____/project/trace.moe-www
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/npm run start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
 ```

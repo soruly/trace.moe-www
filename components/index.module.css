@@ -6,9 +6,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
   right: 0;
-  margin-bottom: 160px;
+  height: calc(100dvh - 3rem - 2px);
   background: var(--drop-bg-color);
   text-align: center;
   font-size: 1.5rem;
@@ -22,7 +21,7 @@
 }
 @media (max-width: 500px) {
   .dropTarget {
-    margin-bottom: 320px;
+    height: calc(100dvh - 6rem - 2px);
   }
 }
 

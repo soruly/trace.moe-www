@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
 import styles from "./footer.module.css";
+import sponsorStyles from "./sponsor.module.css";
 
 export default function Layout({ children, title }) {
+  const [showSponsor, setShowSponsor] = useState(false);
+
+  useEffect(() => {
+    if (navigator.language.startsWith("en")) {
+      setShowSponsor(true);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -23,7 +33,29 @@ export default function Layout({ children, title }) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      {children}
+      <main className={styles.main}>{children}</main>
+
+      <div
+        className={
+          showSponsor ? sponsorStyles.sponsor : sponsorStyles.sponsor + " " + sponsorStyles.hidden
+        }
+      >
+        <div>
+          <div className={sponsorStyles.title}>Found the show? Track it on AnimeOshi.</div>
+          <div className={sponsorStyles.subTitle}>
+            Ratings, episode tracking, and community - free.
+          </div>
+        </div>
+        <a
+          className={sponsorStyles.link}
+          href="https://www.animeoshi.com?utm_source=trace.moe&utm_medium=referral&utm_campaign=footer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          animeoshi.com →
+        </a>
+      </div>
+
       <footer className={styles.footer}>
         <div className={styles.container}>
           <div className={styles.section}>

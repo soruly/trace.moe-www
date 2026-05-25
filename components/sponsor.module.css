@@ -1,0 +1,54 @@
+:root {
+  color-scheme: light dark;
+  --bg-color: light-dark(rgba(240, 239, 242, 1), rgba(21, 14, 33, 1));
+  --text-primary: light-dark(rgba(21, 14, 33, 1), rgba(237, 237, 237, 1));
+  --text-secondary: light-dark(rgba(21, 14, 33, 0.7), rgba(237, 237, 237, 0.8));
+  --text-tertiary: light-dark(rgba(21, 14, 33, 0.45), rgba(237, 237, 237, 0.5));
+  --accent-color: light-dark(rgba(155, 179, 0, 1), rgba(221, 255, 0, 1));
+  --border-color: light-dark(rgba(21, 14, 33, 0.12), rgba(237, 237, 237, 0.2));
+  --border-color-light: light-dark(rgba(21, 14, 33, 0.08), rgba(237, 237, 237, 0.1));
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.sponsor {
+  min-height: 3rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.subTitle {
+  font-size: 0.7rem;
+  line-height: 1rem;
+  color: var(--text-tertiary);
+}
+
+.link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 3rem;
+  padding: 0 1rem;
+}
+.link:hover,
+.link:active,
+.link:focus,
+.link:visited {
+  color: var(--accent-color);
+  text-decoration: underline;
+}

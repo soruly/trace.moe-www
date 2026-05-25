@@ -38,6 +38,7 @@ export default (phase): NextConfig =>
                     "manifest-src 'self'",
                     "block-all-mixed-content",
                     `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT} https://www.animeoshi.com`,
+                    "frame-src https://www.animeoshi.com",
                   ].join("; "),
                 },
               ],

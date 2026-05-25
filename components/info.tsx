@@ -2,22 +2,32 @@ import { useEffect, useState } from "react";
 
 import styles from "./info.module.css";
 
-export default function Layout({ anilist: src }) {
+export default function Layout({ anilist: src, episode }) {
   const [animeOshiURL, setAnimeOshiURL] = useState(null);
+  const [animeOshiEmbedURL, setAnimeOshiEmbedURL] = useState(null);
 
   useEffect(() => {
+    setAnimeOshiURL(null);
+    setAnimeOshiEmbedURL(null);
     if (!navigator.language.startsWith("en") || !src || !src.id) return;
-    const fetchExternalData = async () => {
-      const ANIMEOSHI_API_KEY = process.env.NEXT_PUBLIC_ANIMEOSHI_API_KEY;
-      const res = await fetch(
-        `https://www.animeoshi.com/api/anime/v1/anime/external?anilist_id=${src.id}`,
-        { headers: { "x-api-key": ANIMEOSHI_API_KEY } },
-      );
-      if (res.status === 200) setAnimeOshiURL((await res.json()).url);
-    };
-
-    fetchExternalData();
-  }, [src]);
+    (async () => {
+      const res = await fetch(`/ao/?anilist_id=${src.id}`);
+      if (res.status !== 200) return;
+      try {
+        setAnimeOshiURL((await res.json()).url);
+      } catch (error) {}
+    })();
+    (async () => {
+      if (!episode || !`${episode}`.match(/^\d+$/)) return;
+      const res = await fetch(`/ao/?anilist_id=${src.id}&episode_number=${Number(episode)}`);
+      if (res.status !== 200) return;
+      try {
+        setAnimeOshiEmbedURL(
+          `https://www.animeoshi.com/embed/anime/${(await res.json()).slug}/episode/${Number(episode)}/inline${window.matchMedia("(prefers-color-scheme: dark)").matches ? "" : "?theme=light"}`,
+        );
+      } catch (error) {}
+    })();
+  }, [src, episode]);
 
   if (!src) {
     return <div></div>;
@@ -143,11 +153,9 @@ export default function Layout({ anilist: src }) {
               <td>External Links</td>
               <td>
                 {externalLinks}
-                {animeOshiURL && (
-                  <div>
-                    <a href={animeOshiURL}>AnimeOshi</a>
-                  </div>
-                )}
+                <div className={animeOshiURL ? "" : styles.invisible}>
+                  <a href={animeOshiURL}>AnimeOshi</a>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -162,6 +170,13 @@ export default function Layout({ anilist: src }) {
               }}
             />
           </a>
+          <iframe
+            src={animeOshiEmbedURL}
+            className={animeOshiEmbedURL ? "" : styles.invisible}
+            width="230"
+            height="40"
+            loading="lazy"
+          ></iframe>
         </div>
       </div>
       <div className={styles.divider}></div>

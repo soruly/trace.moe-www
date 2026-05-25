@@ -24,10 +24,24 @@
 .divider {
   border-bottom: 1px dashed var(--theme-weak-color);
 }
+.invisible {
+  visibility: hidden;
+}
+.poster {
+  display: flex;
+  flex-direction: column;
+}
 .poster img {
   min-width: 230px;
   opacity: 0;
   transition: opacity 300ms ease-out;
+  display: inline-flex;
+}
+.poster iframe {
+  background: transparent;
+  border: none;
+  min-width: 230px;
+  height: 2rem;
 }
 .detail {
   width: 640px;

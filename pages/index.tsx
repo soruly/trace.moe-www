@@ -374,7 +374,9 @@ const Index = () => {
               >
                 ❌
               </div>
-              {!isSearching && <Info anilist={anilistInfo}></Info>}
+              {!isSearching && (
+                <Info anilist={anilistInfo} episode={selectedResult?.episode}></Info>
+              )}
             </div>
           </div>
         )}

@@ -1,8 +1,24 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./info.module.css";
 
 export default function Layout({ anilist: src }) {
+  const [animeOshiURL, setAnimeOshiURL] = useState(null);
+
+  useEffect(() => {
+    if (!navigator.language.startsWith("en") || !src || !src.id) return;
+    const fetchExternalData = async () => {
+      const ANIMEOSHI_API_KEY = process.env.NEXT_PUBLIC_ANIMEOSHI_API_KEY;
+      const res = await fetch(
+        `https://www.animeoshi.com/api/anime/v1/anime/external?anilist_id=${src.id}`,
+        { headers: { "x-api-key": ANIMEOSHI_API_KEY } },
+      );
+      if (res.status === 200) setAnimeOshiURL((await res.json()).url);
+    };
+
+    fetchExternalData();
+  }, [src]);
+
   if (!src) {
     return <div></div>;
   }
@@ -52,26 +68,22 @@ export default function Layout({ anilist: src }) {
 
   naturalText2 += ". ";
 
-  const synonyms = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          [
-            src.title.chinese || "",
-            src.title.english || "",
-            ...(src.synonyms || []),
-            ...(src.synonyms_chinese || []),
-          ]
-            .filter((e) => e)
-            .filter((e) => e !== src.title.native || e !== src.title.romaji),
-        ),
-      )
-        .sort()
-        .map((title, i) => {
-          return <div key={i}>{title}</div>;
-        }),
-    [src.title, src.synonyms, src.synonyms_chinese],
-  );
+  const synonyms = Array.from(
+    new Set(
+      [
+        src.title.chinese || "",
+        src.title.english || "",
+        ...(src.synonyms || []),
+        ...(src.synonyms_chinese || []),
+      ]
+        .filter((e) => e)
+        .filter((e) => e !== src.title.native || e !== src.title.romaji),
+    ),
+  )
+    .sort()
+    .map((title, i) => {
+      return <div key={i}>{title}</div>;
+    });
 
   let studio = [];
   if (src.studios && src.studios && src.studios.edges.length > 0) {
@@ -129,7 +141,14 @@ export default function Layout({ anilist: src }) {
             </tr>
             <tr>
               <td>External Links</td>
-              <td>{externalLinks}</td>
+              <td>
+                {externalLinks}
+                {animeOshiURL && (
+                  <div>
+                    <a href={animeOshiURL}>AnimeOshi</a>
+                  </div>
+                )}
+              </td>
             </tr>
           </tbody>
         </table>

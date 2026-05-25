@@ -7,6 +7,7 @@ export default (phase): NextConfig =>
   phase === PHASE_PRODUCTION_BUILD
     ? { output: "export" }
     : {
+        allowedDevOrigins: ["www2.trace.moe"],
         async headers() {
           return [
             {
@@ -36,7 +37,7 @@ export default (phase): NextConfig =>
                     "frame-ancestors 'none'",
                     "manifest-src 'self'",
                     "block-all-mixed-content",
-                    `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT}`,
+                    `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT} https://www.animeoshi.com`,
                   ].join("; "),
                 },
               ],

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import styles from "./footer.module.css";
 import sponsorStyles from "./sponsor.module.css";

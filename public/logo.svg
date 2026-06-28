@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <title>trace.moe</title>
+  <path d="M0 0h512v512H0z"/>
+  <path fill="#e5e8ff" d="m328 252 31 18 41-24v51l32 56V204l-10 6v-12ZM80 192v161l32-56v-49l39 23 33-19z"/>
+</svg>

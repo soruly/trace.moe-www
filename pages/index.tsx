@@ -230,7 +230,7 @@ const Index = () => {
           itemProp="description"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
         />
-        <meta itemProp="image" content="https://trace.moe/favicon128.png" />
+        <meta itemProp="image" content="https://trace.moe/favicon512.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@soruly" />
@@ -240,7 +240,7 @@ const Index = () => {
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
         />
         <meta name="twitter:creator" content="@soruly" />
-        <meta name="twitter:image" content="https://trace.moe/favicon128.png" />
+        <meta name="twitter:image" content="https://trace.moe/favicon512.png" />
         <meta
           name="twitter:image:alt"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."
@@ -249,7 +249,7 @@ const Index = () => {
         <meta property="og:title" content="WAIT: What Anime Is This?" />
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://trace.moe" />
-        <meta property="og:image" content="https://trace.moe/favicon128.png" />
+        <meta property="og:image" content="https://trace.moe/favicon512.png" />
         <meta
           property="og:description"
           content="Anime Scene Search Engine. Lookup the exact moment and the episode."

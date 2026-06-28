@@ -564,7 +564,7 @@ const News = () => (
         <div className={styles.sectionHeader}>New Icon</div>
         <small>5 Jun 2017</small>
         <p>
-          <img src="/favicon128.png" alt="favicon" />
+          <img src="/favicon_2017.png" alt="favicon" />
           <br />
           This is the new icon for whatanime.ga
         </p>

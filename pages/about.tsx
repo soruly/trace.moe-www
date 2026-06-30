@@ -44,13 +44,14 @@ const formatDate = (timeISOStringUTC, trafficPeriod) => {
 
 const About = () => {
   const [message, setMessage] = useState("");
-  const [{ updated, row_count, memory, memory_usage }, setSystemStatus] = useState({
+  const [
+    { updated, rowCount, memory, memoryUsage, mediaCount, mediaFramesTotal, mediaDurationTotal },
+    setSystemStatus,
+  ] = useState({
     updated: null,
-    row_count: 0,
+    rowCount: 0,
     memory: 0,
-    memory_usage: 0,
-  });
-  const [{ mediaCount, mediaFramesTotal, mediaDurationTotal }, setMediaStatus] = useState({
+    memoryUsage: 0,
     mediaCount: 0,
     mediaFramesTotal: 0,
     mediaDurationTotal: 0,
@@ -59,9 +60,6 @@ const About = () => {
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status`)
       .then((e) => e.json())
       .then((e) => setSystemStatus(e));
-    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=media`)
-      .then((e) => e.json())
-      .then((e) => setMediaStatus(e));
   }, []);
 
   const [trafficPeriod, setTrafficPeriod] = useState("hour");
@@ -399,15 +397,15 @@ const About = () => {
             </li>
             <li>
               Indexed Frames:{" "}
-              {row_count ? row_count.toLocaleString(navigator.language) : "counting..."}{" "}
-              {row_count && mediaFramesTotal
-                ? `(${((1 - row_count / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
+              {rowCount ? rowCount.toLocaleString(navigator.language) : "counting..."}{" "}
+              {rowCount && mediaFramesTotal
+                ? `(${((1 - rowCount / mediaFramesTotal) * 100).toFixed(2)}% de-duplicated)`
                 : ""}
             </li>
             <li>
               Memory Usage:{" "}
-              {memory && memory_usage
-                ? `${(memory_usage / 1024 / 1024 / 1024).toFixed(2)} GB / ${(memory / 1024 / 1024 / 1024).toFixed(2)} GB`
+              {memory && memoryUsage
+                ? `${(memoryUsage / 1024 / 1024 / 1024).toFixed(2)} GB / ${(memory / 1024 / 1024 / 1024).toFixed(2)} GB`
                 : "calculating..."}
             </li>
           </ul>

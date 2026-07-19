@@ -133,6 +133,29 @@
   background-color: var(--shadow-color);
   border-color: var(--shadow-color);
 }
+.loginPrompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+}
+.loginLink {
+  display: inline-block;
+  padding: 0 0.5rem;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--blank-color);
+  background: var(--theme-main-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 3px;
+}
+.loginLink:hover {
+  color: var(--blank-color);
+  text-decoration: none;
+  box-shadow: 0 0 10px var(--theme-weak-color);
+}
 .meterBG {
   fill: var(--shadow-color);
 }

@@ -233,7 +233,7 @@ const Account = () => {
             <div className={accountStyles.boxTitle}>Login</div>
             <div className={accountStyles.boxBody}>
               <div className={accountStyles.loginPrompt}>
-                <div>Log in to view your account quota and API key.</div>
+                <div>(For Donators) Log in to view your account quota and API key.</div>
                 <Link className={accountStyles.loginLink} href="/login?next=/account">
                   Login
                 </Link>

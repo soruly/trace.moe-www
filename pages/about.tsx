@@ -371,10 +371,81 @@ const About = () => {
           </p>
         </div>
         <div className={styles.section}>
+          <div className={styles.sectionHeader}>Official Apps</div>
+          <ul>
+            <li>
+              Telegram Bot (<a href="https://telegram.me/WhatAnimeBot">@WhatAnimeBot</a>)
+            </li>
+            <li>
+              Search Anime by Screenshot (
+              <a href="https://chrome.google.com/webstore/detail/search-anime-by-screensho/gkamnldpllcbiidlfacaccdoadedncfp">
+                Chrome
+              </a>
+              {", "}
+              <a href="https://addons.mozilla.org/en-US/firefox/addon/search-anime-by-screenshot/">
+                Firefox
+              </a>
+              {", "}
+              <a href="https://microsoftedge.microsoft.com/addons/detail/search-anime-by-screensho/bkigcpancdclbiekidfbcghedaielbda">
+                MSEdge
+              </a>
+              {", "}
+              <a href="https://addons.opera.com/en/extensions/details/search-anime-by-screenshot/">
+                Opera
+              </a>
+              )
+            </li>
+          </ul>
+        </div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>Developers Info</div>
+          <ul>
+            <li>
+              <a href="https://soruly.github.io/trace.moe-api/">trace.moe API Docs</a>
+            </li>
+            <li>
+              <a href="https://github.com/soruly/trace.moe">Source Code on GitHub</a>
+            </li>
+            <li>
+              <a href="https://huggingface.co/datasets/soruly/trace.moe-database-dump">
+                Database Dump
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>Contact / Community</div>
+          <p>
+            If you have any questions, feedback, or need help, feel free to join our community on{" "}
+            <a href="https://discord.gg/K9jn6Kj">Discord</a> or{" "}
+            <a href="https://t.me/trace_moe">Telegram</a>.
+          </p>
+        </div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>Donate</div>
+          <p>
+            Donators get higher search quotas as a return. You can refer to the{" "}
+            <a href="https://soruly.github.io/trace.moe-api/#/limits">API limits documentation</a>{" "}
+            for details.
+          </p>
+          <ul>
+            <li>
+              <a href="https://www.patreon.com/soruly">Patreon</a>
+            </li>
+            <li>
+              <a href="https://github.com/sponsors/soruly">GitHub Sponsors</a>
+            </li>
+            <li>
+              <a href="https://www.paypal.me/soruly">PayPal</a>
+            </li>
+          </ul>
+        </div>
+        <div className={styles.section}>
           <div className={styles.sectionHeader}>System Status</div>
           <p>
             This search engine index latest anime automatically, usually within hours after
-            broadcast.
+            broadcast. You can also check real-time service availability on{" "}
+            <a href="https://status.trace.moe">System Status</a>.
           </p>
           <ul>
             <li>

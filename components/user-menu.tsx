@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
-import { useAuth } from "./auth";
+import { isGuest, useAuth } from "./auth";
 
 import styles from "./user-menu.module.css";
 
@@ -36,6 +36,23 @@ export default function UserMenu() {
 
   return (
     <div className={styles.userMenu} ref={containerRef}>
+      <Link className={styles.homeBtn} href="/" aria-label="Home">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      </Link>
       <button
         className={styles.avatar}
         ref={avatarRef}
@@ -64,7 +81,7 @@ export default function UserMenu() {
       </button>
       {open && (
         <div className={styles.dropdown} role="menu">
-          <div className={styles.dropdownEmail}>{user?.id || "Guest"}</div>
+          <div className={styles.dropdownEmail}>{isGuest(user?.id || "") ? "Guest" : user.id}</div>
           <Link
             className={styles.dropdownItem}
             role="menuitem"
@@ -72,6 +89,31 @@ export default function UserMenu() {
             onClick={() => setOpen(false)}
           >
             My Account
+          </Link>
+          <div className={styles.separator}></div>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
+            href="/about"
+            onClick={() => setOpen(false)}
+          >
+            About trace.moe
+          </Link>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
+            href="/faq"
+            onClick={() => setOpen(false)}
+          >
+            Help and FAQ
+          </Link>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
+            href="/terms"
+            onClick={() => setOpen(false)}
+          >
+            Terms &amp; Privacy
           </Link>
           <div className={styles.separator}></div>
           {status === "guest" ? (

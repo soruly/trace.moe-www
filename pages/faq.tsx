@@ -7,6 +7,14 @@ const FAQ = () => (
     <div className={`${styles.container} ${styles.page}`}>
       <div className={styles.pageHeader}>FAQ</div>
       <div className={styles.section}>
+        <div className={styles.sectionHeader}>Contact / Community</div>
+        <p>
+          If you have any questions, feedback, or need help, feel free to join our community on{" "}
+          <a href="https://discord.gg/K9jn6Kj">Discord</a> or{" "}
+          <a href="https://t.me/trace_moe">Telegram</a>.
+        </p>
+      </div>
+      <div className={styles.section}>
         <div className={styles.sectionHeader}>Why I can't find the search result?</div>
         <p>
           Possible reasons:

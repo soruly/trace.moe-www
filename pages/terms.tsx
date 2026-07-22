@@ -18,7 +18,11 @@ const Terms = () => (
         <p>
           In accordance with the Digital Millennium Copyright Act of 1998, the text of which may be
           found on the U.S. Copyright Office website at{" "}
-          <a href="http://www.copyright.gov/legislation/dmca.pdf">
+          <a
+            href="http://www.copyright.gov/legislation/dmca.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             http://www.copyright.gov/legislation/dmca.pdf
           </a>
           , we will respond expeditiously to claims of copyright infringement committed using the
@@ -75,7 +79,9 @@ const Terms = () => (
         </ol>
         <p>
           Deliver this Notice, with all items completed, to our contact at{" "}
-          <a href="mailto:help@trace.moe">help@trace.moe</a>
+          <a href="mailto:help@trace.moe" target="_blank" rel="noopener noreferrer">
+            help@trace.moe
+          </a>
         </p>
       </div>
 
@@ -132,7 +138,12 @@ const Terms = () => (
         </p>
       </div>
 
-      <a href="//www.iubenda.com/privacy-policy/7764846" title="Privacy Policy">
+      <a
+        href="//www.iubenda.com/privacy-policy/7764846"
+        title="Privacy Policy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Privacy Policy
       </a>
       <p>All images uploaded to search engine are deleted immediately.</p>

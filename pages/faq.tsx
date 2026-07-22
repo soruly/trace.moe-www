@@ -10,8 +10,14 @@ const FAQ = () => (
         <div className={styles.sectionHeader}>Contact / Community</div>
         <p>
           If you have any questions, feedback, or need help, feel free to join our community on{" "}
-          <a href="https://discord.gg/K9jn6Kj">Discord</a> or{" "}
-          <a href="https://t.me/trace_moe">Telegram</a>.
+          <a href="https://discord.gg/K9jn6Kj" target="_blank" rel="noopener noreferrer">
+            Discord
+          </a>{" "}
+          or{" "}
+          <a href="https://t.me/trace_moe" target="_blank" rel="noopener noreferrer">
+            Telegram
+          </a>
+          .
         </p>
       </div>
       <div className={styles.section}>
@@ -24,8 +30,15 @@ const FAQ = () => (
           2. The anime has not been added to database yet.
           <br />
           3. Your image is of modified. <br />
-          Regarding 1. You may try to use <a href="https://saucenao.com/">SauceNAO</a> and{" "}
-          <a href="https://iqdb.org/">iqdb.org</a> which is best for searching anime artwork.
+          Regarding 1. You may try to use{" "}
+          <a href="https://saucenao.com/" target="_blank" rel="noopener noreferrer">
+            SauceNAO
+          </a>{" "}
+          and{" "}
+          <a href="https://iqdb.org/" target="_blank" rel="noopener noreferrer">
+            iqdb.org
+          </a>{" "}
+          which is best for searching anime artwork.
           <br />
           Regarding 2. New animes currently airing would be analyzed around 24 hours after TV
           broadcast. Long-running animes / cartoons are excluded at this stage. See "What anime are
@@ -96,7 +109,11 @@ const FAQ = () => (
         </div>
         <p>
           This screenshot from{" "}
-          <a href="https://www.youtube.com/watch?v=TUoWYoTWcnA&feature=youtu.be&t=2m59s">
+          <a
+            href="https://www.youtube.com/watch?v=TUoWYoTWcnA&feature=youtu.be&t=2m59s"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             AMV - Animegraphy 2015
           </a>{" "}
           flipped the original scene in the anime. Try to search with a flipped image if you guess
@@ -134,8 +151,15 @@ const FAQ = () => (
           </div>
         </div>
         <p>
-          You should try <a href="https://saucenao.com/">SauceNAO</a> and{" "}
-          <a href="https://iqdb.org/">https://iqdb.org/</a> to search anime / doujin artwork.
+          You should try{" "}
+          <a href="https://saucenao.com/" target="_blank" rel="noopener noreferrer">
+            SauceNAO
+          </a>{" "}
+          and{" "}
+          <a href="https://iqdb.org/" target="_blank" rel="noopener noreferrer">
+            https://iqdb.org/
+          </a>{" "}
+          to search anime / doujin artwork.
         </p>
         <h4>Not Japanese Anime</h4>
         <div className={styles.example}>
@@ -282,7 +306,11 @@ const FAQ = () => (
         <div className={styles.sectionHeader}>How to add trace.moe to Image Search Options</div>
         <p>
           If you prefer to use trace.moe with{" "}
-          <a href="https://chrome.google.com/webstore/detail/image-search-options/kljmejbpilkadikecejccebmccagifhl">
+          <a
+            href="https://chrome.google.com/webstore/detail/image-search-options/kljmejbpilkadikecejccebmccagifhl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Image Search Options
           </a>
           , go to settings and add this:

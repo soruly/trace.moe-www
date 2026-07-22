@@ -101,7 +101,9 @@ export default function Layout({ anilist: src, episode }) {
       if (entry.node.siteUrl) {
         return (
           <div key={i}>
-            <a href={entry.node.siteUrl}>{entry.node.name}</a>
+            <a href={entry.node.siteUrl} target="_blank" rel="noopener noreferrer">
+              {entry.node.name}
+            </a>
           </div>
         );
       } else {
@@ -115,7 +117,9 @@ export default function Layout({ anilist: src, episode }) {
     externalLinks = src.externalLinks.map((entry, i) => {
       return (
         <div key={i}>
-          <a href={entry.url}>{entry.site}</a>
+          <a href={entry.url} target="_blank" rel="noopener noreferrer">
+            {entry.site}
+          </a>
         </div>
       );
     });
@@ -154,14 +158,16 @@ export default function Layout({ anilist: src, episode }) {
               <td>
                 {externalLinks}
                 <div className={animeOshiURL ? "" : styles.invisible}>
-                  <a href={animeOshiURL}>AnimeOshi</a>
+                  <a href={animeOshiURL} target="_blank" rel="noopener noreferrer">
+                    AnimeOshi
+                  </a>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
         <div className={styles.poster}>
-          <a href={`//anilist.co/anime/${src.id}`}>
+          <a href={`//anilist.co/anime/${src.id}`} target="_blank" rel="noopener noreferrer">
             <img
               key={src.coverImage.large}
               src={src.coverImage.large}
@@ -181,7 +187,10 @@ export default function Layout({ anilist: src, episode }) {
       </div>
       <div className={styles.divider}></div>
       <div className={styles.footNotes}>
-        Information provided by <a href="https://anilist.co">anilist.co</a>
+        Information provided by{" "}
+        <a href="https://anilist.co" target="_blank" rel="noopener noreferrer">
+          anilist.co
+        </a>
       </div>
     </div>
   );

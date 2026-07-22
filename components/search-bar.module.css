@@ -231,3 +231,10 @@
     justify-content: center;
   }
 }
+
+/* keep the search controls clear of the corner user menu */
+@media (max-width: 1100px) {
+  .searchBarReady .formControls {
+    margin-right: 2.75rem;
+  }
+}

@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { isAdmin, isGuest, useAuth } from "../components/auth";
 import Layout from "../components/layout";
 
 import accountStyles from "../components/account.module.css";
@@ -7,79 +9,31 @@ import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-const isGuest = (id) => (id.indexOf("@") >= 0 ? false : true);
-const isAdmin = (id) => (id.match(/^[a-zA-Z0-9_.+-]+@trace.moe$/) ? true : false);
-
 const Account = () => {
-  const [apiKey, setAPIKey] = useState("");
   const [apiKeyLabel, setAPIKeyLabel] = useState("");
   const [isResettingApiKey, setIsResettingApiKey] = useState(false);
   const [createUserLabel, setCreateUserLabel] = useState("");
   const [isCreatingUser, setIsCreatingUser] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [confirmed, setConfirmed] = useState(undefined);
   const [dialogue, setDialogue] = useState("");
-  const [user, setUser] = useState({
+  const { status, user: authUser, apiKey, setApiKey, refresh, logout } = useAuth();
+  const loading = status === "loading";
+  const user = authUser || {
     concurrency: 0,
     id: "",
     priority: 0,
     quota: 0,
     quotaUsed: 0,
-  });
-  const login = async (apiKey?: string) => {
-    setLoading(true);
-    let res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me`, {
-      headers: { "x-trace-key": apiKey || "" },
-    });
-    setAPIKey(res.status >= 400 ? "" : apiKey);
-    const user = await res.json();
-    setUser(user);
-    setLoading(false);
-    setAPIKeyLabel("");
-    setCreateUserLabel("");
   };
 
   useEffect(() => {
-    login();
-  }, []);
+    if (!loading) refresh();
+  }, [status]);
 
-  const submitLogin = async (e) => {
+  const submitLogout = async (e) => {
     e.preventDefault();
-    e.target.querySelectorAll("input").forEach((e) => {
-      e.disabled = true;
-    });
-    e.target.querySelector("#login-label").classList.remove(accountStyles.error);
-    e.target.querySelector("#login-label").innerText = "";
-    const email = e.target.querySelector("input[type=email]").value;
-    const password = e.target.querySelector("input[type=password]").value;
-    e.target.querySelector("#login-label").innerText = "Logging in...";
-    const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/user/login`, {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (res.status >= 400) {
-      e.target.querySelector("#login-label").innerText = (await res.json()).error;
-      e.target.querySelector("#login-label").classList.add(accountStyles.error);
-    } else {
-      await login((await res.json()).key);
-      e.target.querySelector("#login-label").innerText = "";
-    }
-
-    e.target.querySelectorAll("input").forEach((e) => {
-      e.disabled = false;
-    });
-  };
-  const logout = async (e) => {
-    e.preventDefault();
-    e.target.disabled = true;
     e.target.querySelector("#logout-label").innerText = "Logging out...";
-    await login();
-    e.target.querySelector("#logout-label").innerText = "";
-    e.target.disabled = false;
+    await logout();
   };
 
   const submitPassword = async (e) => {
@@ -127,7 +81,7 @@ const Account = () => {
         } else {
           const newApiKey = (await res.json()).key;
           setAPIKeyLabel("API Key has been reset.");
-          setAPIKey(newApiKey);
+          setApiKey(newApiKey);
         }
       }
       setConfirmed(undefined);
@@ -278,43 +232,12 @@ const Account = () => {
           <div className={`${accountStyles.box}`}>
             <div className={accountStyles.boxTitle}>Login</div>
             <div className={accountStyles.boxBody}>
-              <form onSubmit={submitLogin}>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label>User ID: </label>
-                      </td>
-                      <td>
-                        <div>
-                          <input type="email" size={1} placeholder="email address" required />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Password: </label>
-                      </td>
-                      <td>
-                        <div>
-                          <input
-                            type="password"
-                            size={1}
-                            placeholder="password"
-                            minLength={8}
-                            autoComplete="current-password"
-                            required
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div>
-                  <div id="login-label"></div>
-                  <input type="submit" value="Login" />
-                </div>
-              </form>
+              <div className={accountStyles.loginPrompt}>
+                <div>Log in to view your account quota and API key.</div>
+                <Link className={accountStyles.loginLink} href="/login?next=/account">
+                  Login
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -323,7 +246,7 @@ const Account = () => {
           <div className={`${accountStyles.box} logout`}>
             <div className={accountStyles.boxTitle}>Logout</div>
             <div className={accountStyles.boxBody}>
-              <form onSubmit={logout}>
+              <form onSubmit={submitLogout}>
                 <div>
                   <div id="logout-label"></div>
                   <input type="submit" value="Logout" />

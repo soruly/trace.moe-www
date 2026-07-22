@@ -2,6 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import UserMenu from "./user-menu";
+
 import styles from "./footer.module.css";
 import sponsorStyles from "./sponsor.module.css";
 
@@ -33,6 +35,7 @@ export default function Layout({ children, title }) {
         <link rel="apple-touch-icon" href="/favicon144.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
+      <UserMenu></UserMenu>
       <main className={styles.main}>{children}</main>
 
       <div

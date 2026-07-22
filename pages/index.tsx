@@ -1,6 +1,8 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ReactNode, useEffect, useState } from "react";
 
+import { getStoredApiKey, useAuth } from "../components/auth";
 import Info from "../components/info";
 import Layout from "../components/layout";
 import Player from "../components/player";
@@ -15,7 +17,7 @@ const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");
   const [isCutBorders, setIsCutBorders] = useState(true);
   const [anilistFilter, setAnilistFilter] = useState();
-  const [messageText, setMessageText] = useState("");
+  const [messageText, setMessageText] = useState<ReactNode>("");
   const [imageURL, setImageURL] = useState(undefined);
   const [searchImage, setSearchImage] = useState<string | Blob>("");
   const [searchImageSrc, setSearchImageSrc] = useState("");
@@ -29,6 +31,7 @@ const Index = () => {
   const [playerFileName, setPlayerFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const { status, apiKey } = useAuth();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -153,11 +156,14 @@ const Index = () => {
       isCutBorders ? "cutBorders" : "",
       anilistFilter ? `anilistID=${anilistFilter}` : "",
     ].join("&");
+    // fall back to the stored key in case a search fires before /me resolves on load
+    const searchApiKey = apiKey || getStoredApiKey();
     let res;
     for (let retries = 5; retries > 0; retries--) {
       res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
         method: "POST",
         body: formData,
+        headers: searchApiKey ? { "x-trace-key": searchApiKey } : {},
       });
       if (res.status !== 503 || retries === 1) {
         break;
@@ -175,6 +181,19 @@ const Index = () => {
     }
     if (res.status === 503) {
       setMessageText("Server is busy, please try again later.");
+      return;
+    }
+    if (res.status === 402) {
+      setMessageText(
+        status === "user" ? (
+          "Search quota depleted, please try again tomorrow."
+        ) : (
+          <>
+            Search quota for your IP is depleted. <Link href="/login?next=/">Log in</Link> to use
+            your account quota.
+          </>
+        ),
+      );
       return;
     }
     if (res.status >= 400) {

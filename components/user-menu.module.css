@@ -1,7 +1,7 @@
 .userMenu {
   position: fixed;
-  top: 1rem;
-  right: calc(1rem + env(safe-area-inset-right));
+  top: 0.5rem;
+  right: calc(0.5rem + env(safe-area-inset-right));
   z-index: 110;
   display: flex;
   align-items: center;

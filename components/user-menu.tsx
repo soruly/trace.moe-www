@@ -36,23 +36,6 @@ export default function UserMenu() {
 
   return (
     <div className={styles.userMenu} ref={containerRef}>
-      <Link className={styles.homeBtn} href="/" aria-label="Home">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          width="24"
-          height="24"
-          aria-hidden="true"
-        >
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-      </Link>
       <button
         className={styles.avatar}
         ref={avatarRef}
@@ -85,20 +68,28 @@ export default function UserMenu() {
           <Link
             className={styles.dropdownItem}
             role="menuitem"
+            href="/"
+            onClick={() => setOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
             href="/account"
             onClick={() => setOpen(false)}
           >
             My Account
           </Link>
-          <div className={styles.separator}></div>
           <Link
             className={styles.dropdownItem}
             role="menuitem"
             href="/about"
             onClick={() => setOpen(false)}
           >
-            About trace.moe
+            About
           </Link>
+          <div className={styles.separator}></div>
           <Link
             className={styles.dropdownItem}
             role="menuitem"

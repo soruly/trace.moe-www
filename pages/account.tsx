@@ -1,5 +1,15 @@
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
 import { isAdmin, isGuest, useAuth } from "../components/auth";
 import Layout from "../components/layout";
@@ -8,6 +18,74 @@ import accountStyles from "../components/account.module.css";
 import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const formatDate = (timeISOStringUTC, trafficPeriod) => {
+  const date = new Date(timeISOStringUTC);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minute = date.getMinutes().toString().padStart(2, "0");
+
+  if (trafficPeriod === "day") return `${day}/${month}`;
+  if (trafficPeriod === "hour") return `${hour}:00`;
+  if (trafficPeriod === "minute") return `${hour}:${minute}`;
+  return timeISOStringUTC;
+};
+
+const buildFilledStats = (rawStats, trafficPeriod) => {
+  const count = trafficPeriod === "hour" ? 72 : 60;
+  const stats = Array.isArray(rawStats) ? [...rawStats] : [];
+  stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+
+  const map = new Map();
+  for (const item of stats) {
+    if (!item.time) continue;
+    const d = new Date(item.time);
+    if (trafficPeriod === "minute") d.setSeconds(0, 0);
+    else if (trafficPeriod === "hour") d.setMinutes(0, 0, 0);
+    else if (trafficPeriod === "day") d.setHours(0, 0, 0, 0);
+    map.set(d.getTime(), item);
+  }
+
+  let endTime = new Date();
+  if (stats.length > 0 && stats[stats.length - 1].time) {
+    const lastStatTime = new Date(stats[stats.length - 1].time);
+    if (lastStatTime > endTime) {
+      endTime = lastStatTime;
+    }
+  }
+
+  if (trafficPeriod === "minute") endTime.setSeconds(0, 0);
+  else if (trafficPeriod === "hour") endTime.setMinutes(0, 0, 0);
+  else if (trafficPeriod === "day") endTime.setHours(0, 0, 0, 0);
+
+  const result = [];
+  for (let i = count - 1; i >= 0; i--) {
+    const slotTime = new Date(endTime.getTime());
+    if (trafficPeriod === "minute") {
+      slotTime.setMinutes(slotTime.getMinutes() - i);
+    } else if (trafficPeriod === "hour") {
+      slotTime.setHours(slotTime.getHours() - i);
+    } else if (trafficPeriod === "day") {
+      slotTime.setDate(slotTime.getDate() - i);
+    }
+
+    const item = map.get(slotTime.getTime()) || {};
+    result.push({
+      time: slotTime.toISOString(),
+      "200": item["200"] || 0,
+      "400": item["400"] || 0,
+      "402": item["402"] || 0,
+      "405": item["405"] || 0,
+      "500": item["500"] || 0,
+      "503": item["503"] || 0,
+    });
+  }
+
+  return result;
+};
 
 const Account = () => {
   const [apiKeyLabel, setAPIKeyLabel] = useState("");
@@ -29,6 +107,67 @@ const Account = () => {
   useEffect(() => {
     if (!loading) refresh();
   }, [status]);
+
+  const [trafficPeriod, setTrafficPeriod] = useState("hour");
+  const [trafficData, setTrafficData] = useState(null);
+
+  useEffect(() => {
+    if (loading) return;
+    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me?period=${trafficPeriod}`, {
+      headers: { "x-trace-key": apiKey },
+    })
+      .then((e) => e.json())
+      .then((rawStats) => {
+        const stats = buildFilledStats(rawStats, trafficPeriod);
+        setTrafficData({
+          labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
+          datasets: [
+            {
+              label: "200",
+              data: stats.map((e) => e["200"]),
+              backgroundColor: ["rgba(0,255,0,0.2)"],
+              borderColor: ["rgba(0,255,0,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "400",
+              data: stats.map((e) => e["400"]),
+              backgroundColor: ["rgba(192,192,0,0.2)"],
+              borderColor: ["rgba(192,192,0,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "402",
+              data: stats.map((e) => e["402"]),
+              backgroundColor: ["rgba(128,128,255,0.2)"],
+              borderColor: ["rgba(128,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "405",
+              data: stats.map((e) => e["405"]),
+              backgroundColor: ["rgba(128,128,128,0.2)"],
+              borderColor: ["rgba(128,128,128,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "500",
+              data: stats.map((e) => e["500"]),
+              backgroundColor: ["rgba(255,128,255,0.2)"],
+              borderColor: ["rgba(255,128,255,1)"],
+              borderWidth: 1,
+            },
+            {
+              label: "503",
+              data: stats.map((e) => e["503"]),
+              backgroundColor: ["rgba(255,128,255,0.2)"],
+              borderColor: ["rgba(255,128,128,1)"],
+              borderWidth: 1,
+            },
+          ],
+        });
+      });
+  }, [trafficPeriod, apiKey, loading]);
 
   const submitLogout = async (e) => {
     e.preventDefault();
@@ -227,6 +366,45 @@ const Account = () => {
               </tbody>
             </table>
           </div>
+          {trafficData ? (
+            <Bar
+              className={styles.accountGraph}
+              options={{
+                animation: false,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Your search traffic",
+                  },
+                },
+                scales: {
+                  x: {
+                    stacked: true,
+                    ticks: {
+                      maxRotation: 0,
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    ticks: {
+                      precision: 0,
+                    },
+                  },
+                },
+              }}
+              data={trafficData}
+              width="680"
+              height="380"
+            ></Bar>
+          ) : (
+            <div className={styles.accountGraph}></div>
+          )}
+          <p className={styles.accountGraphControl}>
+            <button onClick={() => setTrafficPeriod("minute")}>60 mins</button>
+            <button onClick={() => setTrafficPeriod("hour")}>72 hours</button>
+            <button onClick={() => setTrafficPeriod("day")}>60 days</button>
+          </p>
         </div>
         {!loading && isGuest(user.id) && (
           <div className={`${accountStyles.box}`}>

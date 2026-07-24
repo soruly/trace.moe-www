@@ -41,6 +41,17 @@
 .graphControl {
   text-align: center;
 }
+.accountGraph {
+  width: 680px;
+  height: 380px;
+  padding: 0 1rem;
+}
+.accountGraphControl {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
 .fileList {
   height: 200px;
   overflow-y: scroll;

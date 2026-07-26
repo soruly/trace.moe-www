@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import AnilistSearchInput from "./anilist-search-input";
 
 import styles from "./search-bar.module.css";
@@ -15,6 +17,8 @@ export default function SearchBar({
   search,
   searchImage,
 }) {
+  const [showAdvanced, setShowAdvanced] = useState(() => Boolean(anilistFilter));
+
   return (
     <div className={searchImageSrc ? styles.searchBarReady : styles.searchBar}>
       <div className={styles.searchBarContent}>
@@ -40,7 +44,7 @@ export default function SearchBar({
               <input type="file" name="files[]" accept="image/*" onChange={handleFileSelect} />
             </div>
           </form>
-          {searchImageSrc && (
+          {searchImageSrc ? (
             <>
               <AnilistSearchInput
                 className={styles.anilistFilterInput}
@@ -50,22 +54,52 @@ export default function SearchBar({
                   setAnilistFilter(val);
                 }}
               />
-              <button
-                className={styles.cutBordersBtn}
-                onClick={() => setIsCutBorders(!isCutBorders)}
-              >
-                <span
-                  className={`icon ${isCutBorders ? styles.iconCheck : styles.iconCross}`}
-                ></span>{" "}
+              <label className={styles.cutBordersBtn}>
+                <input
+                  type="checkbox"
+                  checked={isCutBorders}
+                  onChange={(e) => setIsCutBorders(e.target.checked)}
+                />{" "}
                 Cut Borders
-              </button>
+              </label>
               <button
+                type="button"
                 className={styles.searchBtn}
                 disabled={isSearching}
                 onClick={() => search(searchImage)}
               >
                 <span className={styles.iconSearch}></span>
               </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className={styles.advancedToggle}
+                onClick={() => setShowAdvanced(!showAdvanced)}
+              >
+                {showAdvanced ? "▲" : "▼"} Advanced options
+              </button>
+              {showAdvanced && (
+                <div className={styles.advancedOptions}>
+                  <AnilistSearchInput
+                    className={styles.anilistFilterInput}
+                    placeholder="filter anime"
+                    value={anilistFilter}
+                    onChange={(val) => {
+                      setAnilistFilter(val);
+                    }}
+                  />
+                  <label className={styles.cutBordersBtn}>
+                    <input
+                      type="checkbox"
+                      checked={isCutBorders}
+                      onChange={(e) => setIsCutBorders(e.target.checked)}
+                    />{" "}
+                    Cut Borders
+                  </label>
+                </div>
+              )}
             </>
           )}
         </div>

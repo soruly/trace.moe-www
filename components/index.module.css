@@ -120,6 +120,12 @@
   align-items: stretch;
   gap: 0.5rem;
 }
+.resultListMessage {
+  font-size: 0.8rem;
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--text-strong-color);
+}
 .resultList button {
   color: var(--text-main-color);
   background-color: var(--blank-color);

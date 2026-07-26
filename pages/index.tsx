@@ -24,6 +24,7 @@ const Index = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(undefined);
   const [showNSFW, setshowNSFW] = useState(false);
+  const [showLowSimilarity, setShowLowSimilarity] = useState(false);
   const [anilistInfo, setAnilistInfo] = useState(undefined);
   const [playerSrc, setPlayerSrc] = useState(undefined);
   const [playerTimeCode, setPlayerTimeCode] = useState("");
@@ -233,9 +234,15 @@ const Index = () => {
     });
 
     setSearchResults(topSearchResults);
+    setShowLowSimilarity(false);
 
     const [firstResult] = topSearchResults;
-    if (firstResult && !firstResult.anilist.isAdult && window.innerWidth > 1008) {
+    if (
+      firstResult &&
+      !firstResult.anilist.isAdult &&
+      firstResult.similarity > 0.87 &&
+      window.innerWidth > 1008
+    ) {
       firstResult.playResult();
     }
   };
@@ -340,7 +347,10 @@ const Index = () => {
                 <div className={styles.messageTextLabel}>{messageText}</div>
               </div>
               {searchResults
-                .filter((e) => showNSFW || !e.anilist.isAdult)
+                .filter(
+                  (e) =>
+                    (showNSFW || !e.anilist.isAdult) && (showLowSimilarity || e.similarity >= 0.87),
+                )
                 .map((searchResult) => {
                   return (
                     <Result
@@ -350,6 +360,22 @@ const Index = () => {
                     ></Result>
                   );
                 })}
+              {!searchResults.find((e) => e.similarity >= 0.87) &&
+                !isSearching &&
+                !showLowSimilarity && (
+                  <div className={styles.resultListMessage}>No exact matching results found</div>
+                )}
+              {searchResults.find((e) => e.similarity < 0.87) && !showLowSimilarity && (
+                <div className={styles.hideNSFW}>
+                  <button
+                    onClick={() => {
+                      setShowLowSimilarity(true);
+                    }}
+                  >
+                    Show low similarity results
+                  </button>
+                </div>
+              )}
               {searchResults.find((e) => e.anilist.isAdult) && (
                 <div className={styles.hideNSFW}>
                   <button
@@ -363,40 +389,44 @@ const Index = () => {
                 </div>
               )}
             </div>
-
-            <div
-              className={
-                selectedResult
-                  ? styles.playerInfoPane
-                  : [styles.playerInfoPane, styles.hidden].join(" ")
-              }
-            >
-              <Player
-                src={playerSrc}
-                timeCode={playerTimeCode}
-                duration={playerDuration}
-                fileName={playerFileName}
-                isLoading={isLoading}
-                isSearching={isSearching}
-                onDrop={handleFileSelect}
-              ></Player>
+            {selectedResult ? (
               <div
-                className={styles.closeBtn}
-                onClick={(e) => {
-                  setSelectedResult(undefined);
-                  setAnilistInfo(undefined);
-                  setPlayerSrc(undefined);
-                  setPlayerFileName("");
-                  setPlayerTimeCode("");
-                  setPlayerDuration(0);
-                }}
+                className={
+                  selectedResult
+                    ? styles.playerInfoPane
+                    : [styles.playerInfoPane, styles.hidden].join(" ")
+                }
               >
-                ❌
+                <Player
+                  src={playerSrc}
+                  timeCode={playerTimeCode}
+                  duration={playerDuration}
+                  fileName={playerFileName}
+                  isLoading={isLoading}
+                  isSearching={isSearching}
+                  onDrop={handleFileSelect}
+                ></Player>
+                <div
+                  className={styles.closeBtn}
+                  onClick={(e) => {
+                    setSelectedResult(undefined);
+                    setAnilistInfo(undefined);
+                    setPlayerSrc(undefined);
+                    setPlayerFileName("");
+                    setPlayerTimeCode("");
+                    setPlayerDuration(0);
+                  }}
+                >
+                  ❌
+                </div>
+
+                {!isSearching && (
+                  <Info anilist={anilistInfo} episode={selectedResult?.episode}></Info>
+                )}
               </div>
-              {!isSearching && (
-                <Info anilist={anilistInfo} episode={selectedResult?.episode}></Info>
-              )}
-            </div>
+            ) : (
+              <div className={styles.playerInfoPane}></div>
+            )}
           </div>
         )}
       </div>

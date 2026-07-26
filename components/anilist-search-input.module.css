@@ -1,0 +1,90 @@
+.searchWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 320px;
+  max-width: calc(100vw - 20px);
+  box-sizing: border-box;
+  background: var(--blank-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding: 0;
+  max-height: 20rem;
+  overflow-y: auto;
+  z-index: 1000;
+  text-shadow: none;
+}
+
+.suggestionsListRight {
+  left: auto;
+  right: 0;
+}
+
+.suggestionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-strong-color);
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--theme-weak-color);
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover,
+.suggestionItemActive {
+  background: var(--theme-weak-color);
+}
+
+.suggestionMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+  text-align: left;
+}
+
+.suggestionPoster {
+  width: 2rem;
+  height: 2.8rem;
+  object-fit: cover;
+  border-radius: 0.2rem;
+  flex-shrink: 0;
+}
+
+.suggestionTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+
+.suggestionSubtitle {
+  font-size: 0.75rem;
+  color: var(--text-main-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--text-weak-color);
+}

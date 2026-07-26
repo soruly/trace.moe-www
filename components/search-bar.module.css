@@ -30,6 +30,7 @@
   width: 100%;
   border-radius: 0;
   transform: translate(0, 0);
+  z-index: 20;
   box-shadow: 0 0 20px var(--shadow-color);
   background: var(--bar-main-color);
   height: 3rem;
@@ -67,7 +68,7 @@
 }
 .imageUrlInput,
 .anilistFilterInput {
-  padding: 0 2rem 0 1rem;
+  padding: 0 1rem 0 1rem;
   line-height: 2rem;
   font-size: 0.75rem;
   vertical-align: bottom;
@@ -84,7 +85,7 @@
 }
 .anilistFilterInput {
   color: var(--text-main-color);
-  width: 3rem;
+  width: 4rem;
   display: none;
 }
 .imageUrlInput:focus,

@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
 
+import AnilistSearchInput from "../components/anilist-search-input";
 import Layout from "../components/layout";
 
 import styles from "../components/layout.module.css";
@@ -40,6 +41,50 @@ const formatDate = (timeISOStringUTC, trafficPeriod) => {
   if (trafficPeriod === "hour") return `${hour}:00`;
   if (trafficPeriod === "minute") return `${hour}:${minute}`;
   return timeISOStringUTC;
+};
+
+const AnilistCoverageInput = ({ setMessage }: { setMessage: (msg: string) => void }) => {
+  const [inputValue, setInputValue] = useState("");
+
+  const checkCoverage = async (id: number | string) => {
+    if (!id) return;
+    setMessage("Searching...");
+    try {
+      const status = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/status?id=${id}`).then((e) =>
+        e.json(),
+      );
+      setMessage(`Found ${status.length} records`);
+      const preEl =
+        document.querySelector<HTMLPreElement>(`.${styles.fileList}`) ||
+        document.querySelector<HTMLPreElement>("pre");
+      if (preEl) {
+        if (status.length) {
+          preEl.innerText = status.map((e: any) => e.path.split("/").slice(1)).join("\n");
+        } else {
+          preEl.innerText = `Cannot find any record for ID ${id}`;
+        }
+      }
+    } catch (err) {
+      setMessage("Error checking status");
+    }
+  };
+
+  return (
+    <AnilistSearchInput
+      className={styles.numberInput}
+      placeholder="Anilist ID or title"
+      value={inputValue}
+      onChange={(val) => {
+        setInputValue(val);
+        if (/^\d+$/.test(val.trim())) {
+          checkCoverage(val.trim());
+        }
+      }}
+      onSelect={(suggestion) => {
+        checkCoverage(suggestion.id);
+      }}
+    />
+  );
 };
 
 const About = () => {
@@ -554,32 +599,9 @@ const About = () => {
             </li>
           </ul>
           <p>Last Database Update: {updated ? new Date(updated).toString() : ""}</p>
-          <p>
-            Check database coverage by Anilist ID:{" "}
-            <input
-              className={styles.numberInput}
-              type="number"
-              min="0"
-              max="1000000"
-              onChange={async (e) => {
-                if (!e.target.value.match(/\d+/)) return;
-                setMessage("Searching...");
-                const status = await fetch(
-                  `${NEXT_PUBLIC_API_ENDPOINT}/status?id=${e.target.value}`,
-                ).then((e) => e.json());
-                setMessage(`Found ${status.length} records`);
-                if (status.length) {
-                  document.querySelector("pre").innerText = status
-                    .map((e) => e.path.split("/").slice(1))
-                    .join("\n");
-                } else {
-                  document.querySelector("pre").innerText =
-                    `Cannot find any record for ID ${e.target.value}`;
-                }
-              }}
-            ></input>{" "}
-            {message}
-          </p>
+          <div>
+            Check database entries: <AnilistCoverageInput setMessage={setMessage} /> {message}
+          </div>
           <pre className={styles.fileList}></pre>
           {trafficData ? (
             <Bar

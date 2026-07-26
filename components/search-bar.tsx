@@ -1,3 +1,5 @@
+import AnilistSearchInput from "./anilist-search-input";
+
 import styles from "./search-bar.module.css";
 
 export default function SearchBar({
@@ -40,13 +42,12 @@ export default function SearchBar({
           </form>
           {searchImageSrc && (
             <>
-              <input
-                type="text"
+              <AnilistSearchInput
                 className={styles.anilistFilterInput}
-                placeholder="anilist ID"
+                placeholder="filter anime"
                 value={anilistFilter}
-                onChange={(e) => {
-                  setAnilistFilter(e.target.value);
+                onChange={(val) => {
+                  setAnilistFilter(val);
                 }}
               />
               <button

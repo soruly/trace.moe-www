@@ -8,6 +8,7 @@ import Layout from "../components/layout";
 import Player from "../components/player";
 import Result from "../components/result";
 import SearchBar from "../components/search-bar";
+import { getVectorFromImage } from "../lib/color-layout";
 
 import styles from "../components/index.module.css";
 
@@ -19,7 +20,7 @@ const Index = () => {
   const [anilistFilter, setAnilistFilter] = useState();
   const [messageText, setMessageText] = useState<ReactNode>("");
   const [imageURL, setImageURL] = useState(undefined);
-  const [searchImage, setSearchImage] = useState<string | Blob>("");
+  const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
   const [searchImageSrc, setSearchImageSrc] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(undefined);
@@ -101,32 +102,21 @@ const Index = () => {
     setIsLoading(true);
     setMessageText("Loading search image...");
     const image = new Image();
+    image.crossOrigin = "anonymous";
     image.onload = (e) => {
       const target = e.target as HTMLImageElement;
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (target.width <= 640 && target.height <= 640) {
-        canvas.width = target.width;
-        canvas.height = target.height;
-      } else if (target.width > target.height) {
-        canvas.width = 640;
-        canvas.height = 640 * (target.height / target.width);
-      } else {
-        canvas.width = 640 * (target.width / target.height);
-        canvas.height = 640;
+      setLoadedImage(target);
+      setIsLoading(false);
+      try {
+        const vector = getVectorFromImage(target, isCutBorders);
+        search(vector);
+      } catch (err) {
+        console.error(err);
+        setMessageText("Failed to process search image");
       }
-      ctx.drawImage(target, 0, 0, target.width, target.height, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(
-        function (blob) {
-          setIsLoading(false);
-          setSearchImage(blob);
-          search(blob);
-        },
-        "image/jpeg",
-        0.8,
-      );
     };
     image.onerror = () => {
+      setIsLoading(false);
       setMessageText("Failed to load search image");
     };
     image.src = searchImageSrc;
@@ -139,7 +129,23 @@ const Index = () => {
       setSearchImageSrc((document.querySelector("#originalImage") as HTMLImageElement).src);
   }, []);
 
-  const search = async (imageBlob) => {
+  const search = async (targetVector?: number[]) => {
+    let vector = targetVector;
+    if (!vector) {
+      if (!loadedImage) return;
+      try {
+        vector = getVectorFromImage(loadedImage, isCutBorders);
+      } catch (err) {
+        console.error(err);
+        setMessageText("Failed to process search image");
+        return;
+      }
+    }
+    if (!vector || vector.length !== 33) {
+      setMessageText("Invalid image vector");
+      return;
+    }
+
     setMessageText("Searching...");
     setSearchResults([]);
     setSelectedResult(undefined);
@@ -150,21 +156,24 @@ const Index = () => {
     setPlayerDuration(0);
     setIsSearching(true);
     const startSearchTime = performance.now();
-    const formData = new FormData();
-    formData.append("image", imageBlob);
-    const queryString = [
-      "anilistInfo=2",
-      isCutBorders ? "cutBorders" : "",
-      anilistFilter ? `anilistID=${anilistFilter}` : "",
-    ].join("&");
+    const queryString = ["anilistInfo=2", anilistFilter ? `anilistID=${anilistFilter}` : ""]
+      .filter(Boolean)
+      .join("&");
     // fall back to the stored key in case a search fires before /me resolves on load
     const searchApiKey = apiKey || getStoredApiKey();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (searchApiKey) {
+      headers["x-trace-key"] = searchApiKey;
+    }
+
     let res;
     for (let retries = 5; retries > 0; retries--) {
       res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
         method: "POST",
-        body: formData,
-        headers: searchApiKey ? { "x-trace-key": searchApiKey } : {},
+        headers,
+        body: JSON.stringify({ vector }),
       });
       if (res.status !== 503 || retries === 1) {
         break;
@@ -328,7 +337,6 @@ const Index = () => {
           setIsCutBorders={setIsCutBorders}
           isSearching={isSearching}
           search={search}
-          searchImage={searchImage}
         ></SearchBar>
 
         {searchImageSrc && (

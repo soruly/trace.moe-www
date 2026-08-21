@@ -15,7 +15,6 @@ export default function SearchBar({
   setIsCutBorders,
   isSearching,
   search,
-  searchImage,
 }) {
   const [showAdvanced, setShowAdvanced] = useState(() => Boolean(anilistFilter));
 
@@ -66,7 +65,7 @@ export default function SearchBar({
                 type="button"
                 className={styles.searchBtn}
                 disabled={isSearching}
-                onClick={() => search(searchImage)}
+                onClick={() => search()}
               >
                 <span className={styles.iconSearch}></span>
               </button>

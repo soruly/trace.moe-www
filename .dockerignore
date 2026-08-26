@@ -1,8 +1,11 @@
 *
 !/package.json
 !/package-lock.json
-!/next.config.js
+!/next.config.*
+!/next-env.d.ts
+!/tsconfig.json
 !/components/
+!/lib/
 !/pages/
 !/public/
 !/styles/

@@ -25,16 +25,16 @@
   },
   "dependencies": {
     "chart.js": "^4.5.1",
-    "next": "^16.3.1",
+    "next": "^16.3.3",
     "react": "^19.2.8",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "oxfmt": "^0.63.0",
+    "@types/react-dom": "^19.2.5",
+    "oxfmt": "^0.65.0",
     "typescript": "^6.0.3"
   }
 }

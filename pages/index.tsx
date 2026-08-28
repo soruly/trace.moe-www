@@ -8,7 +8,7 @@ import Layout from "../components/layout";
 import Player from "../components/player";
 import Result from "../components/result";
 import SearchBar from "../components/search-bar";
-import { getVectorFromImage } from "../lib/color-layout";
+import { getImageDataURLFromVector, getVectorFromImage } from "../lib/color-layout";
 
 import styles from "../components/index.module.css";
 
@@ -22,6 +22,8 @@ const Index = () => {
   const [imageURL, setImageURL] = useState(undefined);
   const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
   const [searchImageSrc, setSearchImageSrc] = useState("");
+  const [imagePlaceholder, setImagePlaceholder] = useState("");
+  const [showVectorImage, setShowVectorImage] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(undefined);
   const [showNSFW, setshowNSFW] = useState(false);
@@ -42,6 +44,8 @@ const Index = () => {
       try {
         new URL(url);
         setImageURL(url);
+        setImagePlaceholder("");
+        setShowVectorImage(false);
         setSearchImageSrc(
           url.startsWith(location.origin) ? url : `/image-proxy?url=${encodeURIComponent(url)}`,
         );
@@ -54,6 +58,8 @@ const Index = () => {
       if (!items) return;
       const item = Array.from(items).find((e) => e.type.startsWith("image"));
       if (!item) return;
+      setImagePlaceholder("");
+      setShowVectorImage(false);
       setSearchImageSrc(URL.createObjectURL(item.getAsFile()));
       e.preventDefault();
     };
@@ -67,11 +73,15 @@ const Index = () => {
     e.preventDefault();
     if (!e.target.value.length) {
       setImageURL(undefined);
+      setImagePlaceholder("");
+      setShowVectorImage(false);
       history.replaceState(null, null, "/");
       return;
     }
     if (e.target.parentNode.checkValidity()) {
       setImageURL(e.target.value);
+      setImagePlaceholder("");
+      setShowVectorImage(false);
       setSearchImageSrc(`/image-proxy?url=${encodeURIComponent(e.target.value)}`);
       history.replaceState(null, null, `/?url=${encodeURIComponent(e.target.value)}`);
     } else {
@@ -92,6 +102,8 @@ const Index = () => {
       return "Error: File is not an image";
     }
     setDropTargetText("");
+    setImagePlaceholder("");
+    setShowVectorImage(false);
     e.target.classList.remove(styles.dropping);
     setSearchImageSrc(URL.createObjectURL(file));
     return "";
@@ -109,6 +121,7 @@ const Index = () => {
       setIsLoading(false);
       try {
         const vector = getVectorFromImage(target, isCutBorders);
+        setImagePlaceholder(getImageDataURLFromVector(vector));
         search(vector);
       } catch (err) {
         console.error(err);
@@ -145,6 +158,7 @@ const Index = () => {
       setMessageText("Invalid image vector");
       return;
     }
+    setImagePlaceholder(getImageDataURLFromVector(vector));
 
     setMessageText("Searching...");
     setSearchResults([]);
@@ -343,11 +357,17 @@ const Index = () => {
           <div className={styles.wrap}>
             <div className={styles.resultList}>
               <div className={styles.searchImageDisplay}>
-                <div className={styles.detail}>Your search image</div>
+                <div className={styles.detail}>
+                  {showVectorImage ? "Image feature vector" : "Your search image"}
+                </div>
                 <img
                   className={styles.originalImageDisplay}
-                  src={searchImageSrc}
+                  style={showVectorImage ? { imageRendering: "pixelated" } : undefined}
+                  src={showVectorImage && imagePlaceholder ? imagePlaceholder : searchImageSrc}
                   crossOrigin="anonymous"
+                  onClick={() => {
+                    setShowVectorImage((prev) => !prev);
+                  }}
                   onError={() => {
                     setMessageText("Failed to load search image");
                   }}
@@ -365,6 +385,7 @@ const Index = () => {
                       key={`${searchResult.filename}-${searchResult.episode}-${searchResult.from}`}
                       searchResult={searchResult}
                       active={searchResult === selectedResult}
+                      placeholder={imagePlaceholder}
                     ></Result>
                   );
                 })}
@@ -413,6 +434,7 @@ const Index = () => {
                   isLoading={isLoading}
                   isSearching={isSearching}
                   onDrop={handleFileSelect}
+                  placeholder={imagePlaceholder}
                 ></Player>
                 <div
                   className={styles.closeBtn}

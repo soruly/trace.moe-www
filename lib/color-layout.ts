@@ -364,4 +364,130 @@ export function getVectorFromImage(img: HTMLImageElement, cutBorders: boolean): 
   return getColorLayoutFeatureVector(data, cropW, cropH);
 }
 
+const Idct = (coeffs: Float32Array, shapes: Float32Array) => {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      let s = 0;
+      for (let k = 0; k < 8; k++) {
+        s += COSINE_ARRAY[k][i] * coeffs[8 * k + j];
+      }
+      dct_buffer[8 * i + j] = s;
+    }
+  }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      let s = 0;
+      for (let k = 0; k < 8; k++) {
+        s += dct_buffer[8 * i + k] * COSINE_ARRAY[k][j];
+      }
+      shapes[8 * i + j] = s;
+    }
+  }
+};
+
+const dequant_ydc = (val: number) => {
+  const q = val << 1;
+  let i: number;
+  if (q >= 112) i = 192 + ((q - 112) << 2) + 2;
+  else if (q >= 96) i = 160 + ((q - 96) << 1) + 1;
+  else if (q >= 32) i = 96 + (q - 32);
+  else if (q >= 16) i = 64 + ((q - 16) << 1) + 1;
+  else i = (q << 2) + 2;
+  return i << 3;
+};
+
+const dequant_cdc = (q: number) => {
+  let i: number;
+  if (q >= 63) i = 192 + 2;
+  else if (q >= 56) i = 160 + ((q - 56) << 2) + 2;
+  else if (q >= 48) i = 144 + ((q - 48) << 1) + 1;
+  else if (q >= 16) i = 112 + (q - 16);
+  else if (q >= 8) i = 96 + ((q - 8) << 1) + 1;
+  else if (q > 0) i = 64 + (q << 2) + 2;
+  else i = 32;
+  return i << 3;
+};
+
+const dequant_ac = (val: number) => {
+  if (val === 16) return 0;
+  const q = (val << 3) + (val > 16 ? 4 : -4);
+  const j = q - 128;
+  const sign = j < 0 ? -1 : 1;
+  const absJ = Math.abs(j);
+  let absI: number;
+  if (absJ >= 96) {
+    absI = ((absJ - 64) << 2) + 2;
+  } else if (absJ >= 64) {
+    absI = ((absJ - 32) << 1) + 1;
+  } else {
+    absI = absJ;
+  }
+  return sign * absI;
+};
+
+export function getImageFromVector(vector: number[]): ImageData {
+  const shape0 = new Float32Array(64);
+  const shape1 = new Float32Array(64);
+  const shape2 = new Float32Array(64);
+
+  shape0[0] = dequant_ydc(vector[0] || 0);
+  shape1[0] = dequant_cdc(vector[21] || 0);
+  shape2[0] = dequant_cdc(vector[27] || 0);
+
+  for (let i = 1; i < 21; i++) {
+    shape0[ZIG_ZAG_ARRAY[i]] = dequant_ac(vector[i] ?? 16) << 1;
+  }
+  for (let i = 1; i < 6; i++) {
+    shape1[ZIG_ZAG_ARRAY[i]] = dequant_ac(vector[21 + i] ?? 16);
+    shape2[ZIG_ZAG_ARRAY[i]] = dequant_ac(vector[27 + i] ?? 16);
+  }
+
+  const outY = new Float32Array(64);
+  const outCb = new Float32Array(64);
+  const outCr = new Float32Array(64);
+
+  Idct(shape0, outY);
+  Idct(shape1, outCb);
+  Idct(shape2, outCr);
+
+  const rgba = new Uint8ClampedArray(8 * 8 * 4);
+  for (let i = 0; i < 64; i++) {
+    const Y = outY[i];
+    const Cb = outCb[i];
+    const Cr = outCr[i];
+
+    const yy = (Y - 16) / 219;
+    const B_norm = yy + (Cb - 128) / 126.336;
+    const R_norm = yy + (Cr - 128) / 159.712;
+    const G_norm = (yy - 0.299 * R_norm - 0.114 * B_norm) / 0.587;
+
+    const R = Math.round(Math.max(0, Math.min(255, R_norm * 256)));
+    const G = Math.round(Math.max(0, Math.min(255, G_norm * 256)));
+    const B = Math.round(Math.max(0, Math.min(255, B_norm * 256)));
+
+    const idx = i * 4;
+    rgba[idx] = R;
+    rgba[idx + 1] = G;
+    rgba[idx + 2] = B;
+    rgba[idx + 3] = 255;
+  }
+
+  if (typeof ImageData !== "undefined") {
+    return new ImageData(rgba, 8, 8);
+  }
+  return { data: rgba, width: 8, height: 8, colorSpace: "srgb" } as ImageData;
+}
+
+export function getImageDataURLFromVector(vector: number[]): string {
+  if (typeof document === "undefined") return "";
+  const canvas = document.createElement("canvas");
+  canvas.width = 8;
+  canvas.height = 8;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return "";
+  const imgData = getImageFromVector(vector);
+  ctx.putImageData(imgData, 0, 0);
+  return canvas.toDataURL();
+}
+
 export default getColorLayoutFeatureVector;

@@ -12,6 +12,7 @@ export default function Player({
   duration,
   isLoading,
   isSearching,
+  placeholder = "",
 }) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
@@ -64,6 +65,7 @@ export default function Player({
       <video
         ref={videoRef}
         className={`${styles.player} ${playerVisible ? styles.visible : ""}`}
+        style={placeholder ? { backgroundImage: `url(${placeholder})` } : undefined}
         src={playerSrc}
         muted={isMute}
         autoPlay

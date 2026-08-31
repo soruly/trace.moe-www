@@ -7,7 +7,7 @@ export default (phase): NextConfig =>
   phase === PHASE_PRODUCTION_BUILD
     ? { output: "export" }
     : {
-        allowedDevOrigins: ["www2.trace.moe"],
+        allowedDevOrigins: ["dev-www.trace.moe"],
         async headers() {
           return [
             {

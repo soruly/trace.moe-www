@@ -28,7 +28,8 @@
     "next": "^16.3.3",
     "react": "^19.2.8",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "trace.moe-id": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",

@@ -3,16 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const STORAGE_KEY = "trace.moe-api-key";
 
-export const isGuest = (id) => (id.indexOf("@") >= 0 ? false : true);
-export const isAdmin = (id) => (id.match(/^[a-zA-Z0-9_.+-]+@trace.moe$/) ? true : false);
-export const initials = (email: string) =>
-  email
-    .split("@")[0]
-    .split(/[._+-]/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((e) => e[0].toUpperCase())
-    .join("");
+export const isGuest = (id?: string) => !id || id.indexOf("@") < 0;
+export const isAdmin = (id?: string) =>
+  id ? Boolean(id.match(/^[a-zA-Z0-9_.+-]+@trace.moe$/)) : false;
+
 export const getStoredApiKey = () =>
   typeof localStorage === "undefined" ? "" : localStorage.getItem(STORAGE_KEY) || "";
 
@@ -45,7 +39,7 @@ export function AuthProvider({ children }) {
   const fetchMe = async (key: string) => {
     try {
       const res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me`, {
-        headers: { "x-trace-key": key || "" },
+        headers: key ? { "x-trace-key": key } : undefined,
       });
       if (res.status >= 400) return null;
       return await res.json();
@@ -55,16 +49,24 @@ export function AuthProvider({ children }) {
   };
 
   const applySession = async (key: string) => {
-    let me = await fetchMe(key);
-    if (!me && key) {
+    if (!key) {
+      setUser(null);
+      setApiKeyState("");
+      setStatus("guest");
+      return;
+    }
+    const me = await fetchMe(key);
+    if (!me) {
       // stored key is no longer valid, fall back to guest
       localStorage.removeItem(STORAGE_KEY);
-      key = "";
-      me = await fetchMe("");
+      setUser(null);
+      setApiKeyState("");
+      setStatus("guest");
+      return;
     }
     setUser(me);
-    setApiKeyState(me ? key : "");
-    setStatus(me && key && !isGuest(me.id) ? "user" : "guest");
+    setApiKeyState(key);
+    setStatus(isGuest(me.id) ? "guest" : "user");
   };
 
   useEffect(() => {

@@ -114,7 +114,7 @@ const Account = () => {
   useEffect(() => {
     if (loading) return;
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me?period=${trafficPeriod}`, {
-      headers: { "x-trace-key": apiKey },
+      headers: apiKey ? { "x-trace-key": apiKey } : undefined,
     })
       .then((e) => e.json())
       .then((rawStats) => {

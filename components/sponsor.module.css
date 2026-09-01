@@ -25,6 +25,10 @@
   color: var(--text-secondary);
   white-space: nowrap;
   flex-wrap: wrap;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .title {

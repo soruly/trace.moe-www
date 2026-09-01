@@ -7,7 +7,6 @@
   top: 0;
   left: 0;
   right: 0;
-  height: calc(100dvh - 3rem - 2px);
   background: var(--drop-bg-color);
   text-align: center;
   font-size: 1.5rem;
@@ -18,11 +17,6 @@
   transition: all 50ms ease-out;
   backdrop-filter: blur(0);
   z-index: 1;
-}
-@media (max-width: 500px) {
-  .dropTarget {
-    height: calc(100dvh - 6rem - 2px);
-  }
 }
 
 .dropping {
@@ -49,18 +43,16 @@
   align-items: flex-start;
   justify-content: center;
 
-  margin: 3rem auto;
-  padding: 1rem 0;
+  margin: auto;
+  padding-top: 4rem;
   gap: 1rem;
-  overflow: hidden;
   position: relative;
-  min-height: 100vh;
   z-index: 10;
 }
 @media (max-width: 500px) {
   .wrap {
     padding: 1rem 1rem;
-    margin: 5rem 0;
+    margin-top: 5rem;
   }
 }
 .searchImageDisplay {
@@ -197,9 +189,6 @@
 }
 
 @media (max-width: 640px) {
-  .wrap {
-    min-height: 150vh;
-  }
   .closeBtn {
     display: block;
   }
@@ -214,4 +203,44 @@
   .playerInfoPane.hidden {
     transform: translate(100vw, 0);
   }
+}
+
+.quotaBox {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.quotaBox:hover {
+  text-decoration: none;
+}
+.quotaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  font-size: 0.75rem;
+  color: var(--text-strong-color);
+}
+.quotaMeter {
+  width: 100%;
+  width: 300px;
+  height: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.meterBG {
+  fill: var(--shadow-color);
+}
+.meterFG {
+  fill: var(--theme-main-color);
+}
+.quotaResetText {
+  color: var(--text-weak-color);
+  width: 300px;
+  font-size: 0.75rem;
+  text-align: right;
 }

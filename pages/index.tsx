@@ -14,6 +14,14 @@ import styles from "../components/index.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
+const formatNumber = (num: number) => {
+  if (num < 1000000) return num.toLocaleString(navigator.language);
+  return new Intl.NumberFormat("en", {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  }).format(num);
+};
+
 const Index = () => {
   const [dropTargetText, setDropTargetText] = useState("");
   const [isCutBorders, setIsCutBorders] = useState(true);
@@ -35,6 +43,7 @@ const Index = () => {
   const [playerFileName, setPlayerFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [quotaInfo, setQuotaInfo] = useState<{ quota: number; quotaUsed: number } | null>(null);
   const { status, apiKey } = useAuth();
 
   useEffect(() => {
@@ -208,6 +217,12 @@ const Index = () => {
       return;
     }
     if (res.status === 402) {
+      try {
+        const data = await res.json();
+        if (typeof data?.quota === "number" && typeof data?.quotaUsed === "number") {
+          setQuotaInfo({ quota: data.quota, quotaUsed: data.quotaUsed });
+        }
+      } catch (e) {}
       setMessageText(
         status === "user" ? (
           "Search quota depleted, please try again tomorrow."
@@ -224,7 +239,11 @@ const Index = () => {
       setMessageText(`${(await res.json()).error} Please try again later.`);
       return;
     }
-    const { frameCount, result } = await res.json();
+    const data = await res.json();
+    const { frameCount, result, quota, quotaUsed } = data;
+    if (typeof quota === "number" && typeof quotaUsed === "number") {
+      setQuotaInfo({ quota, quotaUsed });
+    }
 
     const searchTime = (performance.now() - startSearchTime) / 1000;
 
@@ -416,6 +435,30 @@ const Index = () => {
                     {searchResults.filter((e) => e.anilist.isAdult).length} NSFW results
                   </button>
                 </div>
+              )}
+              {quotaInfo && (
+                <Link href="/account" className={styles.quotaBox}>
+                  <div className={styles.quotaRow}>
+                    <span>
+                      Search quota: {formatNumber(quotaInfo.quotaUsed)} /{" "}
+                      {formatNumber(quotaInfo.quota)} used
+                    </span>
+                    <span>
+                      {formatNumber(Math.max(0, quotaInfo.quota - quotaInfo.quotaUsed))} remaining
+                    </span>
+                  </div>
+                  <svg width="100%" height="8" className={styles.quotaMeter}>
+                    <rect x="0" y="0" width="100%" height="8" className={styles.meterBG}></rect>
+                    <rect
+                      x="0"
+                      y="0"
+                      width={`${quotaInfo.quota ? Math.min(100, Math.max(0, (quotaInfo.quotaUsed / quotaInfo.quota) * 100)) : 0}%`}
+                      height="8"
+                      className={styles.meterFG}
+                    ></rect>
+                  </svg>
+                  <div className={styles.quotaResetText}>Quota will reset in 24 hours</div>
+                </Link>
               )}
             </div>
             {selectedResult ? (

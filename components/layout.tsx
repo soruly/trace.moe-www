@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import UserMenu from "./user-menu";
 
-import styles from "./footer.module.css";
 import sponsorStyles from "./sponsor.module.css";
 
 export default function Layout({ children, title }) {
@@ -35,7 +34,7 @@ export default function Layout({ children, title }) {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <UserMenu></UserMenu>
-      <main className={styles.main}>{children}</main>
+      <main>{children}</main>
 
       <div
         className={

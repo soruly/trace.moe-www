@@ -1,5 +1,5 @@
 .searchBar {
-  margin-top: 50vh;
+  margin-top: 50dvh;
   transform: translate(0, -110px);
   z-index: 20;
   border-radius: 0.5rem;

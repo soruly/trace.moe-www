@@ -1,7 +1,3 @@
-addEventListener("fetch", async (event) => {
-  event.respondWith(handleRequest(event.request));
-});
-
 const errorResponse = (errorMessage) =>
   new Response(errorMessage, {
     status: 400,
@@ -58,9 +54,10 @@ const handleRequest = async (originalRequest) => {
     });
   }
 
+  const contentType = (response.headers.get("Content-Type") || "").toLowerCase();
   if (
-    response.headers.get("Content-Type").toLowerCase() !== "application/octet-stream" &&
-    !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
+    contentType !== "application/octet-stream" &&
+    !["image", "video"].includes(contentType.split("/")[0])
   ) {
     // retry as bot to get og:image
     let webResponse = await fetch(
@@ -103,9 +100,10 @@ const handleRequest = async (originalRequest) => {
       }
     }
   }
+  const finalContentType = (response.headers.get("Content-Type") || "").toLowerCase();
   if (
-    response.headers.get("Content-Type").toLowerCase() !== "application/octet-stream" &&
-    !["image", "video"].includes(response.headers.get("Content-Type").split("/")[0].toLowerCase())
+    finalContentType !== "application/octet-stream" &&
+    !["image", "video"].includes(finalContentType.split("/")[0])
   ) {
     return errorResponse("Error: Content-Type is not image or video or application/octet-stream");
   }
@@ -115,7 +113,7 @@ const handleRequest = async (originalRequest) => {
     statusText: response.statusText,
     headers: response.headers,
   });
-  res.headers.set("Access-Control-Allow-Origin", "https://trace.moe");
+  res.headers.set("Access-Control-Allow-Origin", "*");
   return res;
 };
 
@@ -188,4 +186,12 @@ const isPrivateIP = (hostname) => {
   }
 
   return false;
+};
+
+export { errorResponse, getOgImageFromStream, handleRequest, isPrivateIP };
+
+export default {
+  async fetch(request) {
+    return handleRequest(request);
+  },
 };

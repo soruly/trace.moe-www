@@ -4,6 +4,7 @@ FROM node:lts-alpine
 RUN apk add --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
 ENV NODE_ENV=production
+ENV DOCKER=true
 WORKDIR /app
 COPY . .
 RUN npm install --production

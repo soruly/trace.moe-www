@@ -185,14 +185,17 @@ const Index = () => {
     setPlayerDuration(0);
     setIsSearching(true);
     const startSearchTime = performance.now();
-    const queryString = ["anilistInfo=2", anilistFilter ? `anilistID=${anilistFilter}` : ""]
+    const vectorHash = ColorLayout.encode(vector);
+    const queryString = [
+      "anilistInfo=2",
+      `vector=${encodeURIComponent(vectorHash)}`,
+      anilistFilter ? `anilistID=${anilistFilter}` : "",
+    ]
       .filter(Boolean)
       .join("&");
     // fall back to the stored key in case a search fires before /me resolves on load
     const searchApiKey = apiKey || getStoredApiKey();
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
+    const headers: Record<string, string> = {};
     if (searchApiKey) {
       headers["x-trace-key"] = searchApiKey;
     }
@@ -200,9 +203,7 @@ const Index = () => {
     let res;
     for (let retries = 5; retries > 0; retries--) {
       res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
-        method: "POST",
         headers,
-        body: JSON.stringify({ vector }),
       });
       if (res.status !== 503 || retries === 1) {
         break;

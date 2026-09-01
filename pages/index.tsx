@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
+import { ColorLayout } from "trace.moe-id";
 
 import { getStoredApiKey, useAuth } from "../components/auth";
 import Info from "../components/info";
@@ -31,6 +32,7 @@ const Index = () => {
   const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
   const [searchImageSrc, setSearchImageSrc] = useState("");
   const [imagePlaceholder, setImagePlaceholder] = useState("");
+  const [imageVector, setImageVector] = useState<number[] | null>(null);
   const [showVectorImage, setShowVectorImage] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(undefined);
@@ -83,6 +85,7 @@ const Index = () => {
     if (!e.target.value.length) {
       setImageURL(undefined);
       setImagePlaceholder("");
+      setImageVector(null);
       setShowVectorImage(false);
       history.replaceState(null, null, "/");
       return;
@@ -112,6 +115,7 @@ const Index = () => {
     }
     setDropTargetText("");
     setImagePlaceholder("");
+    setImageVector(null);
     setShowVectorImage(false);
     e.target.classList.remove(styles.dropping);
     setSearchImageSrc(URL.createObjectURL(file));
@@ -130,6 +134,7 @@ const Index = () => {
       setIsLoading(false);
       try {
         const vector = getVectorFromImage(target, isCutBorders);
+        setImageVector(vector);
         setImagePlaceholder(getImageDataURLFromVector(vector));
         search(vector);
       } catch (err) {
@@ -167,6 +172,7 @@ const Index = () => {
       setMessageText("Invalid image vector");
       return;
     }
+    setImageVector(vector);
     setImagePlaceholder(getImageDataURLFromVector(vector));
 
     setMessageText("Searching...");
@@ -391,7 +397,11 @@ const Index = () => {
                     setMessageText("Failed to load search image");
                   }}
                 />
-                <div className={styles.messageTextLabel}>{messageText}</div>
+                <div className={styles.messageTextLabel}>
+                  {showVectorImage && imageVector
+                    ? `Feature Hash: ${ColorLayout.encode(imageVector)}`
+                    : messageText}
+                </div>
               </div>
               {searchResults
                 .filter(

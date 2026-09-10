@@ -32,7 +32,7 @@
     "trace.moe-id": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.20.2",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "oxfmt": "^0.67.0",

@@ -4,6 +4,7 @@
 !/next.config.*
 !/next-env.d.ts
 !/tsconfig.json
+!/image-proxy.js
 !/components/
 !/lib/
 !/pages/

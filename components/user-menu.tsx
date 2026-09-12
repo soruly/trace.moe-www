@@ -4,6 +4,18 @@ import { useEffect, useRef, useState } from "react";
 
 import { isGuest, useAuth } from "./auth";
 
+import {
+  ActivityIcon,
+  DatabaseIcon,
+  FileTextIcon,
+  HelpCircleIcon,
+  HomeIcon,
+  InfoIcon,
+  LogInIcon,
+  LogOutIcon,
+  UserIcon,
+} from "./icons";
+
 import styles from "./user-menu.module.css";
 
 export default function UserMenu() {
@@ -36,6 +48,11 @@ export default function UserMenu() {
 
   return (
     <div className={styles.userMenu} ref={containerRef}>
+      {router.pathname !== "/" && (
+        <Link href="/" className={styles.homeBtn} title="Home" aria-label="Home">
+          <HomeIcon size={24} />
+        </Link>
+      )}
       <button
         className={styles.avatar}
         ref={avatarRef}
@@ -68,18 +85,11 @@ export default function UserMenu() {
           <Link
             className={styles.dropdownItem}
             role="menuitem"
-            href="/"
-            onClick={() => setOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            className={styles.dropdownItem}
-            role="menuitem"
             href="/account"
             onClick={() => setOpen(false)}
           >
-            My Account
+            <UserIcon size={16} className={styles.optionIcon} />
+            <span>My Account</span>
           </Link>
           <Link
             className={styles.dropdownItem}
@@ -87,7 +97,8 @@ export default function UserMenu() {
             href="/about"
             onClick={() => setOpen(false)}
           >
-            About trace.moe
+            <InfoIcon size={16} className={styles.optionIcon} />
+            <span>About trace.moe</span>
           </Link>
           <Link
             className={styles.dropdownItem}
@@ -95,7 +106,8 @@ export default function UserMenu() {
             href="/database"
             onClick={() => setOpen(false)}
           >
-            Database
+            <DatabaseIcon size={16} className={styles.optionIcon} />
+            <span>Database</span>
           </Link>
           <Link
             className={styles.dropdownItem}
@@ -103,7 +115,8 @@ export default function UserMenu() {
             href="/status"
             onClick={() => setOpen(false)}
           >
-            System Status
+            <ActivityIcon size={16} className={styles.optionIcon} />
+            <span>System Status</span>
           </Link>
           <div className={styles.separator}></div>
           <Link
@@ -112,7 +125,8 @@ export default function UserMenu() {
             href="/faq"
             onClick={() => setOpen(false)}
           >
-            Help and FAQ
+            <HelpCircleIcon size={16} className={styles.optionIcon} />
+            <span>Help and FAQ</span>
           </Link>
           <Link
             className={styles.dropdownItem}
@@ -120,7 +134,8 @@ export default function UserMenu() {
             href="/terms"
             onClick={() => setOpen(false)}
           >
-            Terms &amp; Privacy
+            <FileTextIcon size={16} className={styles.optionIcon} />
+            <span>Terms &amp; Privacy</span>
           </Link>
           <div className={styles.separator}></div>
           {status === "guest" ? (
@@ -130,7 +145,8 @@ export default function UserMenu() {
               href={`/login?next=${encodeURIComponent(router.asPath)}`}
               onClick={() => setOpen(false)}
             >
-              Login
+              <LogInIcon size={16} className={styles.optionIcon} />
+              <span>Login</span>
             </Link>
           ) : (
             <button
@@ -141,7 +157,8 @@ export default function UserMenu() {
                 logout();
               }}
             >
-              Logout
+              <LogOutIcon size={16} className={styles.optionIcon} />
+              <span>Logout</span>
             </button>
           )}
         </div>

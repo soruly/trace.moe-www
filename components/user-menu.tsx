@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 import { isGuest, useAuth } from "./auth";
-
 import {
   ActivityIcon,
   DatabaseIcon,

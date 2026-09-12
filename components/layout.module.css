@@ -32,6 +32,10 @@
 .page ol {
   padding-inline-start: 1rem;
 }
+.fileList {
+  width: 100%;
+  overflow: scroll;
+}
 .numberInput {
   vertical-align: middle;
   padding: 0 0.5rem 0 0.5rem;

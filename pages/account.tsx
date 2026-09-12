@@ -265,31 +265,14 @@ const Account = () => {
                 </tr>
                 <tr>
                   <td>Priority</td>
-                  <td className={accountStyles.accountPriority}>
-                    <div className={user.priority === 0 ? accountStyles.accountPriorityActive : ""}>
-                      Low
-                    </div>
-                    <div
-                      className={
-                        user.priority > 0 && user.priority <= 2
-                          ? accountStyles.accountPriorityActive
-                          : ""
-                      }
-                    >
-                      Medium
-                    </div>
-                    <div
-                      className={
-                        user.priority > 2 && user.priority <= 5
-                          ? accountStyles.accountPriorityActive
-                          : ""
-                      }
-                    >
-                      High
-                    </div>
-                    <div className={user.priority > 5 ? accountStyles.accountPriorityActive : ""}>
-                      Highest
-                    </div>
+                  <td>
+                    {user.priority === 0
+                      ? "Low"
+                      : user.priority <= 2
+                        ? "Medium"
+                        : user.priority <= 5
+                          ? "High"
+                          : "Highest"}
                   </td>
                 </tr>
                 <tr>
@@ -298,14 +281,14 @@ const Account = () => {
                 </tr>
               </tbody>
             </table>
+            <TrafficChart
+              title="Your search traffic"
+              data={trafficData}
+              period={trafficPeriod}
+              onPeriodChange={setTrafficPeriod}
+              loading={trafficLoading}
+            />
           </div>
-          <TrafficChart
-            title="Your search traffic"
-            data={trafficData}
-            period={trafficPeriod}
-            onPeriodChange={setTrafficPeriod}
-            loading={trafficLoading}
-          />
         </div>
         {!loading && isGuest(user.id) && (
           <div className={`${accountStyles.box}`}>

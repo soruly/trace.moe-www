@@ -162,24 +162,3 @@
 .meterFG {
   fill: var(--theme-main-color);
 }
-.accountPriority {
-  display: flex;
-}
-.accountPriority div {
-  padding: 0 0.5rem;
-  border-top: 1px solid var(--theme-weak-color);
-  border-bottom: 1px solid var(--theme-weak-color);
-  border-left: 1px solid var(--theme-weak-color);
-  cursor: default;
-}
-.accountPriorityActive {
-  color: var(--blank-color);
-  background-color: var(--theme-main-color);
-}
-.accountPriority div:first-child {
-  border-radius: 3px 0 0 3px;
-}
-.accountPriority div:last-child {
-  border-right: 1px solid var(--theme-weak-color);
-  border-radius: 0 3px 3px 0;
-}

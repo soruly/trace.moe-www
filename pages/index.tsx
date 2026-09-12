@@ -229,7 +229,7 @@ const Index = () => {
         if (typeof data?.quota === "number" && typeof data?.quotaUsed === "number") {
           setQuotaInfo({ quota: data.quota, quotaUsed: data.quotaUsed });
         }
-      } catch (e) {}
+      } catch {}
       setMessageText(
         status === "user" ? (
           "Search quota depleted, please try again tomorrow."
@@ -438,7 +438,7 @@ const Index = () => {
               {searchResults.find((e) => e.anilist.isAdult) && (
                 <div className={styles.hideNSFW}>
                   <button
-                    onClick={(e) => {
+                    onClick={() => {
                       setshowNSFW(!showNSFW);
                     }}
                   >
@@ -492,7 +492,7 @@ const Index = () => {
                 ></Player>
                 <div
                   className={styles.closeBtn}
-                  onClick={(e) => {
+                  onClick={() => {
                     setSelectedResult(undefined);
                     setAnilistInfo(undefined);
                     setPlayerSrc(undefined);

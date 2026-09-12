@@ -43,7 +43,7 @@ export function AuthProvider({ children }) {
       });
       if (res.status >= 400) return null;
       return await res.json();
-    } catch (e) {
+    } catch {
       return null;
     }
   };

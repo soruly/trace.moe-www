@@ -16,7 +16,7 @@ self.addEventListener("fetch", (event) => {
           cache.put(new Request("/temp.image"), response);
 
           return Response.redirect(`${event.request.url}?url=${event.request.url}temp.image`, 302);
-        } catch (e) {
+        } catch {
           return fetch(req);
         }
       })(),

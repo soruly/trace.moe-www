@@ -20,7 +20,7 @@ const handleRequest = async (originalRequest) => {
   let imageURL = null;
   try {
     imageURL = new URL(originalURL.searchParams.get("url"));
-  } catch (e) {}
+  } catch {}
   if (!imageURL) {
     return errorResponse("Error: Invalid URL string");
   }
@@ -76,7 +76,7 @@ const handleRequest = async (originalRequest) => {
         let ogParsedURL;
         try {
           ogParsedURL = new URL(ogImageURL);
-        } catch (e) {}
+        } catch {}
 
         if (!ogParsedURL || isPrivateIP(ogParsedURL.hostname)) {
           return errorResponse("Error: Forbidden URL in og:image");
@@ -130,7 +130,7 @@ const getOgImageFromStream = async (response) => {
       if (match) break;
       if (buffer.length > 65536) break;
     }
-  } catch (e) {
+  } catch {
   } finally {
     reader.cancel();
   }
@@ -151,7 +151,7 @@ const isPrivateIP = (hostname) => {
     // Block leading zeros (octal)
     if (parts.some((p) => p.length > 1 && p.startsWith("0"))) return true;
 
-    const [a, b, c, d] = parts.map(Number);
+    const [a, b] = parts.map(Number);
     // 127.0.0.0/8 (Loopback)
     // 10.0.0.0/8 (Private)
     // 172.16.0.0/12 (Private)

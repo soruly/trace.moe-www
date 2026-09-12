@@ -15,7 +15,7 @@ export default function Layout({ anilist: src, episode }) {
       if (res.status !== 200) return;
       try {
         setAnimeOshiURL((await res.json()).url);
-      } catch (error) {}
+      } catch {}
     })();
     (async () => {
       if (!episode || !`${episode}`.match(/^\d+$/)) return;
@@ -25,7 +25,7 @@ export default function Layout({ anilist: src, episode }) {
         setAnimeOshiEmbedURL(
           `https://www.animeoshi.com/embed/anime/${(await res.json()).slug}/episode/${Number(episode)}/inline${window.matchMedia("(prefers-color-scheme: dark)").matches ? "" : "?theme=light"}`,
         );
-      } catch (error) {}
+      } catch {}
     })();
   }, [src, episode]);
 
@@ -96,7 +96,7 @@ export default function Layout({ anilist: src, episode }) {
     });
 
   let studio = [];
-  if (src.studios && src.studios && src.studios.edges.length > 0) {
+  if (src.studios && src.studios.edges.length > 0) {
     studio = src.studios.edges.map((entry, i) => {
       if (entry.node.siteUrl) {
         return (

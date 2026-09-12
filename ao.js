@@ -1,5 +1,5 @@
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env, _ctx) {
     const url = new URL(request.url);
     const targetUrl = "https://www.animeoshi.com/api/anime/v1/anime/external" + url.search;
     const proxyRequest = new Request(targetUrl, {
@@ -20,7 +20,7 @@ export default {
         statusText: response.statusText,
         headers: responseHeaders,
       });
-    } catch (error) {
+    } catch {
       return new Response("Proxy Error: Unable to reach the target API.", { status: 502 });
     }
   },

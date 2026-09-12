@@ -78,7 +78,7 @@ export default function Player({
           }
         }}
         onClick={playPause}
-        onCanPlayThrough={(e: React.SyntheticEvent<HTMLVideoElement>) => {
+        onCanPlayThrough={() => {
           setPlayerLoading(false);
           videoRef.current.play();
         }}

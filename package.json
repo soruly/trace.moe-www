@@ -18,10 +18,10 @@
     "build": "next build",
     "start": "next start",
     "build-start": "next build && next start",
-    "oxfmt": "oxfmt",
-    "format": "oxfmt --write \"**/*.*\"",
-    "lint": "oxfmt --check \"**/*.*\"",
-    "test": "oxfmt --check \"**/*.*\""
+    "format": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "test": "oxfmt --check && oxlint"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
@@ -36,6 +36,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
     "typescript": "^7.0.2"
   }
 }

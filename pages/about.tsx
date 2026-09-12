@@ -64,7 +64,7 @@ const AnilistCoverageInput = ({ setMessage }: { setMessage: (msg: string) => voi
           preEl.innerText = `Cannot find any record for ID ${id}`;
         }
       }
-    } catch (err) {
+    } catch {
       setMessage("Error checking status");
     }
   };

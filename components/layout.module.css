@@ -31,27 +31,6 @@
 .page ol {
   padding-inline-start: 1rem;
 }
-.graph {
-  background-color: #ffffff;
-  box-shadow: 0 0 0.2rem var(--text-main-color);
-  border-radius: 0.5rem;
-  width: 680px;
-  height: 500px;
-}
-.graphControl {
-  text-align: center;
-}
-.accountGraph {
-  width: 680px;
-  height: 380px;
-  padding: 0 1rem;
-}
-.accountGraphControl {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
 .fileList {
   height: 200px;
   overflow-y: scroll;

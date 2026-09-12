@@ -9,7 +9,7 @@
 - **Framework**: Next.js (Pages Router) + React 19
 - **Language**: TypeScript & JavaScript
 - **Visual Descriptor Extraction**: `trace.moe-id` (client-side in-browser border cropping and 33-element MPEG-7 Color Layout Descriptor extraction)
-- **Data Visualization**: Chart.js & `react-chartjs-2`
+- **Data Visualization**: Native SVG Charts
 - **Code Quality & Formatting**: `oxlint`, `oxfmt`
 
 ---

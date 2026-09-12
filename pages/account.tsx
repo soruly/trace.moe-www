@@ -1,38 +1,14 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
 
 import { isAdmin, isGuest, useAuth } from "../components/auth";
 import Layout from "../components/layout";
+import TrafficChart, { TrafficItem } from "../components/traffic-chart";
 
 import accountStyles from "../components/account.module.css";
 import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const formatDate = (timeISOStringUTC, trafficPeriod) => {
-  const date = new Date(timeISOStringUTC);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours().toString().padStart(2, "0");
-  const minute = date.getMinutes().toString().padStart(2, "0");
-
-  if (trafficPeriod === "day") return `${day}/${month}`;
-  if (trafficPeriod === "hour") return `${hour}:00`;
-  if (trafficPeriod === "minute") return `${hour}:${minute}`;
-  return timeISOStringUTC;
-};
 
 const buildFilledStats = (rawStats, trafficPeriod) => {
   const count = trafficPeriod === "hour" ? 72 : 60;
@@ -108,65 +84,22 @@ const Account = () => {
     if (!loading) refresh();
   }, [status]);
 
-  const [trafficPeriod, setTrafficPeriod] = useState("hour");
-  const [trafficData, setTrafficData] = useState(null);
+  const [trafficPeriod, setTrafficPeriod] = useState<"minute" | "hour" | "day">("hour");
+  const [trafficData, setTrafficData] = useState<TrafficItem[] | null>(null);
+  const [trafficLoading, setTrafficLoading] = useState(false);
 
   useEffect(() => {
     if (loading) return;
+    setTrafficLoading(true);
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/me?period=${trafficPeriod}`, {
       headers: apiKey ? { "x-trace-key": apiKey } : undefined,
     })
       .then((e) => e.json())
       .then((rawStats) => {
         const stats = buildFilledStats(rawStats, trafficPeriod);
-        setTrafficData({
-          labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
-          datasets: [
-            {
-              label: "200",
-              data: stats.map((e) => e["200"]),
-              backgroundColor: ["rgba(0,255,0,0.2)"],
-              borderColor: ["rgba(0,255,0,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "400",
-              data: stats.map((e) => e["400"]),
-              backgroundColor: ["rgba(192,192,0,0.2)"],
-              borderColor: ["rgba(192,192,0,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "402",
-              data: stats.map((e) => e["402"]),
-              backgroundColor: ["rgba(128,128,255,0.2)"],
-              borderColor: ["rgba(128,128,255,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "405",
-              data: stats.map((e) => e["405"]),
-              backgroundColor: ["rgba(128,128,128,0.2)"],
-              borderColor: ["rgba(128,128,128,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "500",
-              data: stats.map((e) => e["500"]),
-              backgroundColor: ["rgba(255,128,255,0.2)"],
-              borderColor: ["rgba(255,128,255,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "503",
-              data: stats.map((e) => e["503"]),
-              backgroundColor: ["rgba(255,128,255,0.2)"],
-              borderColor: ["rgba(255,128,128,1)"],
-              borderWidth: 1,
-            },
-          ],
-        });
-      });
+        setTrafficData(stats);
+      })
+      .finally(() => setTrafficLoading(false));
   }, [trafficPeriod, apiKey, loading]);
 
   const submitLogout = async (e) => {
@@ -366,45 +299,13 @@ const Account = () => {
               </tbody>
             </table>
           </div>
-          {trafficData ? (
-            <Bar
-              className={styles.accountGraph}
-              options={{
-                animation: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "Your search traffic",
-                  },
-                },
-                scales: {
-                  x: {
-                    stacked: true,
-                    ticks: {
-                      maxRotation: 0,
-                    },
-                  },
-                  y: {
-                    beginAtZero: true,
-                    stacked: true,
-                    ticks: {
-                      precision: 0,
-                    },
-                  },
-                },
-              }}
-              data={trafficData}
-              width="680"
-              height="380"
-            ></Bar>
-          ) : (
-            <div className={styles.accountGraph}></div>
-          )}
-          <p className={styles.accountGraphControl}>
-            <button onClick={() => setTrafficPeriod("minute")}>60 mins</button>
-            <button onClick={() => setTrafficPeriod("hour")}>72 hours</button>
-            <button onClick={() => setTrafficPeriod("day")}>60 days</button>
-          </p>
+          <TrafficChart
+            title="Your search traffic"
+            data={trafficData}
+            period={trafficPeriod}
+            onPeriodChange={setTrafficPeriod}
+            loading={trafficLoading}
+          />
         </div>
         {!loading && isGuest(user.id) && (
           <div className={`${accountStyles.box}`}>

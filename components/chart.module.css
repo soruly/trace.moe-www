@@ -1,0 +1,207 @@
+.chartSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-strong-color);
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--text-main-color);
+}
+
+.legendDot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legendBand {
+  width: 1.25rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.legendLine {
+  width: 1.25rem;
+  height: 3px;
+  border-radius: 1px;
+  display: inline-block;
+}
+
+.periodSwitcher {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-draw-color);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid var(--theme-weak-color);
+  gap: 2px;
+}
+
+.periodBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-main-color);
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.periodBtn:hover:not(:disabled):not(.active) {
+  color: var(--text-strong-color);
+  background: rgba(127, 127, 127, 0.15);
+}
+
+.periodBtn.active {
+  background: var(--theme-strong-color);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.periodBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  background: var(--blank-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.2rem var(--shadow-color);
+  overflow: visible;
+}
+
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.chartTooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--blank-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  min-width: 130px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--text-strong-color);
+  font-size: 0.8rem;
+  backdrop-filter: blur(8px);
+}
+
+.tooltipTime {
+  font-size: 0.75rem;
+  color: var(--text-weak-color);
+}
+
+.tooltipTotal {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-strong-color);
+}
+
+.tooltipDivider {
+  height: 1px;
+  background: var(--theme-weak-color);
+  margin: 0.2rem 0;
+}
+
+.tooltipBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.statusName {
+  color: var(--text-main-color);
+  flex-grow: 1;
+  margin-right: 0.75rem;
+}
+
+.statusValue {
+  color: var(--text-strong-color);
+  font-weight: 500;
+  text-align: right;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--blank-color);
+  opacity: 0.7;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--theme-weak-color);
+  border-top-color: var(--theme-strong-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

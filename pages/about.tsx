@@ -1,47 +1,14 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  PointElement,
-  LineElement,
-  Legend,
-} from "chart.js";
 import { useEffect, useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
 
+import AccuracyChart from "../components/accuracy-chart";
 import AnilistSearchInput from "../components/anilist-search-input";
 import Layout from "../components/layout";
+import SpeedChart, { PercentileItem } from "../components/speed-chart";
+import TrafficChart, { TrafficItem } from "../components/traffic-chart";
 
 import styles from "../components/layout.module.css";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-);
-
-const formatDate = (timeISOStringUTC, trafficPeriod) => {
-  const date = new Date(timeISOStringUTC);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours().toString().padStart(2, "0");
-  const minute = date.getMinutes().toString().padStart(2, "0");
-
-  if (trafficPeriod === "day") return `${day}/${month}`;
-  if (trafficPeriod === "hour") return `${hour}:00`;
-  if (trafficPeriod === "minute") return `${hour}:${minute}`;
-  return timeISOStringUTC;
-};
 
 const AnilistCoverageInput = ({ setMessage }: { setMessage: (msg: string) => void }) => {
   const [inputValue, setInputValue] = useState("");
@@ -107,263 +74,52 @@ const About = () => {
       .then((e) => setSystemStatus(e));
   }, []);
 
-  const [trafficPeriod, setTrafficPeriod] = useState("hour");
-  const [trafficData, setTrafficData] = useState(null);
+  const [trafficPeriod, setTrafficPeriod] = useState<"minute" | "hour" | "day">("hour");
+  const [trafficData, setTrafficData] = useState<TrafficItem[] | null>(null);
+  const [trafficLoading, setTrafficLoading] = useState(false);
   useEffect(() => {
+    setTrafficLoading(true);
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=traffic&period=${trafficPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-        setTrafficData({
-          labels: stats.map((e) => formatDate(e.time, trafficPeriod)),
-          datasets: [
-            {
-              label: "200",
-              data: stats.map((e) => e["200"]),
-              backgroundColor: ["rgba(0,255,0,0.2)"],
-              borderColor: ["rgba(0,255,0,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "400",
-              data: stats.map((e) => e["400"]),
-              backgroundColor: ["rgba(192,192,0,0.2)"],
-              borderColor: ["rgba(192,192,0,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "402",
-              data: stats.map((e) => e["402"]),
-              backgroundColor: ["rgba(128,128,255,0.2)"],
-              borderColor: ["rgba(128,128,255,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "405",
-              data: stats.map((e) => e["405"]),
-              backgroundColor: ["rgba(128,128,128,0.2)"],
-              borderColor: ["rgba(128,128,128,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "500",
-              data: stats.map((e) => e["500"]),
-              backgroundColor: ["rgba(255,128,255,0.2)"],
-              borderColor: ["rgba(255,128,255,1)"],
-              borderWidth: 1,
-            },
-            {
-              label: "503",
-              data: stats.map((e) => e["503"]),
-              backgroundColor: ["rgba(255,128,128,0.2)"],
-              borderColor: ["rgba(255,128,128,1)"],
-              borderWidth: 1,
-            },
-          ],
-        });
-      });
+        if (Array.isArray(stats)) {
+          stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+          setTrafficData(stats);
+        }
+      })
+      .finally(() => setTrafficLoading(false));
   }, [trafficPeriod]);
 
-  const [speedPeriod, setSpeedPeriod] = useState("hour");
-  const [speedData, setSpeedData] = useState(null);
+  const [speedPeriod, setSpeedPeriod] = useState<"minute" | "hour" | "day">("hour");
+  const [speedData, setSpeedData] = useState<PercentileItem[] | null>(null);
+  const [speedLoading, setSpeedLoading] = useState(false);
   useEffect(() => {
+    setSpeedLoading(true);
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=speed&period=${speedPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-        setSpeedData({
-          labels: stats.map((e) => formatDate(e.time, speedPeriod)),
-          datasets: [
-            {
-              label: "p0",
-              data: stats.map((e) => (e.p0 ? e.p0 : null)),
-              borderColor: "rgba(64,64,64,0)",
-              backgroundColor: "rgba(64,64,64,0)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 1,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-              hidden: true,
-            },
-            {
-              label: "p10",
-              data: stats.map((e) => (e.p10 ? e.p10 : null)),
-              borderColor: "rgba(64,64,64,0.2)",
-              backgroundColor: "rgba(64,64,64,0.2)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-            },
-            {
-              label: "p25",
-              data: stats.map((e) => (e.p25 ? e.p25 : null)),
-              borderColor: "hsl(227, 100%, 70%)",
-              backgroundColor: "hsl(227, 100%, 70%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(227, 100%, 70%)",
-            },
-            {
-              label: "p50",
-              data: stats.map((e) => (e.p50 ? e.p50 : null)),
-              borderColor: "hsl(0, 100%, 66%)",
-              backgroundColor: "hsl(0, 100%, 66%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(0, 100%, 66%)",
-            },
-            {
-              label: "p75",
-              data: stats.map((e) => (e.p75 ? e.p75 : null)),
-              borderColor: "hsl(227, 100%, 70%)",
-              backgroundColor: "hsl(227, 100%, 70%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(227, 100%, 70%)",
-            },
-            {
-              label: "p90",
-              data: stats.map((e) => (e.p90 ? e.p90 : null)),
-              borderColor: "rgba(64,64,64,0.2)",
-              backgroundColor: "rgba(64,64,64,0.2)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-            },
-            {
-              label: "p100",
-              data: stats.map((e) => (e.p100 ? e.p100 : null)),
-              borderColor: "rgba(64,64,64,0)",
-              backgroundColor: "rgba(64,64,64,0)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 1,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-              hidden: true,
-            },
-          ],
-        });
-      });
+        if (Array.isArray(stats)) {
+          stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+          setSpeedData(stats);
+        }
+      })
+      .finally(() => setSpeedLoading(false));
   }, [speedPeriod]);
 
-  const [accuracyPeriod, setAccuracyPeriod] = useState("hour");
-  const [accuracyData, setAccuracyData] = useState(null);
+  const [accuracyPeriod, setAccuracyPeriod] = useState<"minute" | "hour" | "day">("hour");
+  const [accuracyData, setAccuracyData] = useState<PercentileItem[] | null>(null);
+  const [accuracyLoading, setAccuracyLoading] = useState(false);
   useEffect(() => {
+    setAccuracyLoading(true);
     fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`)
       .then((e) => e.json())
       .then((stats) => {
-        stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-        setAccuracyData({
-          labels: stats.map((e) => formatDate(e.time, accuracyPeriod)),
-          datasets: [
-            {
-              label: "p0",
-              data: stats.map((e) => (e.p0 ? Number(e.p0?.toFixed(3)) : null)),
-              borderColor: "rgba(64,64,64,0)",
-              backgroundColor: "rgba(64,64,64,0)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 1,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-              hidden: true,
-            },
-            {
-              label: "p10",
-              data: stats.map((e) => (e.p10 ? Number(e.p10?.toFixed(3)) : null)),
-              borderColor: "rgba(64,64,64,0.2)",
-              backgroundColor: "rgba(64,64,64,0.2)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-            },
-            {
-              label: "p25",
-              data: stats.map((e) => (e.p25 ? Number(e.p25?.toFixed(3)) : null)),
-              borderColor: "hsl(227, 100%, 70%)",
-              backgroundColor: "hsl(227, 100%, 70%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(227, 100%, 70%)",
-            },
-            {
-              label: "p50",
-              data: stats.map((e) => (e.p50 ? Number(e.p50?.toFixed(3)) : null)),
-              borderColor: "hsl(0, 100%, 66%)",
-              backgroundColor: "hsl(0, 100%, 66%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(0, 100%, 66%)",
-            },
-            {
-              label: "p75",
-              data: stats.map((e) => (e.p75 ? Number(e.p75?.toFixed(3)) : null)),
-              borderColor: "hsl(227, 100%, 70%)",
-              backgroundColor: "hsl(227, 100%, 70%)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "hsl(227, 100%, 70%)",
-            },
-            {
-              label: "p90",
-              data: stats.map((e) => (e.p90 ? Number(e.p90?.toFixed(3)) : null)),
-              borderColor: "rgba(64,64,64,0.2)",
-              backgroundColor: "rgba(64,64,64,0.2)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 0,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-            },
-            {
-              label: "p100",
-              data: stats.map((e) => (e.p100 ? Number(e.p100?.toFixed(3)) : null)),
-              borderColor: "rgba(64,64,64,0)",
-              backgroundColor: "rgba(64,64,64,0)",
-              borderWidth: 1,
-              cubicInterpolationMode: "monotone",
-              pointHitRadius: 8,
-              pointRadius: 1,
-              pointHoverRadius: 3,
-              pointBackgroundColor: "rgba(64,64,64,0.5)",
-              hidden: true,
-            },
-          ],
-        });
-      });
+        if (Array.isArray(stats)) {
+          stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+          setAccuracyData(stats);
+        }
+      })
+      .finally(() => setAccuracyLoading(false));
   }, [accuracyPeriod]);
 
   return (
@@ -603,121 +359,26 @@ const About = () => {
             Check database entries: <AnilistCoverageInput setMessage={setMessage} /> {message}
           </div>
           <pre className={styles.fileList}></pre>
-          {trafficData ? (
-            <Bar
-              className={styles.graph}
-              options={{
-                animation: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "trace.moe search traffic",
-                  },
-                },
-                scales: {
-                  x: {
-                    stacked: true,
-                    ticks: {
-                      maxRotation: 0,
-                    },
-                  },
-                  y: {
-                    beginAtZero: true,
-                    stacked: true,
-                  },
-                },
-              }}
-              data={trafficData}
-              width="680"
-              height="500"
-            ></Bar>
-          ) : (
-            <div className={styles.graph}></div>
-          )}
-          <p className={styles.graphControl}>
-            <button onClick={() => setTrafficPeriod("minute")}>60 mins</button>
-            <button onClick={() => setTrafficPeriod("hour")}>72 hours</button>
-            <button onClick={() => setTrafficPeriod("day")}>60 days</button>
-          </p>
+          <TrafficChart
+            data={trafficData}
+            period={trafficPeriod}
+            onPeriodChange={setTrafficPeriod}
+            loading={trafficLoading}
+          />
 
-          {speedData ? (
-            <Line
-              className={styles.graph}
-              options={{
-                animation: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "trace.moe search time distribution",
-                  },
-                },
-                scales: {
-                  x: {
-                    stacked: true,
-                    ticks: {
-                      maxRotation: 0,
-                    },
-                  },
-                  y: {
-                    beginAtZero: true,
-                    title: {
-                      display: true,
-                      text: "time (ms)",
-                    },
-                  },
-                },
-              }}
-              data={speedData}
-              width="680"
-              height="500"
-            ></Line>
-          ) : (
-            <div className={styles.graph}></div>
-          )}
-          <p className={styles.graphControl}>
-            <button onClick={() => setSpeedPeriod("minute")}>60 mins</button>
-            <button onClick={() => setSpeedPeriod("hour")}>72 hours</button>
-            <button onClick={() => setSpeedPeriod("day")}>60 days</button>
-          </p>
+          <SpeedChart
+            data={speedData}
+            period={speedPeriod}
+            onPeriodChange={setSpeedPeriod}
+            loading={speedLoading}
+          />
 
-          {accuracyData ? (
-            <Line
-              className={styles.graph}
-              options={{
-                animation: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "trace.moe accuracy distribution",
-                  },
-                },
-                scales: {
-                  x: {
-                    stacked: true,
-                    ticks: {
-                      maxRotation: 0,
-                    },
-                  },
-                  y: {
-                    title: {
-                      display: true,
-                      text: "accuracy (1=100%)",
-                    },
-                  },
-                },
-              }}
-              data={accuracyData}
-              width="680"
-              height="500"
-            ></Line>
-          ) : (
-            <div className={styles.graph}></div>
-          )}
-          <p className={styles.graphControl}>
-            <button onClick={() => setAccuracyPeriod("minute")}>60 mins</button>
-            <button onClick={() => setAccuracyPeriod("hour")}>72 hours</button>
-            <button onClick={() => setAccuracyPeriod("day")}>60 days</button>
-          </p>
+          <AccuracyChart
+            data={accuracyData}
+            period={accuracyPeriod}
+            onPeriodChange={setAccuracyPeriod}
+            loading={accuracyLoading}
+          />
         </div>
       </div>
     </Layout>

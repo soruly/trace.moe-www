@@ -87,7 +87,23 @@ export default function UserMenu() {
             href="/about"
             onClick={() => setOpen(false)}
           >
-            About
+            About trace.moe
+          </Link>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
+            href="/database"
+            onClick={() => setOpen(false)}
+          >
+            Database
+          </Link>
+          <Link
+            className={styles.dropdownItem}
+            role="menuitem"
+            href="/status"
+            onClick={() => setOpen(false)}
+          >
+            System Status
           </Link>
           <div className={styles.separator}></div>
           <Link

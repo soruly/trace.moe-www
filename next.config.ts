@@ -4,7 +4,7 @@ import { PHASE_PRODUCTION_BUILD } from "next/constants";
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["dev-www.trace.moe"],
+  allowedDevOrigins: ["dev-www.trace.moe", "192.168.11.9"],
   async rewrites() {
     return [
       {

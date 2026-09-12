@@ -6,6 +6,7 @@
 
 .page {
   padding: 1rem;
+  padding-bottom: 5rem;
   font-size: 0.9rem;
   line-height: 1.2rem;
   text-shadow: 1px 1px 3px var(--shadow-color);
@@ -30,10 +31,6 @@
 }
 .page ol {
   padding-inline-start: 1rem;
-}
-.fileList {
-  height: 200px;
-  overflow-y: scroll;
 }
 .numberInput {
   vertical-align: middle;

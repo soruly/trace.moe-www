@@ -21,8 +21,8 @@
 }
 
 .sectionTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: normal;
   margin: 0;
   color: var(--text-strong-color);
 }
@@ -69,7 +69,7 @@
   align-items: center;
   background: var(--bg-draw-color);
   padding: 3px;
-  border-radius: 9999px;
+  border-radius: 0.25rem;
   border: 1px solid var(--theme-weak-color);
   gap: 2px;
 }
@@ -79,9 +79,8 @@
   border: none;
   color: var(--text-main-color);
   padding: 0.3rem 0.75rem;
-  border-radius: 9999px;
+  border-radius: 0.25rem;
   font-size: 0.8rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -94,8 +93,6 @@
 .periodBtn.active {
   background: var(--theme-strong-color);
   color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .periodBtn:disabled {
@@ -107,9 +104,7 @@
   position: relative;
   width: 100%;
   background: var(--blank-color);
-  border: 1px solid var(--theme-weak-color);
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.2rem var(--shadow-color);
+  border: 1px solid var(--shadow-color);
   overflow: visible;
 }
 
@@ -124,7 +119,7 @@
   position: absolute;
   pointer-events: none;
   background: var(--blank-color);
-  border: 1px solid var(--theme-weak-color);
+  border: 1px solid var(--shadow-color);
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   min-width: 130px;
@@ -145,7 +140,6 @@
 
 .tooltipTotal {
   font-size: 0.8rem;
-  font-weight: 600;
   color: var(--text-strong-color);
 }
 
@@ -204,4 +198,88 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.systemHealth {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.statItem {
+  background: var(--blank-color);
+  border: 1px solid var(--shadow-color);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.memoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--text-strong-color);
+}
+
+.statValueSub {
+  font-size: 0.85rem;
+  color: var(--text-strong-color);
+}
+
+.progressBarBg {
+  height: 0.5rem;
+  background: var(--bg-draw-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--theme-strong-color), var(--theme-main-color));
+  border-radius: 1rem;
+  transition: width 0.5s ease-out;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statValue {
+  font-size: 1.25rem;
+  color: var(--text-strong-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.statUnit {
+  font-size: 0.85rem;
+  color: var(--text-strong-color);
+  margin-left: 0.25rem;
+}
+
+.footerStatus {
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--theme-weak-color);
+  font-size: 0.85rem;
+  color: var(--text-strong-color);
 }

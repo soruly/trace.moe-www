@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import UserMenu from "./user-menu";
@@ -6,13 +7,20 @@ import UserMenu from "./user-menu";
 import sponsorStyles from "./sponsor.module.css";
 
 export default function Layout({ children, title }) {
+  const router = useRouter();
   const [showSponsor, setShowSponsor] = useState(false);
 
   useEffect(() => {
-    if (navigator.language.startsWith("en")) {
+    if (
+      process.env.NEXT_PUBLIC_ENABLE_SPONSOR === "true" &&
+      router.pathname === "/" &&
+      navigator.language.startsWith("en")
+    ) {
       setShowSponsor(true);
+    } else {
+      setShowSponsor(false);
     }
-  }, []);
+  }, [router.pathname]);
 
   return (
     <>
@@ -36,26 +44,28 @@ export default function Layout({ children, title }) {
       <UserMenu></UserMenu>
       <main>{children}</main>
 
-      <div
-        className={
-          showSponsor ? sponsorStyles.sponsor : sponsorStyles.sponsor + " " + sponsorStyles.hidden
-        }
-      >
-        <div>
-          <div className={sponsorStyles.title}>Found the show? Track it on AnimeOshi.</div>
-          <div className={sponsorStyles.subTitle}>
-            Ratings, episode tracking, and community - free.
-          </div>
-        </div>
-        <a
-          className={sponsorStyles.link}
-          href="https://www.animeoshi.com?utm_source=trace.moe&utm_medium=referral&utm_campaign=footer"
-          target="_blank"
-          rel="noopener noreferrer"
+      {process.env.NEXT_PUBLIC_ENABLE_SPONSOR === "true" && router.pathname === "/" && (
+        <div
+          className={
+            showSponsor ? sponsorStyles.sponsor : sponsorStyles.sponsor + " " + sponsorStyles.hidden
+          }
         >
-          animeoshi.com →
-        </a>
-      </div>
+          <div>
+            <div className={sponsorStyles.title}>Found the show? Track it on AnimeOshi.</div>
+            <div className={sponsorStyles.subTitle}>
+              Ratings, episode tracking, and community - free.
+            </div>
+          </div>
+          <a
+            className={sponsorStyles.link}
+            href="https://www.animeoshi.com?utm_source=trace.moe&utm_medium=referral&utm_campaign=footer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            animeoshi.com →
+          </a>
+        </div>
+      )}
 
       <script src="/js/pwa.js" defer></script>
     </>

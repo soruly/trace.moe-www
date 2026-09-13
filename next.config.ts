@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 
 const NEXT_PUBLIC_API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const NEXT_PUBLIC_ENABLE_SPONSOR = process.env.NEXT_PUBLIC_ENABLE_SPONSOR;
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["dev-www.trace.moe", "192.168.11.9"],
+  allowedDevOrigins: ["dev-www.trace.moe"],
   async rewrites() {
     return [
       {
@@ -42,8 +43,12 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'none'",
               "manifest-src 'self'",
               "block-all-mixed-content",
-              `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT} https://www.animeoshi.com`,
-              "frame-src https://www.animeoshi.com",
+              `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT}${
+                NEXT_PUBLIC_ENABLE_SPONSOR === "true" ? " https://www.animeoshi.com" : ""
+              }`,
+              ...(NEXT_PUBLIC_ENABLE_SPONSOR === "true"
+                ? ["frame-src https://www.animeoshi.com"]
+                : []),
             ].join("; "),
           },
         ],

@@ -9,6 +9,7 @@ export default function Layout({ anilist: src, episode }) {
   useEffect(() => {
     setAnimeOshiURL(null);
     setAnimeOshiEmbedURL(null);
+    if (process.env.NEXT_PUBLIC_ENABLE_SPONSOR !== "true") return;
     if (!navigator.language.startsWith("en") || !src || !src.id) return;
     (async () => {
       const res = await fetch(`/ao/?anilist_id=${src.id}`);
@@ -157,11 +158,13 @@ export default function Layout({ anilist: src, episode }) {
               <td>External Links</td>
               <td>
                 {externalLinks}
-                <div className={animeOshiURL ? "" : styles.invisible}>
-                  <a href={animeOshiURL} target="_blank" rel="noopener noreferrer">
-                    AnimeOshi
-                  </a>
-                </div>
+                {process.env.NEXT_PUBLIC_ENABLE_SPONSOR === "true" && (
+                  <div className={animeOshiURL ? "" : styles.invisible}>
+                    <a href={animeOshiURL} target="_blank" rel="noopener noreferrer">
+                      AnimeOshi
+                    </a>
+                  </div>
+                )}
               </td>
             </tr>
           </tbody>
@@ -176,13 +179,15 @@ export default function Layout({ anilist: src, episode }) {
               }}
             />
           </a>
-          <iframe
-            src={animeOshiEmbedURL}
-            className={animeOshiEmbedURL ? "" : styles.invisible}
-            width="230"
-            height="40"
-            loading="lazy"
-          ></iframe>
+          {process.env.NEXT_PUBLIC_ENABLE_SPONSOR === "true" && (
+            <iframe
+              src={animeOshiEmbedURL}
+              className={animeOshiEmbedURL ? "" : styles.invisible}
+              width="230"
+              height="40"
+              loading="lazy"
+            ></iframe>
+          )}
         </div>
       </div>
       <div className={styles.divider}></div>

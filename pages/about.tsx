@@ -75,6 +75,17 @@ const About = () => {
               )
             </li>
             <li>
+              MCP Server (
+              <a
+                href="https://github.com/soruly/trace.moe-mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+              )
+            </li>
+            <li>
               Search Anime by Screenshot (
               <a
                 href="https://chrome.google.com/webstore/detail/search-anime-by-screensho/gkamnldpllcbiidlfacaccdoadedncfp"

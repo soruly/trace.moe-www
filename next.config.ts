@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'none'",
-              "script-src 'self' 'unsafe-eval' static.cloudflareinsights.com",
+              "script-src 'self' 'unsafe-eval'",
               "style-src * 'self' 'unsafe-inline'",
               `img-src * 'self' data: blob: ${NEXT_PUBLIC_API_ENDPOINT}`,
               "font-src 'self'",
@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'none'",
               "manifest-src 'self'",
               "block-all-mixed-content",
-              `connect-src blob: 'self' https://cloudflareinsights.com ${NEXT_PUBLIC_API_ENDPOINT}${
+              `connect-src blob: 'self' ${NEXT_PUBLIC_API_ENDPOINT}${
                 NEXT_PUBLIC_ENABLE_SPONSOR === "true" ? " https://www.animeoshi.com" : ""
               }`,
               ...(NEXT_PUBLIC_ENABLE_SPONSOR === "true"

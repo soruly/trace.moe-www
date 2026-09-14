@@ -122,6 +122,41 @@ const Index = () => {
     return "";
   };
 
+  const getSearchVectors = (img: HTMLImageElement, cutBorders: boolean): number[][] => {
+    const originalVector = getVectorFromImage(img, false);
+    if (!cutBorders) {
+      return [originalVector];
+    }
+    const cutVector = getVectorFromImage(img, true);
+    const isDifferent =
+      originalVector.length !== cutVector.length ||
+      originalVector.some((val, idx) => val !== cutVector[idx]);
+
+    return isDifferent ? [cutVector, originalVector] : [cutVector];
+  };
+
+  const combineSearchResults = (resultLists: any[][]): any[] => {
+    const allItems = resultLists.flat();
+    allItems.sort((a, b) => (b.similarity ?? 0) - (a.similarity ?? 0));
+
+    const merged: any[] = [];
+    for (const item of allItems) {
+      const isDuplicate = merged.some((existing) => {
+        if (existing.filename !== item.filename) return false;
+        if (String(existing.episode ?? "") !== String(item.episode ?? "")) return false;
+        const atDiff = Math.abs((existing.at ?? 0) - (item.at ?? 0));
+        const fromDiff = Math.abs((existing.from ?? 0) - (item.from ?? 0));
+        return atDiff < 5 || fromDiff < 5;
+      });
+
+      if (!isDuplicate) {
+        merged.push(item);
+      }
+    }
+
+    return merged;
+  };
+
   useEffect(() => {
     if (!searchImageSrc) return;
     setIsLoading(true);
@@ -133,10 +168,11 @@ const Index = () => {
       setLoadedImage(target);
       setIsLoading(false);
       try {
-        const vector = getVectorFromImage(target, isCutBorders);
-        setImageVector(vector);
-        setImagePlaceholder(getImageDataURLFromVector(vector));
-        search(vector);
+        const vectors = getSearchVectors(target, isCutBorders);
+        const primaryVector = vectors[0];
+        setImageVector(primaryVector);
+        setImagePlaceholder(getImageDataURLFromVector(primaryVector));
+        search(vectors);
       } catch (err) {
         console.error(err);
         setMessageText("Failed to process search image");
@@ -156,24 +192,31 @@ const Index = () => {
       setSearchImageSrc((document.querySelector("#originalImage") as HTMLImageElement).src);
   }, []);
 
-  const search = async (targetVector?: number[]) => {
-    let vector = targetVector;
-    if (!vector) {
+  const search = async (targetVectors?: number[] | number[][]) => {
+    let vectors: number[][];
+    if (targetVectors) {
+      if (Array.isArray(targetVectors[0])) {
+        vectors = targetVectors as number[][];
+      } else {
+        vectors = [targetVectors as number[]];
+      }
+    } else {
       if (!loadedImage) return;
       try {
-        vector = getVectorFromImage(loadedImage, isCutBorders);
+        vectors = getSearchVectors(loadedImage, isCutBorders);
       } catch (err) {
         console.error(err);
         setMessageText("Failed to process search image");
         return;
       }
     }
-    if (!vector || vector.length !== 33) {
+    if (!vectors || vectors.length === 0 || vectors.some((v) => !v || v.length !== 33)) {
       setMessageText("Invalid image vector");
       return;
     }
-    setImageVector(vector);
-    setImagePlaceholder(getImageDataURLFromVector(vector));
+    const primaryVector = vectors[0];
+    setImageVector(primaryVector);
+    setImagePlaceholder(getImageDataURLFromVector(primaryVector));
 
     setMessageText("Searching...");
     setSearchResults([]);
@@ -185,14 +228,6 @@ const Index = () => {
     setPlayerDuration(0);
     setIsSearching(true);
     const startSearchTime = performance.now();
-    const vectorHash = ColorLayout.encode(vector);
-    const queryString = [
-      "anilistInfo=2",
-      `vector=${encodeURIComponent(vectorHash)}`,
-      anilistFilter ? `anilistID=${anilistFilter}` : "",
-    ]
-      .filter(Boolean)
-      .join("&");
     // fall back to the stored key in case a search fires before /me resolves on load
     const searchApiKey = apiKey || getStoredApiKey();
     const headers: Record<string, string> = {};
@@ -200,11 +235,35 @@ const Index = () => {
       headers["x-trace-key"] = searchApiKey;
     }
 
+    const searchParams = new URLSearchParams();
+    searchParams.set("anilistInfo", "2");
+    if (anilistFilter) {
+      searchParams.set("anilistID", String(anilistFilter));
+    }
+
+    const isBatch = vectors.length > 1;
+    let fetchUrl = `${NEXT_PUBLIC_API_ENDPOINT}/search?${searchParams.toString()}`;
+    let fetchOptions: RequestInit = { headers };
+
+    if (isBatch) {
+      fetchOptions = {
+        method: "POST",
+        headers: {
+          ...headers,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vector: vectors.map((v) => ColorLayout.encode(v)),
+        }),
+      };
+    } else {
+      searchParams.set("vector", ColorLayout.encode(primaryVector));
+      fetchUrl = `${NEXT_PUBLIC_API_ENDPOINT}/search?${searchParams.toString()}`;
+    }
+
     let res;
     for (let retries = 5; retries > 0; retries--) {
-      res = await fetch(`${NEXT_PUBLIC_API_ENDPOINT}/search?${queryString}`, {
-        headers,
-      });
+      res = await fetch(fetchUrl, fetchOptions);
       if (res.status !== 503 || retries === 1) {
         break;
       }
@@ -262,12 +321,19 @@ const Index = () => {
       setMessageText(`Searched in ${searchTime.toFixed(2)}s`);
     }
 
-    if (result.length === 0) {
+    let rawResults: any[] = [];
+    if (Array.isArray(result) && result.length > 0 && Array.isArray(result[0])) {
+      rawResults = combineSearchResults(result);
+    } else if (Array.isArray(result)) {
+      rawResults = result;
+    }
+
+    if (rawResults.length === 0) {
       setMessageText("Cannot find any result");
       return;
     }
 
-    const topResults = result.slice(0, 5);
+    const topResults = rawResults.slice(0, 5);
 
     const topSearchResults = topResults.map((entry) => {
       entry.playResult = () => {

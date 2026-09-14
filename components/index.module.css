@@ -98,6 +98,26 @@
   font-size: 0.8rem;
   text-align: center;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.cropToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-main-color);
+}
+.cropToggle input {
+  cursor: pointer;
+}
+.cropToggle input:disabled {
+  cursor: not-allowed;
 }
 .originalImageDisplay {
   width: 160px;
@@ -106,6 +126,7 @@
   display: block;
   cursor: pointer;
   user-select: none;
+  /* object-fit: contain; */
 }
 .resultList {
   width: 320px;

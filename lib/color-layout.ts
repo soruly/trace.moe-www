@@ -235,6 +235,38 @@ export function snapRectToNearestAspectRatio(
   };
 }
 
+export function getCropInfo(img: HTMLImageElement): {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  wasCropped: boolean;
+} {
+  const width = img.naturalWidth || img.width;
+  const height = img.naturalHeight || img.height;
+  const targetRatios = [4 / 3, 16 / 9, 21 / 9];
+  const matchedRatio = getNearestAspectRatio(width, height, targetRatios);
+  if (matchedRatio === null) {
+    const detected = getVideoFrameRect(img);
+    const snapped = snapRectToNearestAspectRatio(detected, width, height);
+    const wasCropped =
+      snapped.x !== 0 || snapped.y !== 0 || snapped.width !== width || snapped.height !== height;
+    return { ...snapped, wasCropped };
+  }
+  return { x: 0, y: 0, width, height, wasCropped: false };
+}
+
+export function getCroppedDataURL(img: HTMLImageElement): string {
+  const crop = getCropInfo(img);
+  const canvas = document.createElement("canvas");
+  canvas.width = crop.width;
+  canvas.height = crop.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return "";
+  ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, crop.width, crop.height);
+  return canvas.toDataURL();
+}
+
 export function getVectorFromImage(img: HTMLImageElement, cutBorders: boolean): number[] {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -253,16 +285,11 @@ export function getVectorFromImage(img: HTMLImageElement, cutBorders: boolean): 
   let cropH = height;
 
   if (cutBorders) {
-    const targetRatios = [4 / 3, 16 / 9, 21 / 9];
-    const matchedRatio = getNearestAspectRatio(width, height, targetRatios);
-    if (matchedRatio === null) {
-      const detected = getVideoFrameRect(img);
-      const snapped = snapRectToNearestAspectRatio(detected, width, height);
-      cropX = snapped.x;
-      cropY = snapped.y;
-      cropW = snapped.width;
-      cropH = snapped.height;
-    }
+    const crop = getCropInfo(img);
+    cropX = crop.x;
+    cropY = crop.y;
+    cropW = crop.width;
+    cropH = crop.height;
   }
 
   const { data } = ctx.getImageData(cropX, cropY, cropW, cropH);

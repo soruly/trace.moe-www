@@ -9,7 +9,11 @@ import Layout from "../components/layout";
 import Player from "../components/player";
 import Result from "../components/result";
 import SearchBar from "../components/search-bar";
-import { getImageDataURLFromVector, getVectorFromImage } from "../lib/color-layout";
+import {
+  getImageDataURLFromVector,
+  getVectorFromImage,
+  getCroppedDataURL,
+} from "../lib/color-layout";
 
 import styles from "../components/index.module.css";
 
@@ -34,6 +38,13 @@ const Index = () => {
   const [imagePlaceholder, setImagePlaceholder] = useState("");
   const [imageVector, setImageVector] = useState<number[] | null>(null);
   const [showVectorImage, setShowVectorImage] = useState(false);
+  const [showCropped, setShowCropped] = useState(false);
+  const [croppedImageSrc, setCroppedImageSrc] = useState("");
+  const [originalVector, setOriginalVector] = useState<number[] | null>(null);
+  const [originalPlaceholder, setOriginalPlaceholder] = useState("");
+  const [croppedVector, setCroppedVector] = useState<number[] | null>(null);
+  const [croppedPlaceholder, setCroppedPlaceholder] = useState("");
+  const [isCropped, setIsCropped] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(undefined);
   const [showNSFW, setshowNSFW] = useState(false);
@@ -57,6 +68,13 @@ const Index = () => {
         setImageURL(url);
         setImagePlaceholder("");
         setShowVectorImage(false);
+        setShowCropped(false);
+        setCroppedImageSrc("");
+        setOriginalVector(null);
+        setOriginalPlaceholder("");
+        setCroppedVector(null);
+        setCroppedPlaceholder("");
+        setIsCropped(false);
         setSearchImageSrc(
           url.startsWith(location.origin) ? url : `/image-proxy?url=${encodeURIComponent(url)}`,
         );
@@ -71,6 +89,13 @@ const Index = () => {
       if (!item) return;
       setImagePlaceholder("");
       setShowVectorImage(false);
+      setShowCropped(false);
+      setCroppedImageSrc("");
+      setOriginalVector(null);
+      setOriginalPlaceholder("");
+      setCroppedVector(null);
+      setCroppedPlaceholder("");
+      setIsCropped(false);
       setSearchImageSrc(URL.createObjectURL(item.getAsFile()));
       e.preventDefault();
     };
@@ -87,6 +112,13 @@ const Index = () => {
       setImagePlaceholder("");
       setImageVector(null);
       setShowVectorImage(false);
+      setShowCropped(false);
+      setCroppedImageSrc("");
+      setOriginalVector(null);
+      setOriginalPlaceholder("");
+      setCroppedVector(null);
+      setCroppedPlaceholder("");
+      setIsCropped(false);
       history.replaceState(null, null, "/");
       return;
     }
@@ -94,6 +126,13 @@ const Index = () => {
       setImageURL(e.target.value);
       setImagePlaceholder("");
       setShowVectorImage(false);
+      setShowCropped(false);
+      setCroppedImageSrc("");
+      setOriginalVector(null);
+      setOriginalPlaceholder("");
+      setCroppedVector(null);
+      setCroppedPlaceholder("");
+      setIsCropped(false);
       setSearchImageSrc(`/image-proxy?url=${encodeURIComponent(e.target.value)}`);
       history.replaceState(null, null, `/?url=${encodeURIComponent(e.target.value)}`);
     } else {
@@ -117,22 +156,36 @@ const Index = () => {
     setImagePlaceholder("");
     setImageVector(null);
     setShowVectorImage(false);
+    setShowCropped(false);
+    setCroppedImageSrc("");
+    setOriginalVector(null);
+    setOriginalPlaceholder("");
+    setCroppedVector(null);
+    setCroppedPlaceholder("");
+    setIsCropped(false);
     e.target.classList.remove(styles.dropping);
     setSearchImageSrc(URL.createObjectURL(file));
     return "";
   };
 
-  const getSearchVectors = (img: HTMLImageElement, cutBorders: boolean): number[][] => {
-    const originalVector = getVectorFromImage(img, false);
-    if (!cutBorders) {
-      return [originalVector];
-    }
+  const processImageVectors = (img: HTMLImageElement) => {
+    const origVector = getVectorFromImage(img, false);
     const cutVector = getVectorFromImage(img, true);
-    const isDifferent =
-      originalVector.length !== cutVector.length ||
-      originalVector.some((val, idx) => val !== cutVector[idx]);
+    const origPlaceholder = getImageDataURLFromVector(origVector);
+    const cutPlaceholder = getImageDataURLFromVector(cutVector);
+    const croppedData = getCroppedDataURL(img);
+    const diff =
+      origVector.length !== cutVector.length ||
+      origVector.some((val, idx) => val !== cutVector[idx]);
 
-    return isDifferent ? [cutVector, originalVector] : [cutVector];
+    return {
+      origVector,
+      cutVector,
+      origPlaceholder,
+      cutPlaceholder,
+      croppedData,
+      diff,
+    };
   };
 
   const combineSearchResults = (resultLists: any[][]): any[] => {
@@ -168,7 +221,18 @@ const Index = () => {
       setLoadedImage(target);
       setIsLoading(false);
       try {
-        const vectors = getSearchVectors(target, isCutBorders);
+        const { origVector, cutVector, origPlaceholder, cutPlaceholder, croppedData, diff } =
+          processImageVectors(target);
+
+        setOriginalVector(origVector);
+        setOriginalPlaceholder(origPlaceholder);
+        setCroppedVector(cutVector);
+        setCroppedPlaceholder(cutPlaceholder);
+        setCroppedImageSrc(croppedData);
+        setIsCropped(diff);
+
+        const vectors =
+          isCutBorders && diff ? [cutVector, origVector] : [isCutBorders ? cutVector : origVector];
         const primaryVector = vectors[0];
         setImageVector(primaryVector);
         setImagePlaceholder(getImageDataURLFromVector(primaryVector));
@@ -203,7 +267,18 @@ const Index = () => {
     } else {
       if (!loadedImage) return;
       try {
-        vectors = getSearchVectors(loadedImage, isCutBorders);
+        const { origVector, cutVector, origPlaceholder, cutPlaceholder, croppedData, diff } =
+          processImageVectors(loadedImage);
+
+        setOriginalVector(origVector);
+        setOriginalPlaceholder(origPlaceholder);
+        setCroppedVector(cutVector);
+        setCroppedPlaceholder(cutPlaceholder);
+        setCroppedImageSrc(croppedData);
+        setIsCropped(diff);
+
+        vectors =
+          isCutBorders && diff ? [cutVector, origVector] : [isCutBorders ? cutVector : origVector];
       } catch (err) {
         console.error(err);
         setMessageText("Failed to process search image");
@@ -450,12 +525,36 @@ const Index = () => {
             <div className={styles.resultList}>
               <div className={styles.searchImageDisplay}>
                 <div className={styles.detail}>
-                  {showVectorImage ? "Image feature vector" : "Your search image"}
+                  <div>
+                    {showCropped
+                      ? showVectorImage
+                        ? "Cropped feature vector"
+                        : "Cropped image"
+                      : showVectorImage
+                        ? "Image feature vector"
+                        : "Your search image"}
+                  </div>
+                  <label
+                    className={styles.cropToggle}
+                    title={isCropped ? "Toggle cropped vs original" : "No borders detected"}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={showCropped}
+                      disabled={!isCropped}
+                      onChange={(e) => setShowCropped(e.target.checked)}
+                    />{" "}
+                    Cropped
+                  </label>
                 </div>
                 <img
                   className={styles.originalImageDisplay}
                   style={showVectorImage ? { imageRendering: "pixelated" } : undefined}
-                  src={showVectorImage && imagePlaceholder ? imagePlaceholder : searchImageSrc}
+                  src={
+                    showVectorImage
+                      ? (showCropped ? croppedPlaceholder : originalPlaceholder) || imagePlaceholder
+                      : (showCropped ? croppedImageSrc : searchImageSrc) || searchImageSrc
+                  }
                   crossOrigin="anonymous"
                   onClick={() => {
                     setShowVectorImage((prev) => !prev);
@@ -465,8 +564,9 @@ const Index = () => {
                   }}
                 />
                 <div className={styles.messageTextLabel}>
-                  {showVectorImage && imageVector
-                    ? `Feature Hash: ${ColorLayout.encode(imageVector)}`
+                  {showVectorImage &&
+                  (showCropped ? croppedVector || imageVector : originalVector || imageVector)
+                    ? `Feature Hash: ${ColorLayout.encode((showCropped ? croppedVector || imageVector : originalVector || imageVector)!)}`
                     : messageText}
                 </div>
               </div>

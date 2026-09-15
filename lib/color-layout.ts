@@ -244,16 +244,11 @@ export function getCropInfo(img: HTMLImageElement): {
 } {
   const width = img.naturalWidth || img.width;
   const height = img.naturalHeight || img.height;
-  const targetRatios = [4 / 3, 16 / 9, 21 / 9];
-  const matchedRatio = getNearestAspectRatio(width, height, targetRatios);
-  if (matchedRatio === null) {
-    const detected = getVideoFrameRect(img);
-    const snapped = snapRectToNearestAspectRatio(detected, width, height);
-    const wasCropped =
-      snapped.x !== 0 || snapped.y !== 0 || snapped.width !== width || snapped.height !== height;
-    return { ...snapped, wasCropped };
-  }
-  return { x: 0, y: 0, width, height, wasCropped: false };
+  const detected = getVideoFrameRect(img);
+  const snapped = snapRectToNearestAspectRatio(detected, width, height);
+  const wasCropped =
+    snapped.x !== 0 || snapped.y !== 0 || snapped.width !== width || snapped.height !== height;
+  return { ...snapped, wasCropped };
 }
 
 export function getCroppedDataURL(img: HTMLImageElement): string {

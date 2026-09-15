@@ -9,6 +9,7 @@ import Layout from "../components/layout";
 import Player from "../components/player";
 import Result from "../components/result";
 import SearchBar from "../components/search-bar";
+import ShareDialog from "../components/share-dialog";
 import {
   getImageDataURLFromVector,
   getVectorFromImage,
@@ -56,6 +57,7 @@ const Index = () => {
   const [playerFileName, setPlayerFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
   const [quotaInfo, setQuotaInfo] = useState<{ quota: number; quotaUsed: number } | null>(null);
   const { status, apiKey } = useAuth();
 
@@ -669,10 +671,40 @@ const Index = () => {
                 >
                   ❌
                 </div>
-
+                <div className={styles.actionBar}>
+                  <button
+                    type="button"
+                    className={styles.shareBtn}
+                    onClick={() => setShowShareDialog(true)}
+                    title="Share Result"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <span>Share</span>
+                  </button>
+                </div>
                 {!isSearching && (
                   <Info anilist={anilistInfo} episode={selectedResult?.episode}></Info>
                 )}
+                <ShareDialog
+                  isOpen={showShareDialog}
+                  onClose={() => setShowShareDialog(false)}
+                  result={selectedResult}
+                />
               </div>
             ) : (
               <div className={styles.playerInfoPane}></div>

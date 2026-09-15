@@ -190,6 +190,39 @@
   text-shadow: 0 0 0.125rem var(--text-strong-color);
 }
 
+.actionBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1rem 1rem;
+}
+
+.shareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--blank-color);
+  color: var(--text-strong-color);
+  border: 1px solid var(--theme-weak-color);
+  border-radius: 4px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px var(--shadow-color);
+  transition: all 120ms ease-out;
+}
+
+.shareBtn:hover {
+  border-color: var(--theme-main-color);
+  color: var(--theme-strong-color);
+  box-shadow: 1px 1px 3px var(--theme-main-color);
+}
+
+.shareBtn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0 0 2px var(--theme-main-color);
+}
+
 @media (max-width: 1008px) {
   .closeBtn {
     display: block;

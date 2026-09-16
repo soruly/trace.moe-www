@@ -87,12 +87,12 @@
 }
 
 .previewWrapper {
-  background: #000;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  min-height: 444px;
 }
 
 .previewImg {

@@ -386,13 +386,13 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
           )}
 
           <div className={styles.previewWrapper}>
-            {isGenerating || !previewSrc ? (
+            {previewSrc ? (
+              <img src={previewSrc} alt="Anime Scene Preview" className={styles.previewImg} />
+            ) : (
               <div className={styles.spinner}>
                 <div className={styles.loadingRipple}></div>
                 <span>Generating image...</span>
               </div>
-            ) : (
-              <img src={previewSrc} alt="Anime Scene Preview" className={styles.previewImg} />
             )}
           </div>
 

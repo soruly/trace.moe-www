@@ -82,8 +82,17 @@ const wrapText = (
   return lines;
 };
 
+const getDefaultLang = (): string => {
+  if (typeof navigator !== "undefined" && navigator.language) {
+    const lang = navigator.language.toLowerCase();
+    if (lang.startsWith("zh")) return "chinese";
+    if (lang.startsWith("ja")) return "native";
+  }
+  return "romaji";
+};
+
 export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProps) {
-  const [selectedLang, setSelectedLang] = useState<string>("native");
+  const [selectedLang, setSelectedLang] = useState<string>(getDefaultLang);
   const [previewSrc, setPreviewSrc] = useState<string>("");
   const [imageBlob, setImageBlob] = useState<Blob | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -127,7 +136,10 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
 
   useEffect(() => {
     if (titleOptions.length > 0) {
-      if (!titleOptions.some((opt) => opt.key === selectedLang)) {
+      const defaultLang = getDefaultLang();
+      if (titleOptions.some((opt) => opt.key === defaultLang)) {
+        setSelectedLang(defaultLang);
+      } else if (!titleOptions.some((opt) => opt.key === selectedLang)) {
         setSelectedLang(titleOptions[0].key);
       }
     }
@@ -283,7 +295,6 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
         setNotification("✓ Copied to clipboard!");
         setTimeout(() => setNotification(""), 3000);
       } else {
-        // Fallback for browsers without ClipboardItem
         setNotification("Clipboard image copy not supported in this browser");
       }
     } catch (err) {
@@ -294,22 +305,16 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
 
   const handleShare = async () => {
     if (!imageBlob) return;
-    const activeTitle =
-      titleOptions.find((opt) => opt.key === selectedLang)?.value ||
-      anilist?.title?.romaji ||
-      anilist?.title?.native ||
-      "";
 
-    const epStr = result.episode ? ` Episode ${String(result.episode).padStart(2, "0")}` : "";
-    const timeStr = result.at ? ` [${formatTime(result.at)}]` : "";
-
-    const file = new File([imageBlob], "anime-scene.png", { type: "image/png" });
+    const imageName = result?.image?.split("/").filter(Boolean).pop()?.split("?")[0];
+    const fileName = `${imageName || Date.now()}.png`;
+    const file = new File([imageBlob], fileName, { type: "image/png" });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
         await navigator.share({
           title: activeTitle,
-          text: `${activeTitle}${epStr}${timeStr}`,
+          text: shareText,
           files: [file],
         });
       } catch (err: any) {
@@ -322,7 +327,7 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
       try {
         await navigator.share({
           title: activeTitle,
-          text: `${activeTitle}${epStr}${timeStr}`,
+          text: shareText,
           url: window.location.href,
         });
       } catch (err: any) {
@@ -387,11 +392,7 @@ export default function ShareDialog({ isOpen, onClose, result }: ShareDialogProp
                 <span>Generating image...</span>
               </div>
             ) : (
-              <img
-                src={previewSrc}
-                alt="Customized Anime Scene Preview"
-                className={styles.previewImg}
-              />
+              <img src={previewSrc} alt="Anime Scene Preview" className={styles.previewImg} />
             )}
           </div>
 

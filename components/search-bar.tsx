@@ -23,7 +23,8 @@ export default function SearchBar({
       <div className={styles.searchBarContent}>
         {!searchImageSrc && (
           <div className={styles.greet}>
-            paste or drop image here; trace back the scene from an anime screenshot
+            <img className={styles.logo} src="/favicon144.png" alt="trace.moe" />
+            <div>paste or drop image here; trace back the scene from an anime screenshot</div>
           </div>
         )}
         <div className={styles.formControls}>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import AccuracyChart from "../components/accuracy-chart";
 import Layout from "../components/layout";
 import SpeedChart, { PercentileItem } from "../components/speed-chart";
 import TrafficChart, { TrafficItem } from "../components/traffic-chart";
@@ -57,23 +56,6 @@ const Status = () => {
       })
       .finally(() => setSpeedLoading(false));
   }, [speedPeriod]);
-
-  const [accuracyPeriod, setAccuracyPeriod] = useState<"minute" | "hour" | "day">("hour");
-  const [accuracyData, setAccuracyData] = useState<PercentileItem[] | null>(null);
-  const [accuracyLoading, setAccuracyLoading] = useState(false);
-
-  useEffect(() => {
-    setAccuracyLoading(true);
-    fetch(`${NEXT_PUBLIC_API_ENDPOINT}/stats?type=accuracy&period=${accuracyPeriod}`)
-      .then((e) => e.json())
-      .then((stats) => {
-        if (Array.isArray(stats)) {
-          stats.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-          setAccuracyData(stats);
-        }
-      })
-      .finally(() => setAccuracyLoading(false));
-  }, [accuracyPeriod]);
 
   return (
     <Layout title="System Status">
@@ -145,13 +127,6 @@ const Status = () => {
             period={speedPeriod}
             onPeriodChange={setSpeedPeriod}
             loading={speedLoading}
-          />
-
-          <AccuracyChart
-            data={accuracyData}
-            period={accuracyPeriod}
-            onPeriodChange={setAccuracyPeriod}
-            loading={accuracyLoading}
           />
         </div>
       </div>

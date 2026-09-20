@@ -237,12 +237,12 @@ const Account = () => {
                 </tr>
                 <tr>
                   <td>
-                    Daily Search Quota
+                    Search Quota
                     <br />
                     (24-hour period)
                   </td>
                   <td>
-                    <div>{`${user.quotaUsed} / ${user.quota}`}</div>
+                    <div>{`${Math.max(0, user.quota - user.quotaUsed)} / ${user.quota}`} SP</div>
                     {
                       <svg width="100%" height="8">
                         <rect
@@ -255,7 +255,7 @@ const Account = () => {
                         <rect
                           x="0"
                           y="0"
-                          width={`${user.quota ? (user.quotaUsed / user.quota) * 100 : 0}%`}
+                          width={`${user.quota ? (Math.max(0, user.quota - user.quotaUsed) / user.quota) * 100 : 0}%`}
                           height="8"
                           className={accountStyles.meterFG}
                         ></rect>

@@ -618,12 +618,10 @@ const Index = () => {
               {quotaInfo && (
                 <Link href="/account" className={styles.quotaBox}>
                   <div className={styles.quotaRow}>
+                    <span>Search quota</span>
                     <span>
-                      Search quota: {formatNumber(quotaInfo.quotaUsed)} /{" "}
-                      {formatNumber(quotaInfo.quota)} used
-                    </span>
-                    <span>
-                      {formatNumber(Math.max(0, quotaInfo.quota - quotaInfo.quotaUsed))} remaining
+                      {formatNumber(Math.max(0, quotaInfo.quota - quotaInfo.quotaUsed))} /{" "}
+                      {formatNumber(quotaInfo.quota)} SP
                     </span>
                   </div>
                   <svg width="100%" height="8" className={styles.quotaMeter}>
@@ -631,7 +629,7 @@ const Index = () => {
                     <rect
                       x="0"
                       y="0"
-                      width={`${quotaInfo.quota ? Math.min(100, Math.max(0, (quotaInfo.quotaUsed / quotaInfo.quota) * 100)) : 0}%`}
+                      width={`${quotaInfo.quota ? Math.min(100, Math.max(0, ((quotaInfo.quota - quotaInfo.quotaUsed) / quotaInfo.quota) * 100)) : 0}%`}
                       height="8"
                       className={styles.meterFG}
                     ></rect>

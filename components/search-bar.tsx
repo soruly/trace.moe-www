@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 
 import AnilistSearchInput from "./anilist-search-input";
@@ -23,7 +24,9 @@ export default function SearchBar({
       <div className={styles.searchBarContent}>
         {!searchImageSrc && (
           <div className={styles.greet}>
-            <img className={styles.logo} src="/favicon144.png" alt="trace.moe" />
+            <Link href="/about">
+              <img className={styles.logo} src="/favicon144.png" alt="trace.moe" />
+            </Link>
             <div>paste or drop image here; trace back the scene from an anime screenshot</div>
           </div>
         )}

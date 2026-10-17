@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'none'",
-              "script-src 'self' 'unsafe-eval'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
               "style-src * 'self' 'unsafe-inline'",
               `img-src * 'self' data: blob: ${NEXT_PUBLIC_API_ENDPOINT}`,
               "font-src 'self'",
